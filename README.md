@@ -50,12 +50,12 @@ MineProductivity/
 ├── src/mineproductivity/    # The installable Python package (22 subsystems)
 ├── tests/                   # Unit, integration, performance, regression, golden tests
 ├── datasets/                # Canonical, generated, golden, benchmark, synthetic data
-├── notebooks/                # Beginner → research-grade learning notebooks
-├── examples/                 # Runnable usage examples, from quickstart to production
-├── benchmark/                 # Benchmark scenarios and reference outputs
-├── certification/             # Conformance / certification test suite
-├── scripts/                   # Bootstrap, development, release, and quality tooling
-└── .github/                   # CI/CD workflow placeholders, templates, ownership
+├── notebooks/               # Beginner → research-grade learning notebooks
+├── examples/                # Runnable usage examples, from quickstart to production
+├── benchmark/               # Benchmark scenarios and reference outputs
+├── certification/           # Conformance / certification test suite
+├── scripts/                 # Bootstrap, development, release, and quality tooling
+└── .github/                 # CI/CD workflow placeholders, templates, ownership
 ```
 
 See [`docs/architecture/README.md`](docs/architecture/README.md) for the full
@@ -70,19 +70,19 @@ as follows:
 
 ```
                      ┌───────────────────┐
-                     │   digital_twin     │
+                     │   digital_twin    │
                      ├───────────────────┤
-                     │     decision       │
+                     │     decision      │
                      ├───────────────────┤
-                     │     analytics      │
+                     │     analytics     │
                      ├───────────────────┤
-                     │       kpis         │
+                     │       kpis        │
                      ├───────────────────┤
-                     │      events        │
+                     │      events       │
                      ├───────────────────┤
-                     │      ontology      │
+                     │      ontology     │
                      ├───────────────────┤
-                     │        core        │
+                     │        core       │
                      └───────────────────┘
    (core has no dependencies on any other MineProductivity package)
 ```
