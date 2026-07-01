@@ -3,12 +3,12 @@ message: "If you use MineProductivity in your research or operations, please cit
 title: "MineProductivity"
 version: 0.1.0
 date-released: 2026-07-01
-url: "https://github.com/mineproductivity/MineProductivity"
-repository-code: "https://github.com/mineproductivity/MineProductivity"
+url: "https://github.com/imanojkumar/MineProductivity"
+repository-code: "https://github.com/imanojkumar/MineProductivity"
 license: Apache-2.0
 type: software
 authors:
-  - name: "The MineProductivity Authors"
+  - name: "Manoj Kumar & The MineProductivity Authors"
 keywords:
   - mining
   - productivity
