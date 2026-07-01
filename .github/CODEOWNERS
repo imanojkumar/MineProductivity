@@ -1,13 +1,10 @@
-# Default owners for everything in the repo.
-# Replace with real maintainer handles as the maintainer team is formed.
-*                                   @mineproductivity/maintainers
+# Default owner
+* @imanojkumar
 
-# Architecture and governance documents require architecture-team review.
-/docs/architecture/                @mineproductivity/architecture
-/ROADMAP.md                        @mineproductivity/architecture
-/README.md                         @mineproductivity/architecture
+/docs/architecture/ @imanojkumar
+/ROADMAP.md @imanojkumar
+/README.md @imanojkumar
 
-# Core/ontology/events are foundational — require core-team review.
-/src/mineproductivity/core/        @mineproductivity/core
-/src/mineproductivity/ontology/    @mineproductivity/core
-/src/mineproductivity/events/      @mineproductivity/core
+/src/mineproductivity/core/ @imanojkumar
+/src/mineproductivity/ontology/ @imanojkumar
+/src/mineproductivity/events/ @imanojkumar

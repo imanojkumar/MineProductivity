@@ -13,10 +13,12 @@
 ## Checklist
 
 - [ ] Change respects the dependency direction documented in the root `README.md`.
-- [ ] Tests added/updated in the mirrored `tests/` location (test-first).
+- [ ] Architecture principles in the Handbook have not been violated.
+- [ ] Tests added/updated in the mirrored `tests/` location.
 - [ ] Package `README.md` updated if responsibilities/dependencies changed.
+- [ ] Public APIs and new modules are documented.
 - [ ] `pre-commit run --all-files` passes locally.
-- [ ] No business logic added beyond what this repository's current phase allows (see `ROADMAP.md`).
+- [ ] No business logic added beyond this repository's current phase (see `ROADMAP.md`).
 
 ## Additional Notes
 
