@@ -1,7 +1,7 @@
 site_name: MineProductivity
 site_description: A metadata-first, ontology-driven, event-sourced platform for mining productivity intelligence.
-repo_url: https://github.com/mineproductivity/MineProductivity
-repo_name: mineproductivity/MineProductivity
+repo_url: https://github.com/imanojkumar/MineProductivity
+repo_name: imanojkumar/MineProductivity
 
 docs_dir: docs
 site_dir: site

@@ -28,7 +28,7 @@ read the locked Single Source of Truth documents referenced in
 ## Development Setup
 
 ```bash
-git clone https://github.com/mineproductivity/MineProductivity.git
+git clone https://github.com/imanojkumar/MineProductivity.git
 cd MineProductivity
 python -m venv .venv
 source .venv/bin/activate      # or .venv\Scripts\activate on Windows
