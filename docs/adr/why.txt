@@ -1,0 +1,19 @@
+ADR-001
+
+Why Event Sourcing?
+
+ADR-002
+
+Why Polars instead of Pandas?
+
+ADR-003
+
+Why DuckDB?
+
+ADR-004
+
+Why Plugin Registry?
+
+ADR-005
+
+Why Ontology-first?

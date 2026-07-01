@@ -1,0 +1,30 @@
+site_name: MineProductivity
+site_description: A metadata-first, ontology-driven, event-sourced platform for mining productivity intelligence.
+repo_url: https://github.com/mineproductivity/MineProductivity
+repo_name: mineproductivity/MineProductivity
+
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: amber
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - toc.integrate
+    - content.code.copy
+
+nav:
+  - Home: README.md
+  - Architecture: architecture/README.md
+  - Reference Blueprint: reference_blueprint/README.md
+  - Developer Guide: developer_guide/README.md
+  - Learning Suite: learning_suite/README.md
+  - API Reference: api/README.md
+
+# NOTE: This is a structural placeholder. No documentation build pipeline
+# has been wired up yet (see .github/workflows/docs.yml).

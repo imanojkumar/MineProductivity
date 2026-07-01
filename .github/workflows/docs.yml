@@ -1,0 +1,22 @@
+# Placeholder documentation build workflow — no implementation yet.
+name: Docs
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs/**"
+      - "mkdocs.yml"
+
+jobs:
+  build-docs:
+    name: Build documentation site
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      # TODO: pip install -e ".[docs]" && mkdocs build --strict
+      - name: Placeholder — no docs build implemented yet
+        run: echo "Documentation build not yet implemented."

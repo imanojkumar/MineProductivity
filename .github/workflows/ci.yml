@@ -1,0 +1,26 @@
+# Placeholder CI workflow — no implementation yet.
+#
+# This workflow currently only validates that the repository skeleton is
+# well-formed (installable package metadata). It intentionally does NOT run
+# business-logic tests yet, since none exist in this phase.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  skeleton-check:
+    name: Validate repository skeleton
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      # TODO: Replace with real lint/type-check/test steps once
+      # implementation begins (see ROADMAP.md).
+      - name: Placeholder — package metadata is valid
+        run: python -c "import tomllib; tomllib.load(open('pyproject.toml','rb'))"

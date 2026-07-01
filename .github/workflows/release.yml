@@ -1,0 +1,20 @@
+# Placeholder release workflow — no implementation yet.
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  release:
+    name: Build and publish release artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      # TODO: pip install build && python -m build, then publish.
+      - name: Placeholder — no release automation implemented yet
+        run: echo "Release automation not yet implemented."

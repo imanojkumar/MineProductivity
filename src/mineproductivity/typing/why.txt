@@ -1,0 +1,15 @@
+Why?
+
+Eventually
+
+Protocols
+
+Type Aliases
+
+TypedDict
+
+Pydantic models
+
+will accumulate.
+
+Keeping them together keeps the codebase clean.
