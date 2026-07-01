@@ -1,7 +1,7 @@
 # MineProductivity
 
 **A metadata-first, ontology-driven, event-sourced platform for mining productivity
-intelligence — KPI computation, digital twins, decision support, and AI agents,
+intelligence - KPI computation, digital twins, decision support, and AI agents,
 built on a clean, plugin-first Python architecture.**
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
@@ -21,24 +21,24 @@ built on a clean, plugin-first Python architecture.**
 MineProductivity is an open-source platform for modeling, measuring, and improving
 productivity across mining operations. It is designed from first principles to be:
 
-- **Ontology-first** — a shared, explicit domain vocabulary (assets, processes,
+- **Ontology-first** - a shared, explicit domain vocabulary (assets, processes,
   events, KPIs) precedes any code that operates on it.
-- **Event-first** — the system of record is an immutable event stream; all
+- **Event-first** - the system of record is an immutable event stream; all
   derived state (KPIs, digital twins, analytics) is a projection of events.
-- **Metadata-first** — every KPI, dataset, and model ships with machine-readable
+- **Metadata-first** - every KPI, dataset, and model ships with machine-readable
   metadata (units, provenance, validity, versioning) before it ships with logic.
-- **Plugin-first** — connectors, KPIs, analytics, and agents are discovered and
+- **Plugin-first** - connectors, KPIs, analytics, and agents are discovered and
   loaded through a registry/plugin system, not hard-wired into the core.
-- **Domain-Driven Design** — package boundaries mirror bounded contexts in the
+- **Domain-Driven Design** - package boundaries mirror bounded contexts in the
   mining productivity domain, not incidental technical layers.
-- **Clean Architecture** — dependencies point inward, toward `core` and
+- **Clean Architecture** - dependencies point inward, toward `core` and
   `ontology`; outer layers (connectors, agents, visualization) depend on inner
   layers, never the reverse.
-- **SOLID** — every package has a single, clearly documented responsibility
+- **SOLID** - every package has a single, clearly documented responsibility
   (see each package's `README.md`).
-- **Test-first** — `tests/` mirrors `src/` before implementation exists, and
+- **Test-first** - `tests/` mirrors `src/` before implementation exists, and
   every implementation PR is expected to arrive with tests.
-- **Documentation-first** — the Master Architecture Handbook, Reference
+- **Documentation-first** - the Master Architecture Handbook, Reference
   Implementation Blueprint, and Developer & Cookbook Guides are the Single
   Source of Truth (SSOT); code implements documentation, not the reverse.
 
@@ -65,7 +65,7 @@ architectural rationale behind this layout.
 
 MineProductivity enforces a strict, inward-pointing dependency direction. Lower
 layers must never import from higher layers. This is documented (not yet
-mechanically enforced — see [Dependency Rules](docs/architecture/README.md#dependency-rules))
+mechanically enforced - see [Dependency Rules](docs/architecture/README.md#dependency-rules))
 as follows:
 
 ```
@@ -98,9 +98,9 @@ This repository is the implementation vessel for six locked documents:
 
 1. **Master Architecture Handbook v1.0**
 2. **Reference Implementation Blueprint v1.0**
-3. **Developer & Cookbook Guide — Part I**
-4. **Developer & Cookbook Guide — Part II**
-5. **Developer & Cookbook Guide — Part III** (KPI Standard Library & Cookbook)
+3. **Developer & Cookbook Guide - Part I**
+4. **Developer & Cookbook Guide - Part II**
+5. **Developer & Cookbook Guide - Part III** (KPI Standard Library & Cookbook)
 6. **Learning & Benchmark Suite v1.0**
 
 These documents are not stored in this repository verbatim; `docs/` contains
@@ -123,7 +123,7 @@ structured, versioned notes and placeholders that mirror their sections. See
 
 ## Project Status
 
-**Version 0.1.0 — Skeleton.** The architecture is versioned v1.0 (locked,
+**Version 0.1.0 - Skeleton.** The architecture is versioned v1.0 (locked,
 documentation-complete). The software is versioned independently, starting at
 `0.1.0`, and will only reach `1.0.0` once the reference implementation
 satisfies the Reference Implementation Blueprint and passes the Certification
@@ -145,7 +145,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full workflow.
 
 ## License
 
-Apache License 2.0 — see [LICENSE](LICENSE).
+Apache License 2.0 - see [LICENSE](LICENSE).
 
 ## Citation
 
