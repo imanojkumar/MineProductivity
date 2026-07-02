@@ -16,7 +16,7 @@ Testing philosophy and conventions for `tests/integration/`. No implementation c
 
 ## Contents
 
-- Placeholder — populated as corresponding `src/mineproductivity` packages are implemented.
+- `test_events_pipeline.py` — the full Event Framework pipeline: raw records → canonical events → contextual validation → envelope → durable append → bus publish → query/replay/snapshot → serialization round-trip. Plays the role of a minimal connector inline, since `connectors` does not exist yet.
 
 ## Dependencies
 
