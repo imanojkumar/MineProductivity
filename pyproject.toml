@@ -26,12 +26,16 @@ classifiers = [
 dependencies = []
 
 [project.optional-dependencies]
+events = [
+    "pyarrow>=14,<19",
+]
 dev = [
     "pytest",
     "pytest-cov",
     "ruff",
     "mypy",
     "pre-commit",
+    "pyarrow>=14,<19",
 ]
 docs = [
     "mkdocs",
@@ -67,3 +71,7 @@ src = ["src"]
 python_version = "3.12"
 strict = true
 packages = ["mineproductivity"]
+
+[[tool.mypy.overrides]]
+module = ["pyarrow", "pyarrow.*"]
+ignore_missing_imports = true
