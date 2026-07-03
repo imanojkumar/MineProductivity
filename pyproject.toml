@@ -29,6 +29,20 @@ dependencies = []
 events = [
     "pyarrow>=14,<19",
 ]
+connectors = [
+    "openpyxl>=3.1,<4",
+    "tzdata>=2024.1; sys_platform == 'win32'",
+]
+analytics = [
+    "numpy>=1.26,<3",
+    "pandas>=2,<3",
+    "polars>=1,<2",
+    "duckdb>=1,<2",
+]
+notebooks = [
+    "jupyter>=1.0,<2",
+    "ipykernel>=6.29,<7",
+]
 dev = [
     "pytest",
     "pytest-cov",
@@ -36,6 +50,15 @@ dev = [
     "mypy",
     "pre-commit",
     "pyarrow>=14,<19",
+    "openpyxl>=3.1,<4",
+    "tzdata>=2024.1; sys_platform == 'win32'",
+    "numpy>=1.26,<3",
+    "pandas>=2,<3",
+    "polars>=1,<2",
+    "duckdb>=1,<2",
+    "jupyter>=1.0,<2",
+    "ipykernel>=6.29,<7",
+    "nbclient>=0.10,<1",
 ]
 docs = [
     "mkdocs",
@@ -74,4 +97,16 @@ packages = ["mineproductivity"]
 
 [[tool.mypy.overrides]]
 module = ["pyarrow", "pyarrow.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["openpyxl", "openpyxl.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["mineproductivity_registry_fixture_healthy", "mineproductivity_registry_fixture_broken"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["polars", "polars.*", "duckdb", "duckdb.*", "pandas", "pandas.*"]
 ignore_missing_imports = true

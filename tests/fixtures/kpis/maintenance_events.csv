@@ -1,0 +1,2 @@
+failure_start,return_to_service,equipment_id,total_downtime_h,is_planned,failure_mode_code
+2026-06-25T09:00:00,2026-06-25T10:00:00,HT-215,1.0,false,HYD-001

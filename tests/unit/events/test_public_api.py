@@ -76,7 +76,10 @@ class TestNoForbiddenDependencies:
                     violations.append(f"{py_file}: from {module_name} import ...")
         assert not violations, f"Forbidden cross-layer imports found: {violations}"
 
-    def test_only_ontology_dependency_is_delaycategory(self) -> None:
+    def test_only_ontology_dependency_is_delaycategory_and_safetyeventtype(self) -> None:
+        """``events`` may depend only on closed, governed-taxonomy reference
+        data owned by ``ontology`` -- never its entities, registries, or
+        services (Documentation Governance Rule #005)."""
         events_dir = Path(events.__file__).parent
         ontology_imports: set[str] = set()
         for py_file in events_dir.rglob("*.py"):
@@ -84,7 +87,7 @@ class TestNoForbiddenDependencies:
             for node in ast.walk(tree):
                 if isinstance(node, ast.ImportFrom) and node.module == "mineproductivity.ontology":
                     ontology_imports.update(alias.name for alias in node.names)
-        assert ontology_imports <= {"DelayCategory"}
+        assert ontology_imports <= {"DelayCategory", "SafetyEventType"}
 
 
 class TestNoCircularImports:

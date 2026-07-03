@@ -66,7 +66,7 @@ class TestPackageVersion:
     def test_top_level_package_exposes_version(self) -> None:
         import mineproductivity
 
-        assert mineproductivity.__version__ == "0.3.0"
+        assert mineproductivity.__version__ == "0.7.0"
 
     def test_core_has_no_dependency_on_sibling_packages(self) -> None:
         import ast

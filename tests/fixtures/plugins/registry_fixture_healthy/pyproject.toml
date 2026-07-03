@@ -1,0 +1,16 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mineproductivity-registry-fixture-healthy"
+version = "0.1.0"
+description = "Registry Framework test fixture: a well-behaved plugin that imports successfully."
+requires-python = ">=3.12"
+dependencies = []
+
+[project.entry-points."mineproductivity.tests.registry_fixture"]
+healthy = "mineproductivity_registry_fixture_healthy"
+
+[tool.hatch.build.targets.wheel]
+packages = ["mineproductivity_registry_fixture_healthy"]

@@ -1,0 +1,5 @@
+event_time,equipment_id,queue_min,spot_min,load_min,haul_min,dump_min,return_min,payload_t,route_id,operator_id,material_type
+2026-06-25T06:00:00,HT-214,1.5,0.5,2.5,8.0,1.0,6.0,220.0,RT-1,OP-101,ore
+2026-06-25T06:22:00,HT-215,1.2,0.4,2.6,8.1,1.1,5.9,218.0,RT-1,OP-102,ore
+2026-06-25T06:45:00,HT-214,1.4,0.5,2.4,7.9,1.0,6.1,221.0,RT-1,OP-101,ore
+2026-06-25T07:10:00,HT-216,1.6,0.6,2.7,8.3,1.2,6.0,215.0,RT-2,OP-103,waste

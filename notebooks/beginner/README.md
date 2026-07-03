@@ -14,15 +14,22 @@ Notebook files (.ipynb) and their direct supporting narrative. No package implem
 
 ## Contents
 
-- Placeholder — no notebooks exist yet; requires implemented subsystems to demonstrate.
+- `01_first_kpi_lookup.ipynb` — loads the sample dataset shared with `examples/kpis/`, computes `PROD.TPH` via `KPIEngine`, inspects a `KPIResult`'s provenance, and discovers the rest of the Standard Library through `REGISTRY` — no source-code reading required.
 
 ## Dependencies
 
-`jupyter`, `mineproductivity` (once implemented).
+`mineproductivity[analytics]`, plus `jupyter`/`ipykernel` (install both via `mineproductivity[notebooks]`, or `mineproductivity[dev]` for the full development environment).
+
+## Running
+
+```bash
+pip install -e ".[notebooks,analytics]"
+jupyter notebook notebooks/beginner/01_first_kpi_lookup.ipynb
+```
 
 ## Future Work
 
-Author beginner notebooks as the subsystems they demonstrate are implemented.
+Author intermediate/advanced/expert/research-tier notebooks as their corresponding subsystems (`analytics`, `decision`, `digital_twin`) are implemented.
 
 ## References
 

@@ -1,4 +1,10 @@
-"""``SafetyEvent``: one leading-safety-indicator observation."""
+"""``SafetyEvent``: one leading-safety-indicator observation.
+
+``SafetyEventType`` is owned by ``mineproductivity.ontology`` (a closed,
+governed taxonomy -- domain reference *data*, not event *structure*; the
+same rationale as ``DelayCategory``, per design spec AD-ON-03). This
+module imports and consumes it rather than defining its own copy.
+"""
 
 from __future__ import annotations
 
@@ -7,17 +13,9 @@ from enum import Enum
 from typing import ClassVar
 
 from mineproductivity.events.base_event import BaseEvent
+from mineproductivity.ontology import SafetyEventType
 
 __all__ = ["SafetyEvent", "SafetyEventType", "SafetySeverity"]
-
-
-class SafetyEventType(Enum):
-    """The leading safety-indicator kinds a :class:`SafetyEvent` can record."""
-
-    SPEED_VIOLATION = "speed-violation"
-    FATIGUE = "fatigue"
-    PROXIMITY = "proximity"
-    SEATBELT = "seatbelt"
 
 
 class SafetySeverity(Enum):

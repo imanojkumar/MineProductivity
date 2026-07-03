@@ -1,0 +1,3 @@
+event_time,equipment_id,delay_category,delay_reason,duration_min
+2026-06-25T09:00:00,HT-215,Equipment,hydraulic_hose_failure,60.0
+2026-06-25T13:30:00,CR-01,Process,crusher_blockage,25.0

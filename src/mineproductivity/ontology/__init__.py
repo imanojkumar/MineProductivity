@@ -1,20 +1,119 @@
-"""mineproductivity.ontology — The explicit, machine-readable domain vocabulary for mining productivity: asset types, process types, relationships, and schema definitions that all other packages model against.
+"""``mineproductivity.ontology`` -- the typed, machine-readable model of
+the mining world.
 
-The full Ontology Framework (entity types, registry, relationships,
-reasoning) has not been implemented yet -- it is scheduled for its own
-milestone; see ``docs/architecture/02_Ontology_Framework_Design_Specification.md``.
+Implements the ten sub-ontology families (equipment, material, location,
+organization, production, maintenance, cost, quality, safety,
+environmental) plus the cross-cutting entity-type root, relationships,
+reference data, and the Knowledge Graph projection contract, per
+``docs/architecture/02_Ontology_Framework_Design_Specification.md``.
 
-Per Documentation Governance Rule #005, exactly one minimum shared
-contract has been published ahead of that milestone because the
-Event Framework's locked design specification requires it:
-``DelayCategory``, the closed six-value delay taxonomy. No other
-ontology concept, business logic, service, or registry exists in this
-package yet. See ``ontology/reference/delay_taxonomy.py`` and the
-accompanying README.md for the full design intent of this package.
+``ontology`` depends only on ``core`` -- see ``README.md`` for the full
+set of architectural rules this package must satisfy.
+
+Everything documented here is part of the public API and can be imported
+directly from ``mineproductivity.ontology``, e.g.::
+
+    from mineproductivity.ontology import RigidHaulTruck, Pit, Bench, Shift
 """
 
 from __future__ import annotations
 
+from mineproductivity.ontology.cost import CostCategory, CostCenter
+from mineproductivity.ontology.entity_type import BaseEntityType, EntityTypeMetadata
+from mineproductivity.ontology.entity_type import register_entity_type as register_equipment
+from mineproductivity.ontology.environmental import EmissionFactor, MonitoringPoint
+from mineproductivity.ontology.equipment import (
+    LHD,
+    ArticulatedHaulTruck,
+    BlastholeDrill,
+    Conveyor,
+    Crusher,
+    Dozer,
+    EquipmentType,
+    Grader,
+    HydraulicShovel,
+    Mill,
+    OperationalState,
+    RigidHaulTruck,
+    WaterTruck,
+    WheelLoader,
+)
+from mineproductivity.ontology.exceptions import (
+    OntologyValidationError,
+    RelationshipError,
+    UnknownEntityTypeError,
+)
+from mineproductivity.ontology.graph_projection import (
+    GraphEdge,
+    GraphNode,
+    KnowledgeGraphProjection,
+)
+from mineproductivity.ontology.location import Bench, Drive, Level, Mine, Pit, Route, Stope, Zone
+from mineproductivity.ontology.maintenance import FailureMode, MaintenanceWorkOrder
+from mineproductivity.ontology.material import Commodity, MaterialType
+from mineproductivity.ontology.organization import BusinessUnit, Contractor, Crew, Fleet, Operator
+from mineproductivity.ontology.production import Shift, ShiftCalendar, ShiftPattern
+from mineproductivity.ontology.quality import GradeAttribute, QualitySpecification
 from mineproductivity.ontology.reference import DelayCategory
+from mineproductivity.ontology.relationship import Relationship, RelationshipKind
+from mineproductivity.ontology.safety import HazardZone, SafetyEventType, SpeedLimitMap
+from mineproductivity.ontology.validation import OntologyValidator
 
-__all__ = ["DelayCategory"]
+__all__ = [
+    "ArticulatedHaulTruck",
+    "BaseEntityType",
+    "Bench",
+    "BlastholeDrill",
+    "BusinessUnit",
+    "Commodity",
+    "Contractor",
+    "Conveyor",
+    "CostCategory",
+    "CostCenter",
+    "Crew",
+    "Crusher",
+    "DelayCategory",
+    "Dozer",
+    "Drive",
+    "EmissionFactor",
+    "EntityTypeMetadata",
+    "EquipmentType",
+    "FailureMode",
+    "Fleet",
+    "GradeAttribute",
+    "Grader",
+    "GraphEdge",
+    "GraphNode",
+    "HazardZone",
+    "HydraulicShovel",
+    "KnowledgeGraphProjection",
+    "LHD",
+    "Level",
+    "MaintenanceWorkOrder",
+    "MaterialType",
+    "Mill",
+    "Mine",
+    "MonitoringPoint",
+    "OntologyValidationError",
+    "OntologyValidator",
+    "OperationalState",
+    "Operator",
+    "Pit",
+    "QualitySpecification",
+    "Relationship",
+    "RelationshipError",
+    "RelationshipKind",
+    "RigidHaulTruck",
+    "Route",
+    "SafetyEventType",
+    "Shift",
+    "ShiftCalendar",
+    "ShiftPattern",
+    "SpeedLimitMap",
+    "Stope",
+    "UnknownEntityTypeError",
+    "WaterTruck",
+    "WheelLoader",
+    "Zone",
+    "register_equipment",
+]

@@ -1,0 +1,3 @@
+event_time,equipment_id,queue_min,spot_min,load_min,haul_min,dump_min,return_min,payload_t
+2026-06-24T22:00:00,HT-214,1.5,0.5,2.5,8.0,1.0,6.0,220.0
+2026-06-24T23:30:00,HT-215,1.2,0.4,2.6,8.1,1.1,5.9,218.0

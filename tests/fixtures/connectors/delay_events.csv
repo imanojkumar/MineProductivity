@@ -1,0 +1,4 @@
+event_time,equipment_id,delay_category,delay_reason,duration_min
+2026-06-25T08:00:00,CR-01,EQUIPMENT,crusher_down,252.0
+2026-06-25T09:00:00,HT-214,OPERATIONAL,operator_break,30.0
+2026-06-25T10:00:00,HT-215,STANDBY,no_operator_available,45.0

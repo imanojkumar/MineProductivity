@@ -6,15 +6,19 @@ built on a clean, plugin-first Python architecture.**
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.12%2B-blue.svg)](pyproject.toml)
-[![Status](https://img.shields.io/badge/status-skeleton%20%2F%20pre--alpha-orange.svg)](ROADMAP.md)
-[![Version](https://img.shields.io/badge/version-0.1.0-lightgrey.svg)](CHANGELOG.md)
+[![Status](https://img.shields.io/badge/status-pre--alpha-orange.svg)](ROADMAP.md)
+[![Version](https://img.shields.io/badge/version-0.7.0-lightgrey.svg)](CHANGELOG.md)
 
-> **Status: Repository Skeleton.** This repository currently contains **no business
-> logic**. It is the structural foundation onto which the MineProductivity reference
-> implementation will be built incrementally, package by package, guided by the
-> locked architecture documents described below. Every directory in this tree
-> mirrors an approved section of the Master Architecture Handbook and the
-> Reference Implementation Blueprint.
+> **Status: Incremental Implementation.** `core` (framework primitives), `events`
+> (the Event Sourcing model), `ontology` (the typed domain vocabulary),
+> `registry`/`plugins` (the plugin-first discovery-and-lifecycle backbone),
+> `connectors` (the vendor-neutral ingestion boundary), and `kpis` (the
+> metadata-first, self-describing KPI Engine) are implemented, tested
+> (100% line coverage), and documented. Every other package remains a
+> structural placeholder, built incrementally guided by the locked
+> architecture documents described below. Every directory in this tree mirrors
+> an approved section of the Master Architecture Handbook and the Reference
+> Implementation Blueprint.
 
 ## What is MineProductivity?
 
@@ -123,11 +127,13 @@ structured, versioned notes and placeholders that mirror their sections. See
 
 ## Project Status
 
-**Version 0.1.0 - Skeleton.** The architecture is versioned v1.0 (locked,
+**Version 0.7.0.** The architecture is versioned v1.0 (locked,
 documentation-complete). The software is versioned independently, starting at
 `0.1.0`, and will only reach `1.0.0` once the reference implementation
 satisfies the Reference Implementation Blueprint and passes the Certification
-suite. See [ROADMAP.md](ROADMAP.md).
+suite. Implemented so far: `core` (v0.2.0), `events` (v0.3.0), `ontology`
+(v0.4.0), `registry`/`plugins` (v0.5.0), `connectors` (v0.6.0), `kpis`
+(v0.7.0). See [CHANGELOG.md](CHANGELOG.md) and [ROADMAP.md](ROADMAP.md).
 
 ## Getting Started
 

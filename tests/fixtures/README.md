@@ -15,7 +15,8 @@ Testing philosophy and conventions for `tests/fixtures/`. No implementation code
 
 ## Contents
 
-- Placeholder — populated as corresponding `src/mineproductivity` packages are implemented.
+- `plugins/` — real, independently-buildable fixture plugin packages (one well-behaved, one deliberately broken) used to prove the Registry Framework's discovery and isolation guarantees end-to-end. See [`plugins/README.md`](plugins/README.md).
+- `connectors/` — small, synthetic CSV fixtures (golden, malformed, and local-timezone variants) used to exercise `CSVConnector` and the full connector-to-event pipeline. See [`connectors/README.md`](connectors/README.md).
 
 ## Dependencies
 

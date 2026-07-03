@@ -6,10 +6,10 @@ every other piece of derived state (a KPI value, a Digital Twin snapshot,
 an analytics aggregate) is a pure function of the event log up to some
 point in time.
 
-``events`` depends on ``core`` and ``ontology`` (currently only
-``ontology.DelayCategory`` -- see Documentation Governance Rule #005 and
-``ontology/README.md``) and nothing else -- see ``README.md`` for the
-full set of architectural rules this package must satisfy.
+``events`` depends on ``core`` and ``ontology`` (``ontology.DelayCategory``
+and ``ontology.SafetyEventType`` -- see Documentation Governance Rule
+#005 and ``ontology/README.md``) and nothing else -- see ``README.md``
+for the full set of architectural rules this package must satisfy.
 
 Everything documented here is part of the public API and can be imported
 directly from ``mineproductivity.events``, e.g.::

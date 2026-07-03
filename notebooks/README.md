@@ -23,11 +23,11 @@ Notebook content and its supporting README documentation. Does not include the u
 
 ## Dependencies
 
-`jupyter` (to be added once notebooks contain runnable code); currently none.
+`mineproductivity[notebooks]` (`jupyter`, `ipykernel`).
 
 ## Future Work
 
-Author notebooks per tier as corresponding subsystems are implemented.
+Author intermediate/advanced/expert/research-tier notebooks as their corresponding subsystems are implemented.
 
 ## References
 
