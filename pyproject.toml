@@ -12,6 +12,15 @@ license = "Apache-2.0"
 authors = [
     { name = "The MineProductivity Authors" },
 ]
+keywords = [
+    "mining",
+    "productivity",
+    "kpi",
+    "digital-twin",
+    "ontology",
+    "event-sourcing",
+    "python",
+]
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
     "Intended Audience :: Developers",
@@ -71,9 +80,6 @@ Documentation = "https://github.com/imanojkumar/MineProductivity/tree/main/docs"
 Repository = "https://github.com/imanojkumar/MineProductivity"
 Changelog = "https://github.com/imanojkumar/MineProductivity/blob/main/CHANGELOG.md"
 Issues = "https://github.com/imanojkumar/MineProductivity/issues"
-
-[project.scripts]
-mineproductivity = "mineproductivity.cli:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/mineproductivity"]

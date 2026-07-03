@@ -5,7 +5,7 @@ All notable changes to MineProductivity are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-> **Note:** The software version (currently `0.7.0`) is independent of the
+> **Note:** The software version (currently `0.7.1`) is independent of the
 > architecture document version (`v1.0`, locked). The architecture is
 > considered final for this phase; the software implementing it is not.
 
@@ -14,6 +14,57 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Nothing yet.
+
+## [0.7.1] - 2026-07-03
+
+Packaging & Installation Validation — a release-engineering milestone with
+no new functionality. `mineproductivity` was built, checked, and installed
+from every supported distribution channel: wheel, sdist, `pip install -e .`,
+and `pip install git+https://github.com/imanojkumar/MineProductivity.git`.
+
+### Fixed
+
+- `pyproject.toml` declared a `[project.scripts]` console entry point
+  (`mineproductivity = "mineproductivity.cli:main"`) pointing at a
+  `main()` function that has never existed — `mineproductivity.cli` is
+  still an unimplemented structural placeholder. Every `pip install`
+  therefore shipped a console script that crashed
+  (`ImportError: cannot import name 'main' from 'mineproductivity.cli'`)
+  the moment it was run. The entry point is removed until a real CLI
+  exists; nothing else in `[project.scripts]` is affected since it was
+  the only entry.
+
+### Changed
+
+- `pyproject.toml` gained a `keywords` field (`mining`, `productivity`,
+  `kpi`, `digital-twin`, `ontology`, `event-sourcing`, `python`),
+  matching `CITATION.cff`'s existing keyword list — previously absent,
+  hurting PyPI/GitHub topic discoverability.
+- `README.md`'s "Getting Started" section, which still read "There is
+  no functionality to run yet" (a leftover from the `v0.1.0` skeleton
+  phase), is rewritten with accurate, verified installation instructions
+  (GitHub install, local install, the optional dependency groups table,
+  and a working install-verification snippet) ahead of the existing
+  contributor development-setup instructions.
+
+### Notes
+
+- `python -m build` produces a clean wheel and sdist; `twine check`
+  passes both with no warnings.
+- The wheel (`py3-none-any`, zero third-party dependencies) was
+  installed into a clean virtual environment and exercised: every
+  top-level subpackage (`core`, `events`, `ontology`, `registry`,
+  `connectors`, `kpis`, `plugins`) imports cleanly with no optional
+  extras installed, and a real `PROD.TPH` computation was run
+  end-to-end against `REGISTRY`.
+- The sdist, a fresh GitHub install (`pip install git+...`), and
+  `pip install -e .` were each independently verified the same way, in
+  their own clean virtual environments; `pip install -e ".[analytics]"`
+  additionally re-ran eight representative examples (one per
+  implemented package plus all four `examples/kpis/` scripts), all
+  exiting `0`.
+- No dependency direction, public API, or architecture changed. No new
+  packages were added.
 
 ## [0.7.0] - 2026-07-03
 

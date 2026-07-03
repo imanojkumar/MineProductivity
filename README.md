@@ -4,10 +4,11 @@
 intelligence - KPI computation, digital twins, decision support, and AI agents,
 built on a clean, plugin-first Python architecture.**
 
+[![DOI](https://zenodo.org/badge/1286272754.svg)](https://doi.org/10.5281/zenodo.21172767)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.12%2B-blue.svg)](pyproject.toml)
 [![Status](https://img.shields.io/badge/status-pre--alpha-orange.svg)](ROADMAP.md)
-[![Version](https://img.shields.io/badge/version-0.7.0-lightgrey.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.7.1-lightgrey.svg)](CHANGELOG.md)
 
 > **Status: Incremental Implementation.** `core` (framework primitives), `events`
 > (the Event Sourcing model), `ontology` (the typed domain vocabulary),
@@ -127,18 +128,62 @@ structured, versioned notes and placeholders that mirror their sections. See
 
 ## Project Status
 
-**Version 0.7.0.** The architecture is versioned v1.0 (locked,
+**Version 0.7.1.** The architecture is versioned v1.0 (locked,
 documentation-complete). The software is versioned independently, starting at
 `0.1.0`, and will only reach `1.0.0` once the reference implementation
 satisfies the Reference Implementation Blueprint and passes the Certification
 suite. Implemented so far: `core` (v0.2.0), `events` (v0.3.0), `ontology`
 (v0.4.0), `registry`/`plugins` (v0.5.0), `connectors` (v0.6.0), `kpis`
-(v0.7.0). See [CHANGELOG.md](CHANGELOG.md) and [ROADMAP.md](ROADMAP.md).
+(v0.7.0); v0.7.1 is a packaging-validation patch release (no new
+functionality). See [CHANGELOG.md](CHANGELOG.md) and [ROADMAP.md](ROADMAP.md).
 
 ## Getting Started
 
-There is no functionality to run yet. To set up a development environment for
-contributing to the skeleton or a future implementation PR:
+### Installing
+
+MineProductivity requires Python 3.12+. It is not yet published to PyPI; install
+directly from GitHub or from a local checkout.
+
+```bash
+# From GitHub (latest main)
+pip install git+https://github.com/imanojkumar/MineProductivity.git
+
+# From a local checkout
+git clone https://github.com/imanojkumar/MineProductivity.git
+cd MineProductivity
+pip install .
+```
+
+The base install has zero third-party dependencies and gives you `core`, `events`,
+`ontology`, `registry`, `plugins`, `connectors`, and `kpis`. Optional dependency
+groups add capability only where you need it:
+
+| Extra | Adds | Needed for |
+|---|---|---|
+| `events` | `pyarrow` | Parquet/Arrow event codecs |
+| `connectors` | `openpyxl`, `tzdata` (Windows) | `ExcelConnector`, local-timezone normalization |
+| `analytics` | `numpy`, `pandas`, `polars`, `duckdb` | KPI Engine execution backends, `KPIResult.to_frame()` |
+| `notebooks` | `jupyter`, `ipykernel` | Running the notebooks in `notebooks/` |
+| `dev` | everything above, plus `pytest`, `ruff`, `mypy`, `pre-commit` | Contributing |
+
+```bash
+pip install "mineproductivity[analytics] @ git+https://github.com/imanojkumar/MineProductivity.git"
+```
+
+Verify the install:
+
+```python
+import mineproductivity
+print(mineproductivity.__version__)
+
+from mineproductivity.kpis import REGISTRY
+tph = REGISTRY.get("PROD.TPH")().compute([{"payload_t": 220.0, "operating_h": 12.0}])
+print(tph.value, tph.unit)  # 18.33... t/h
+```
+
+### Contributing
+
+To set up a development environment for contributing:
 
 ```bash
 python -m venv .venv
@@ -154,5 +199,15 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full workflow.
 Apache License 2.0 - see [LICENSE](LICENSE).
 
 ## Citation
+
+If you use MineProductivity in research or industrial projects, please cite:
+
+Kumar, M. (2026).
+
+MineProductivity (Version v0.7.0).
+
+Zenodo.
+
+https://doi.org/10.5281/zenodo.21172768
 
 See [CITATION.cff](CITATION.cff).

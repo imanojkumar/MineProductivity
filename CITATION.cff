@@ -1,14 +1,27 @@
 cff-version: 1.2.0
-message: "If you use MineProductivity in your research or operations, please cite it as below."
-title: "MineProductivity"
-version: 0.1.0
-date-released: 2026-07-01
-url: "https://github.com/imanojkumar/MineProductivity"
-repository-code: "https://github.com/imanojkumar/MineProductivity"
-license: Apache-2.0
+
+message: "If you use MineProductivity in your research or operations, please cite using the metadata as below."
+
 type: software
+
+title: "MineProductivity"
+
+version: 0.7.0
+
+url: "https://github.com/imanojkumar/MineProductivity"
+
+repository-code: "https://github.com/imanojkumar/MineProductivity"
+
 authors:
-  - name: "Manoj Kumar & The MineProductivity Authors"
+  - family-names: "Kumar"
+    given-names: "Manoj"
+
+doi: 10.5281/zenodo.21172768
+
+license: Apache-2.0
+
+date-released: 2026-07-03
+
 keywords:
   - mining
   - productivity
