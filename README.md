@@ -4,11 +4,13 @@
 intelligence - KPI computation, digital twins, decision support, and AI agents,
 built on a clean, plugin-first Python architecture.**
 
+[![CI](https://github.com/imanojkumar/MineProductivity/actions/workflows/ci.yml/badge.svg)](https://github.com/imanojkumar/MineProductivity/actions/workflows/ci.yml)
+[![Quality](https://github.com/imanojkumar/MineProductivity/actions/workflows/quality.yml/badge.svg)](https://github.com/imanojkumar/MineProductivity/actions/workflows/quality.yml)
 [![DOI](https://zenodo.org/badge/1286272754.svg)](https://doi.org/10.5281/zenodo.21172767)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.12%2B-blue.svg)](pyproject.toml)
 [![Status](https://img.shields.io/badge/status-pre--alpha-orange.svg)](ROADMAP.md)
-[![Version](https://img.shields.io/badge/version-0.7.2-lightgrey.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.7.3-lightgrey.svg)](CHANGELOG.md)
 
 > **Status: Incremental Implementation.** `core` (framework primitives), `events`
 > (the Event Sourcing model), `ontology` (the typed domain vocabulary),
@@ -128,13 +130,13 @@ structured, versioned notes and placeholders that mirror their sections. See
 
 ## Project Status
 
-**Version 0.7.2.** The architecture is versioned v1.0 (locked,
+**Version 0.7.3.** The architecture is versioned v1.0 (locked,
 documentation-complete). The software is versioned independently, starting at
 `0.1.0`, and will only reach `1.0.0` once the reference implementation
 satisfies the Reference Implementation Blueprint and passes the Certification
 suite. Implemented so far: `core` (v0.2.0), `events` (v0.3.0), `ontology`
 (v0.4.0), `registry`/`plugins` (v0.5.0), `connectors` (v0.6.0), `kpis`
-(v0.7.0); v0.7.1 and v0.7.2 are packaging- and documentation-validation
+(v0.7.0); v0.7.1–v0.7.3 are packaging-, documentation-, and CI/CD-validation
 patch releases (no new functionality). See [CHANGELOG.md](CHANGELOG.md) and
 [ROADMAP.md](ROADMAP.md).
 

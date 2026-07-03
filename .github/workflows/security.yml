@@ -1,0 +1,56 @@
+name: Security
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "pyproject.toml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "pyproject.toml"
+  schedule:
+    # Wednesdays 06:00 UTC -- a new CVE can be published against an
+    # already-pinned dependency at any time, independent of any commit
+    # to this repository.
+    - cron: "0 6 * * 3"
+
+jobs:
+  pip-audit:
+    name: pip-audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Upgrade pip
+        run: pip install --upgrade pip
+
+      - name: Install mineproductivity with every optional dependency
+        run: pip install -e ".[dev]"
+
+      - name: Install pip-audit
+        run: pip install pip-audit
+
+      # --skip-editable: `mineproductivity` itself (and the registry test
+      # fixture packages) are editable-installed, unpublished local
+      # distributions -- not something PyPI's advisory database has an
+      # opinion on.
+      #
+      # --ignore-vuln PYSEC-2026-113: a real, known Use-After-Free in
+      # Apache Arrow C++ (pyarrow < 23.0.1) that the `events` extra's
+      # current `pyarrow>=14,<19` constraint permits. Not silently
+      # dropped: recorded here as a deliberate, tracked exception rather
+      # than a permanently-red gate, because fixing it properly means
+      # bumping across ~9 major pyarrow releases and re-validating
+      # `ArrowEventCodec`/`ParquetEventCodec` against the new API --
+      # a framework-compatibility change out of scope for this milestone
+      # ("no framework changes"). Tracked as follow-up work; see
+      # docs/governance/CI_CD_GUIDE.md.
+      - name: Audit installed dependencies
+        run: pip-audit --strict --desc --skip-editable --ignore-vuln PYSEC-2026-113

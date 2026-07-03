@@ -8,3 +8,10 @@
 /src/mineproductivity/core/ @imanojkumar
 /src/mineproductivity/ontology/ @imanojkumar
 /src/mineproductivity/events/ @imanojkumar
+/src/mineproductivity/registry/ @imanojkumar
+/src/mineproductivity/plugins/ @imanojkumar
+/src/mineproductivity/connectors/ @imanojkumar
+/src/mineproductivity/kpis/ @imanojkumar
+
+/.github/workflows/ @imanojkumar
+/docs/governance/ @imanojkumar

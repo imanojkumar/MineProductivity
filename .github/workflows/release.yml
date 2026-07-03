@@ -1,4 +1,3 @@
-# Placeholder release workflow — no implementation yet.
 name: Release
 
 on:
@@ -6,15 +5,89 @@ on:
     tags:
       - "v*.*.*"
 
+permissions:
+  contents: write
+
 jobs:
-  release:
-    name: Build and publish release artifacts
+  build:
+    name: Build + verify distribution artifacts
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      # TODO: pip install build && python -m build, then publish.
-      - name: Placeholder — no release automation implemented yet
-        run: echo "Release automation not yet implemented."
+          cache: pip
+
+      - name: Install build tooling
+        run: pip install build twine
+
+      - name: Build wheel and sdist
+        run: python -m build
+
+      - name: twine check
+        run: twine check --strict dist/*
+
+      - name: Verify the tag matches the package version
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          PKG_VERSION="$(python -c 'import mineproductivity; print(mineproductivity.__version__)')"
+          echo "tag=$TAG_VERSION package=$PKG_VERSION"
+          if [ "$TAG_VERSION" != "$PKG_VERSION" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match src/mineproductivity/__init__.py's __version__ ($PKG_VERSION)"
+            exit 1
+          fi
+
+      - name: Upload distribution artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          retention-days: 90
+
+  github-release:
+    name: Create GitHub Release
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: Create the GitHub Release with the built artifacts attached
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ github.ref_name }}" \
+            dist/* \
+            --title "${{ github.ref_name }}" \
+            --generate-notes \
+            --notes "See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md) for the curated release notes.
+
+          ---
+          "
+
+  # ---------------------------------------------------------------------
+  # PyPI publishing is intentionally NOT enabled yet (Milestone C: "Do NOT
+  # publish to PyPI"). When the maintainer decides to publish, add a PyPI
+  # Trusted Publisher (https://docs.pypi.org/trusted-publishers/) for this
+  # repository/workflow, then uncomment the job below -- no API token is
+  # needed with Trusted Publishing (OIDC-based).
+  # ---------------------------------------------------------------------
+  # publish-pypi:
+  #   name: Publish to PyPI
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   environment: pypi
+  #   permissions:
+  #     id-token: write  # required for OIDC Trusted Publishing
+  #   steps:
+  #     - uses: actions/download-artifact@v4
+  #       with:
+  #         name: dist
+  #         path: dist/
+  #     - uses: pypa/gh-action-pypi-publish@release/v1

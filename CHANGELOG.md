@@ -5,7 +5,7 @@ All notable changes to MineProductivity are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-> **Note:** The software version (currently `0.7.2`) is independent of the
+> **Note:** The software version (currently `0.7.3`) is independent of the
 > architecture document version (`v1.0`, locked). The architecture is
 > considered final for this phase; the software implementing it is not.
 
@@ -14,6 +14,95 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Nothing yet.
+
+## [0.7.3] - 2026-07-03
+
+CI/CD & Cross-Platform Validation — a release-engineering milestone with no
+new functionality. The three placeholder GitHub Actions workflows left over
+from the repository-skeleton phase (`ci.yml`, `docs.yml`, `release.yml`,
+each literally titled "Placeholder... no implementation yet") are replaced
+with a real, enterprise-grade pipeline.
+
+### Added
+
+- `.github/workflows/ci.yml`: the correctness gate. `pytest` + coverage
+  (`--cov-fail-under=95`) across a `{ubuntu, windows, macos} x {3.12,
+  3.13}` matrix (the two Python versions `pyproject.toml` actually
+  declares support for), plus Python 3.10/3.11 on Ubuntu as non-blocking
+  early signal. Builds the wheel and sdist, `twine check --strict`s
+  them, then validates wheel installs across all three OSes and
+  sdist/editable/GitHub installs (at the exact commit under test) in
+  fresh environments, each followed by a real smoke test.
+- `.github/workflows/quality.yml`: the cleanliness gate. `ruff check` +
+  `ruff format --check`, `mypy --strict`, documentation validation
+  (every relative Markdown link in the repository, every fenced
+  ```python``` block in the root and package READMEs), and full
+  notebook execution.
+- `.github/workflows/benchmark.yml`: a performance *smoke* test —
+  generous wall-clock ceilings on cold-import time, a batched KPI
+  compute, and dependency-graph resolution, meant to catch a
+  catastrophic regression, not track performance over time.
+- `.github/workflows/dependency-review.yml`, `codeql.yml`,
+  `security.yml`: PR-triggered dependency vulnerability/license review,
+  weekly CodeQL static analysis, and weekly + `pyproject.toml`-triggered
+  `pip-audit` against every installed dependency.
+- `.github/workflows/release.yml`: on a `v*.*.*` tag push, builds and
+  `twine check`s the wheel/sdist, verifies the tag matches
+  `mineproductivity.__version__` (failing the release if they
+  disagree), and creates a GitHub Release with both artifacts attached.
+  Does **not** publish to PyPI — a fully commented-out Trusted
+  Publishing (OIDC) job is included, ready to enable once a PyPI
+  Trusted Publisher is registered for this repository.
+- `scripts/quality/smoke_test.py`, `check_docs.py`, `perf_smoke.py`:
+  the reusable scripts the workflows above call, each also runnable
+  standalone by a contributor.
+- `docs/governance/CI_CD_GUIDE.md`: workflows, branch strategy (trunk
+  -based off `main`), release flow, developer workflow, and a
+  failure-handling runbook per workflow.
+- Two new README badges (`CI`, `Quality`) linking to the new workflows'
+  live status. No coverage-percentage badge added — that needs a
+  reporting service (Codecov/Coveralls) this milestone deliberately
+  does not wire up (see `docs/governance/CI_CD_GUIDE.md`'s Future Work).
+
+### Fixed
+
+- `.github/CODEOWNERS` only listed `core`, `ontology`, and `events` —
+  missing `registry`, `plugins`, `connectors`, and `kpis` entirely,
+  each implemented and released since the file was last touched.
+- `scripts/quality/check_docs.py` (documentation snippet validation)
+  root-caused a genuine `dataclasses` gotcha rather than working around
+  it: every source file in this codebase uses `from __future__ import
+  annotations`, so a snippet's `ClassVar[str]` field annotation is a
+  *string* at class-definition time, and `dataclasses` resolves such
+  strings via `sys.modules[cls.__module__].__dict__`. Executing a
+  snippet with `__module__ == "__main__"` therefore resolved against
+  the *checker script's own* globals (which never import `ClassVar`),
+  silently misclassifying every `ClassVar` field as a plain field with
+  a default and breaking dataclass field ordering for reasons that had
+  nothing to do with the documentation being checked. Fixed by
+  registering each checked file's namespace as its own uniquely-named
+  fake module in `sys.modules` for the duration of the check.
+
+### Notes
+
+- `pyproject.toml`'s `events` extra pins `pyarrow>=14,<19`, which
+  permits a real, known Use-After-Free (`PYSEC-2026-113`, fixed in
+  `pyarrow>=23.0.1`). `security.yml` records this as a deliberate,
+  documented exception (`--ignore-vuln`) rather than a silently-ignored
+  finding or a permanently-red gate: fixing it properly means bumping
+  across roughly nine major `pyarrow` releases and re-validating
+  `events`' `ArrowEventCodec`/`ParquetEventCodec` against the new API —
+  a framework-compatibility change out of scope for CI/CD tooling work.
+  See `docs/governance/CI_CD_GUIDE.md`'s Known Exceptions.
+- `docs.yml` builds with `mkdocs build`, not `--strict`:
+  `docs/architecture/*.md` (the locked design specifications)
+  legitimately cross-link to the root `README.md` and to package
+  READMEs under `src/mineproductivity/`, both outside mkdocs' own
+  `docs_dir` — correct for GitHub's file browser, unresolvable within a
+  single mkdocs site build, and unrelated to whether the site itself is
+  sound.
+- No architecture, dependency direction, or public API changed. No new
+  packages were added. PyPI publishing remains intentionally disabled.
 
 ## [0.7.2] - 2026-07-03
 
