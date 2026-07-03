@@ -15,20 +15,26 @@ Example scripts/projects and their documentation. Does not include the underlyin
 
 ## Contents
 
-- `quickstart/` — minimal end-to-end examples.
-- `production/` — production-pattern examples (config, deployment, observability).
-- `connectors/` — example connector implementations.
-- `visualization/` — example dashboards/reports.
-- `ai/` — example agent usage.
-- `digital_twin/` — example digital twin setup and usage.
+Implemented, runnable today:
+
+- [`core/`](core/README.md) — entities, value objects, repositories, factories/builders, validation, serialization, `Result`/`Maybe` (6 scripts).
+- [`events/`](events/README.md) — first event, replay, correction (3 scripts).
+- [`ontology/`](ontology/README.md) — equipment modelling, structural modelling, validation (3 scripts).
+- [`registry/`](registry/README.md) — register/discover, version compatibility (2 scripts; also covers `plugins`).
+- [`connectors/`](connectors/README.md) — CSV ingestion, REST with retry/auth-refresh (2 scripts).
+- [`kpis/`](kpis/README.md) — simple execution, composite `UTIL.OEE`, batch summary, `REGISTRY` discovery (4 scripts).
+
+Placeholders, pending their corresponding subsystem's implementation:
+
+- `quickstart/`, `production/`, `visualization/`, `ai/`, `digital_twin/`.
 
 ## Dependencies
 
-`mineproductivity` (once implemented).
+`mineproductivity`, editable-installed from this repository (`pip install -e .`); `mineproductivity[analytics]` additionally for the `kpis/` examples.
 
 ## Future Work
 
-Author examples as corresponding subsystems are implemented.
+Author `quickstart/`, `production/`, `visualization/`, `ai/`, and `digital_twin/` examples as their corresponding subsystems are implemented.
 
 ## References
 

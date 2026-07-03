@@ -144,6 +144,10 @@ The entity type registry's lookup functions (`lookup_entity_type`, `get_entity_t
 **Adding a new equipment leaf type.** Subclass `EquipmentType`, declare a unique `code`, a fully-populated `meta: EntityTypeMetadata` (including `supported_kpis`), and any type-specific fields as `kw_only` dataclass fields with defaults. Apply `@register_equipment` (an alias of `register_entity_type`, for readability at equipment call sites):
 
 ```python
+from dataclasses import dataclass, field
+from typing import ClassVar
+from mineproductivity.ontology import EntityTypeMetadata, EquipmentType, register_equipment
+
 @register_equipment
 @dataclass(frozen=True, slots=True, eq=False)
 class UndergroundJumbo(EquipmentType):

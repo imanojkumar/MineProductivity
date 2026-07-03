@@ -119,6 +119,10 @@ from mineproductivity.events.serialization import JSONEventCodec, ArrowEventCode
 **Adding a new canonical event type.** Subclass `BaseEvent`, declare a unique `event_type_code`, implement `duration_h()` and (if the type has invariants) `validate()`:
 
 ```python
+from dataclasses import dataclass
+from typing import ClassVar
+from mineproductivity.events import BaseEvent
+
 @dataclass(frozen=True, slots=True)
 class BlastEvent(BaseEvent):
     event_type_code: ClassVar[str] = "BLAST"

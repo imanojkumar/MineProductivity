@@ -5,7 +5,7 @@ All notable changes to MineProductivity are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-> **Note:** The software version (currently `0.7.1`) is independent of the
+> **Note:** The software version (currently `0.7.2`) is independent of the
 > architecture document version (`v1.0`, locked). The architecture is
 > considered final for this phase; the software implementing it is not.
 
@@ -14,6 +14,73 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Nothing yet.
+
+## [0.7.2] - 2026-07-03
+
+Documentation & API Validation — a documentation-and-API-quality audit with
+no new functionality. Every README, example, notebook, and documented code
+snippet across the repository was executed or cross-checked against the
+real, current source; the public API surface of all seven implemented
+packages was re-verified for intentional, sorted, gap-free `__all__` lists.
+
+### Fixed
+
+- `registry.registered_in()`'s docstring (and its module docstring) claimed
+  `kpis.register` and `ontology.register_equipment` are "thin,
+  partially-applied" wrappers around it. Neither is: `ontology` sits below
+  `registry` in the dependency stack and cannot import it at all (its
+  entity-type registry is a separate, internal mechanism that predates
+  `registry`); `kpis.register` hand-rolls its own decorator to also raise
+  `KPICircularDependencyError` at registration time. Only
+  `connectors.register_connector` is genuinely built from this function.
+  Corrected in both the docstring and `registry/README.md`'s matching
+  Extension Guide example, which is rewritten to use the accurate
+  `connectors` example instead.
+- Two package-README "recipe" code snippets meant to be copy-paste starting
+  points (`events/README.md`'s `BlastEvent` example,
+  `ontology/README.md`'s `UndergroundJumbo` example) were missing the
+  imports (`dataclass`, `field`, `ClassVar`, and the relevant base classes)
+  a reader would actually need to run them.
+- `examples/README.md` still listed only the unimplemented placeholder
+  example directories (`quickstart/`, `production/`, `visualization/`,
+  `ai/`, `digital_twin/`) and said "Dependencies: mineproductivity (once
+  implemented)" — omitting the six implemented, runnable example
+  directories (`core/`, `events/`, `ontology/`, `registry/`, `connectors/`,
+  `kpis/`, 20 scripts total) entirely. Rewritten to list both groups
+  accurately.
+- `docs/api/README.md` said "Placeholder — no API exists yet to document,"
+  no longer true with seven implemented, documented packages; corrected to
+  point at each package's own `README.md` while automated reference
+  generation remains genuinely not wired up.
+- `docs/architecture/README.md` described the five now-fully-implemented
+  design specifications as packages that merely "will depend on `core`,"
+  future tense left over from before any of them existed.
+- `tests/unit/kpis/README.md` still read "Placeholder — no implementation
+  exists yet in the corresponding source package" despite the real,
+  344-test, 100%-coverage suite the KPI Engine milestone added — the one
+  package README this repository's "update the test README alongside the
+  test suite" convention was missed for. Rewritten to match the pattern
+  already used by the other six implemented packages' test READMEs.
+
+### Notes
+
+- Every fenced ```python block in the root `README.md` and all seven
+  implemented package READMEs was extracted and executed; every runnable
+  example under `examples/` (20 scripts) and the one existing notebook
+  (`notebooks/beginner/01_first_kpi_lookup.ipynb`) were executed end to
+  end with zero failures.
+- Zero broken relative links found across all 130 Markdown files in the
+  repository.
+- Exception hierarchies, `BaseMetadata` subclassing, and `Protocol` naming
+  were reviewed across all seven implemented packages for cross-package
+  consistency; no inconsistency was found serious enough to warrant an API
+  change (none was made — none is in scope for this milestone).
+- No architecture, dependency direction, or public API changed. No new
+  packages were added. `docs/architecture/*_Design_Specification.md`'s own
+  "Design specification only — no implementation" status lines are now
+  stale for the five implemented frameworks but were deliberately left
+  unmodified as locked governance documents, out of scope for this
+  milestone.
 
 ## [0.7.1] - 2026-07-03
 

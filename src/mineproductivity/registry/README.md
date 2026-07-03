@@ -74,15 +74,17 @@ from mineproductivity.registry import (
 
 ## Extension Guide
 
-**Building a domain registry.** Instantiate `Registry[TKey, TItem]`, expose it as `REGISTRY` (or a domain-appropriate name), and build a thin `@register` decorator with `registered_in()`. No two domain packages implement this pattern differently — that consistency is the entire value proposition of having a `registry` package at all:
+**Building a domain registry.** Instantiate `Registry[TKey, TItem]`, expose it as `REGISTRY` (or a domain-appropriate name), and build a thin `@register` decorator. When registration needs nothing beyond "derive a key, reject a duplicate," build it directly from `registered_in()` — `connectors.register_connector` does exactly this:
 
 ```python
-# In the owning domain package, e.g. mineproductivity/kpis/__init__.py
+# src/mineproductivity/connectors/_registry.py
 from mineproductivity.registry import Registry, registered_in
 
-REGISTRY: Registry[str, type["BaseKPI"]] = Registry(name="kpis")
-register = registered_in(REGISTRY, key_of=lambda cls: cls.meta.code, metadata_of=lambda cls: cls.meta)
+CONNECTORS: Registry[str, type[FMSConnector]] = Registry(name="connectors")
+register_connector = registered_in(CONNECTORS, key_of=lambda cls: cls.name)
 ```
+
+When a domain package needs additional registration-time validation, it implements its own `@register` calling `Registry.register()` directly instead of wrapping `registered_in()` — `kpis.register` does this to also raise `KPICircularDependencyError` immediately if the new KPI would complete a dependency cycle, never deferred to first use (see `kpis/_registry.py`). Every domain package's `@register` still shares the same *shape* — decorator, typed `Registry`, raising lookup — even when it isn't literally built from this one function; that shape, not this specific helper, is the actual consistency guarantee. (`ontology.register_equipment` is a different case again: `ontology` sits below `registry` in the dependency stack and cannot import it at all, so its entity-type registry predates and is independent of this package.)
 
 ```toml
 # In a THIRD-PARTY plugin package's pyproject.toml

@@ -1,6 +1,5 @@
-"""``registered_in``: the generic ``@register`` decorator factory every
-domain package's own ``@register`` decorator is built from (design spec
-§17).
+"""``registered_in``: the generic ``@register`` decorator factory for
+straightforward key-based registration (design spec §17).
 """
 
 from __future__ import annotations
@@ -27,12 +26,23 @@ def registered_in(
     ``registry``, deriving its key (and, optionally, its metadata) from
     the item itself.
 
-    This is the single mechanism every domain package's own ``@register``
-    decorator (``kpis.register``, ``connectors.register``,
-    ``ontology.register_equipment``, ...) is a thin, partially-applied
-    wrapper around -- so "one discovery pattern for the whole ecosystem"
-    (Cookbook Part I, Ch. 9) holds at the decorator level too, not just
-    the registry level.
+    Suitable whenever registration needs nothing beyond "derive a key,
+    reject a duplicate" -- ``mineproductivity.connectors.register_connector``
+    is exactly this, a thin, partially-applied wrapper around
+    ``registered_in()``. A domain package that needs additional
+    registration-time validation implements its own ``@register``
+    instead, calling ``Registry.register()`` directly:
+    ``mineproductivity.kpis.register`` does this to also raise
+    ``KPICircularDependencyError`` at registration time (never deferred
+    to first use). ``mineproductivity.ontology.register_equipment`` is
+    unrelated to this mechanism entirely -- ``ontology`` sits below
+    ``registry`` in the dependency stack (``core -> ontology -> events ->
+    registry``) and cannot import it; its entity-type registry is a
+    separate, internal mechanism. "One discovery pattern for the whole
+    ecosystem" (Cookbook Part I, Ch. 9) means every domain package builds
+    its ``@register`` the same *shape* -- decorator + typed registry +
+    raising lookup -- not that every one is literally built from this
+    one function.
 
     Examples
     --------

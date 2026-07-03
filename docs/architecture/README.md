@@ -24,11 +24,11 @@ Architectural rationale, layering diagrams, dependency rules, and cross-cutting 
 - `locked_ssot_documents/` — verbatim archival copies of the locked source documents these specifications are derived from.
 - Architecture Decision Records (ADRs) — see `docs/adr/` — and rendered layering/sequence diagrams under `docs/images/` are added as implementation proceeds.
 
-Each design specification is implementation-ready: 37 normative sections covering purpose, object model, sequence/class diagrams, error handling, testing strategy, certification requirements, and package acceptance criteria. Their companion implementation contracts live in [`docs/design/`](../design/README.md).
+Each design specification is implementation-ready: 37 normative sections covering purpose, object model, sequence/class diagrams, error handling, testing strategy, certification requirements, and package acceptance criteria. Their companion implementation contracts live in [`docs/design/`](../design/README.md). All five specifications above (`events`, `ontology`, `registry`/`plugins`, `connectors`, `kpis`) are now implemented against exactly as written; `analytics`, `decision`, and `digital_twin` remain design-only.
 
 ## Dependencies
 
-None (documentation only). The specifications describe packages that will depend on `core` (LOCKED, v0.2.0) per the dependency direction in the root [README.md](../../README.md#architectural-layering--dependency-direction).
+None (documentation only). The specifications describe packages that depend on `core` per the dependency direction in the root [README.md](../../README.md#architectural-layering--dependency-direction).
 
 ## Future Work
 
