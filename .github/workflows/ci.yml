@@ -45,6 +45,16 @@ jobs:
       - name: Install mineproductivity[dev]
         run: pip install -e ".[dev]"
 
+      - name: Install registry fixture plugin packages
+        # Must run before pytest starts: these are editable installs that
+        # write .pth files, which Python's site module only reads at
+        # interpreter startup. Installing them from inside a running pytest
+        # process (as tests/integration/conftest.py's session fixture does)
+        # cannot make them importable in that same process.
+        run: |
+          pip install --no-deps -e tests/fixtures/plugins/registry_fixture_healthy
+          pip install --no-deps -e tests/fixtures/plugins/registry_fixture_broken
+
       - name: Run tests with coverage
         run: pytest --cov=mineproductivity --cov-report=term-missing --cov-report=xml --cov-fail-under=95
 
