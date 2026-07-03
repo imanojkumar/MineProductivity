@@ -5,7 +5,7 @@ All notable changes to MineProductivity are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-> **Note:** The software version (currently `0.7.3`) is independent of the
+> **Note:** The software version (currently `0.7.4`) is independent of the
 > architecture document version (`v1.0`, locked). The architecture is
 > considered final for this phase; the software implementing it is not.
 
@@ -14,6 +14,72 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Nothing yet.
+
+## [0.7.4] - 2026-07-03
+
+Production Readiness Validation — a first-time-user onboarding audit with
+no new functionality. Every installation method, the "verify the install"
+snippet, and every runnable example and notebook were followed exactly as
+documented, in fresh environments, from a genuinely fresh clone of what is
+now the actual published `main` branch.
+
+### Added
+
+- `examples/quickstart/01_five_minute_tour.py`: the five-minute tour —
+  one truck (`ontology`), one shift, two haul cycles, and one KPI
+  (`PROD.TPH`) read straight off the Standard Library, in ~50 lines.
+  `examples/quickstart/` was, despite its own README's stated purpose
+  ("mirroring `notebooks/beginner/` in code form"), still an empty
+  placeholder even though every subsystem it needs has been implemented
+  since v0.7.0.
+- A "Next Steps" section in the root `README.md`, immediately after the
+  install-verification snippet: a table routing a first-time user to
+  the quickstart script, the beginner notebook, and the right first
+  example for KPIs, ontology, connectors, events, and the registry/
+  plugin discovery mechanism — none of which the README linked to
+  anywhere before this release, despite all of it existing and being
+  exercised in CI.
+- Anchor-fragment validation in `scripts/quality/check_docs.py`:
+  previously only checked that a link's *file* resolves, not that its
+  `#anchor` is an actual heading in the target file. This caught a real
+  bug on first run (see Fixed).
+
+### Fixed
+
+- The root `README.md`'s "Architectural Layering & Dependency Direction"
+  section linked to `docs/architecture/README.md#dependency-rules`, an
+  anchor that has never existed in that file (the closest real heading
+  is `#dependencies`, a different section entirely). The surrounding
+  sentence was also stale — it read "documented (not yet mechanically
+  enforced)," which stopped being true as of the Ontology milestone
+  (v0.4.0): every implemented package's own `test_public_api.py::
+  TestNoForbiddenDependencies` has enforced this mechanically ever
+  since. Rewritten to state the (now true) mechanical enforcement and
+  link to a package README section that actually exists
+  (`src/mineproductivity/kpis/README.md#dependency-rules`).
+
+### Notes
+
+- All four installation methods (`pip install git+https://...`,
+  `pip install .` from a local checkout, `pip install -e ".[dev]"`,
+  and the wheel built by `python -m build`) were re-verified against
+  the actual current `main` branch (not a stale local copy) in fresh
+  virtual environments, and produced byte-for-byte the output the
+  README documents.
+- All 21 example scripts across `quickstart/`, `core/`, `events/`,
+  `ontology/`, `registry/`, `connectors/`, and `kpis/`, plus
+  `notebooks/beginner/01_first_kpi_lookup.ipynb`, were re-executed
+  fresh and pass.
+- `docs/developer_guide/` (the in-repo home for the locked Developer &
+  Cookbook Guide's three parts) remains an unpopulated placeholder —
+  not fixed in this release. Recreating a multi-part external reference
+  document from scratch is content authorship, not an onboarding-
+  friction fix, and risks drifting from the actual locked source
+  material. The new "Next Steps" section in `README.md` says so
+  explicitly rather than leaving a first-time user to discover the gap
+  by clicking through to an empty page.
+- No architecture, dependency direction, or public API changed. No new
+  packages were added.
 
 ## [0.7.3] - 2026-07-03
 

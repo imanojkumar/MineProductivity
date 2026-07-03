@@ -10,7 +10,7 @@ built on a clean, plugin-first Python architecture.**
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.12%2B-blue.svg)](pyproject.toml)
 [![Status](https://img.shields.io/badge/status-pre--alpha-orange.svg)](ROADMAP.md)
-[![Version](https://img.shields.io/badge/version-0.7.3-lightgrey.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.7.4-lightgrey.svg)](CHANGELOG.md)
 
 > **Status: Incremental Implementation.** `core` (framework primitives), `events`
 > (the Event Sourcing model), `ontology` (the typed domain vocabulary),
@@ -71,9 +71,13 @@ architectural rationale behind this layout.
 ## Architectural Layering & Dependency Direction
 
 MineProductivity enforces a strict, inward-pointing dependency direction. Lower
-layers must never import from higher layers. This is documented (not yet
-mechanically enforced - see [Dependency Rules](docs/architecture/README.md#dependency-rules))
-as follows:
+layers must never import from higher layers. For every implemented package,
+this is mechanically enforced, not just documented: each package's own
+`tests/unit/<package>/test_public_api.py::TestNoForbiddenDependencies` AST
+-walks every submodule and fails the build on a forbidden cross-layer import
+(see each package's own README, e.g.
+[`src/mineproductivity/kpis/README.md`](src/mineproductivity/kpis/README.md#dependency-rules)'s
+"Dependency Rules" section). The layering itself:
 
 ```
                      ┌───────────────────┐
@@ -130,15 +134,15 @@ structured, versioned notes and placeholders that mirror their sections. See
 
 ## Project Status
 
-**Version 0.7.3.** The architecture is versioned v1.0 (locked,
+**Version 0.7.4.** The architecture is versioned v1.0 (locked,
 documentation-complete). The software is versioned independently, starting at
 `0.1.0`, and will only reach `1.0.0` once the reference implementation
 satisfies the Reference Implementation Blueprint and passes the Certification
 suite. Implemented so far: `core` (v0.2.0), `events` (v0.3.0), `ontology`
 (v0.4.0), `registry`/`plugins` (v0.5.0), `connectors` (v0.6.0), `kpis`
-(v0.7.0); v0.7.1–v0.7.3 are packaging-, documentation-, and CI/CD-validation
-patch releases (no new functionality). See [CHANGELOG.md](CHANGELOG.md) and
-[ROADMAP.md](ROADMAP.md).
+(v0.7.0); v0.7.1–v0.7.4 are packaging-, documentation-, CI/CD-, and
+onboarding-validation patch releases (no new functionality). See
+[CHANGELOG.md](CHANGELOG.md) and [ROADMAP.md](ROADMAP.md).
 
 ## Getting Started
 
@@ -183,6 +187,30 @@ from mineproductivity.kpis import REGISTRY
 tph = REGISTRY.get("PROD.TPH")().compute([{"payload_t": 220.0, "operating_h": 12.0}])
 print(tph.value, tph.unit)  # 18.33... t/h
 ```
+
+### Next Steps
+
+Installed and verified — now go **use** it:
+
+| I want to... | Start here |
+|---|---|
+| See the whole platform in one script | [`examples/quickstart/01_five_minute_tour.py`](examples/quickstart/01_five_minute_tour.py) — one truck, one shift, one KPI, ~50 lines. |
+| Follow a guided, cell-by-cell walkthrough | [`notebooks/beginner/01_first_kpi_lookup.ipynb`](notebooks/beginner/01_first_kpi_lookup.ipynb) (`pip install "mineproductivity[notebooks,analytics] @ git+..."` first). |
+| Compute my first KPI | [`examples/kpis/01_simple_execution.py`](examples/kpis/01_simple_execution.py), then [`02_composite_oee.py`](examples/kpis/02_composite_oee.py), [`03_batch_summary.py`](examples/kpis/03_batch_summary.py), [`04_discovery.py`](examples/kpis/04_discovery.py). |
+| Model equipment, fleets, and shifts | [`examples/ontology/01_equipment_modelling.py`](examples/ontology/01_equipment_modelling.py). |
+| Ingest data from a real source | [`examples/connectors/01_csv_ingestion.py`](examples/connectors/01_csv_ingestion.py), [`02_rest_with_retry.py`](examples/connectors/02_rest_with_retry.py). |
+| Record my first event | [`examples/events/01_first_event.py`](examples/events/01_first_event.py). |
+| Understand how KPIs/connectors get discovered as plugins | [`examples/registry/01_register_and_discover.py`](examples/registry/01_register_and_discover.py) — the register → discover → lookup mechanism every domain package (and every third-party plugin) shares. |
+| Read the full API of a specific package | that package's own `README.md`, e.g. [`src/mineproductivity/kpis/README.md`](src/mineproductivity/kpis/README.md). |
+
+Every example above is a plain, runnable `.py` file with no test framework involved — `python examples/quickstart/01_five_minute_tour.py` and read along. [`examples/README.md`](examples/README.md) indexes all of them; [`notebooks/README.md`](notebooks/README.md) indexes the notebooks.
+
+> **Looking for the Developer & Cookbook Guide?** It's one of the six locked
+> SSOT documents this repository implements (see
+> [Documentation](#documentation-single-source-of-truth) below) and is not
+> yet transcribed into `docs/developer_guide/` in browsable form — that
+> directory is still a placeholder. Until it is, the examples and package
+> READMEs above are the actual, maintained, up-to-date documentation.
 
 ### Contributing
 

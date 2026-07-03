@@ -15,8 +15,9 @@ Example scripts/projects and their documentation. Does not include the underlyin
 
 ## Contents
 
-Implemented, runnable today:
+Implemented, runnable today — **new here? Start with `quickstart/`:**
 
+- [`quickstart/`](quickstart/README.md) — the five-minute tour: one truck, one shift, one KPI, in ~50 lines (1 script).
 - [`core/`](core/README.md) — entities, value objects, repositories, factories/builders, validation, serialization, `Result`/`Maybe` (6 scripts).
 - [`events/`](events/README.md) — first event, replay, correction (3 scripts).
 - [`ontology/`](ontology/README.md) — equipment modelling, structural modelling, validation (3 scripts).
@@ -26,7 +27,7 @@ Implemented, runnable today:
 
 Placeholders, pending their corresponding subsystem's implementation:
 
-- `quickstart/`, `production/`, `visualization/`, `ai/`, `digital_twin/`.
+- `production/`, `visualization/`, `ai/`, `digital_twin/`.
 
 ## Dependencies
 
@@ -34,7 +35,7 @@ Placeholders, pending their corresponding subsystem's implementation:
 
 ## Future Work
 
-Author `quickstart/`, `production/`, `visualization/`, `ai/`, and `digital_twin/` examples as their corresponding subsystems are implemented.
+Author `production/`, `visualization/`, `ai/`, and `digital_twin/` examples as their corresponding subsystems are implemented.
 
 ## References
 

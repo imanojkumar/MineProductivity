@@ -1,13 +1,15 @@
-"""Documentation validation: broken relative links across every Markdown
-file, and execution of every fenced ```python block in the root README
-and each implemented package's README.
+"""Documentation validation: broken relative links (including `#anchor`
+fragments, checked against the target file's actual headings) across
+every Markdown file, and execution of every fenced ```python block in
+the root README and each implemented package's README.
 
 Run locally or in CI:
 
     python scripts/quality/check_docs.py
 
 Exits non-zero (and prints every failure found, not just the first) if
-any relative link fails to resolve or any code block raises.
+any relative link (or its anchor) fails to resolve, or any code block
+raises.
 """
 
 from __future__ import annotations
@@ -52,6 +54,31 @@ KNOWN_ILLUSTRATIVE_FRAGMENTS = {
 
 LINK_PATTERN = re.compile(r"\[([^\]]*)\]\(([^)]+)\)")
 CODE_BLOCK_PATTERN = re.compile(r"```python\n(.*?)```", re.DOTALL)
+ANY_FENCE_PATTERN = re.compile(r"```.*?```", re.DOTALL)
+HEADING_PATTERN = re.compile(r"^(#{1,6})\s+(.+?)\s*$", re.MULTILINE)
+SLUG_STRIP_PATTERN = re.compile(r"[^\w\s-]")
+
+
+def _github_slug(heading_text: str) -> str:
+    """Approximates GitHub's Markdown heading-to-anchor algorithm:
+    lowercase, drop anything that isn't a word character/space/hyphen
+    (punctuation is *removed*, not replaced -- "A & B" becomes "a--b",
+    not "a-b"), then turn spaces into hyphens."""
+    text = re.sub(r"`([^`]*)`", r"\1", heading_text)  # `code` in a heading loses its backticks
+    text = SLUG_STRIP_PATTERN.sub("", text.lower())
+    return re.sub(r"\s", "-", text)
+
+
+def _anchors_in(text: str) -> set[str]:
+    text_without_code = ANY_FENCE_PATTERN.sub("", text)
+    slugs: dict[str, int] = {}
+    anchors = set()
+    for match in HEADING_PATTERN.finditer(text_without_code):
+        slug = _github_slug(match.group(2))
+        count = slugs.get(slug, 0)
+        anchors.add(slug if count == 0 else f"{slug}-{count}")
+        slugs[slug] = count + 1
+    return anchors
 
 
 def check_links() -> list[str]:
@@ -61,19 +88,34 @@ def check_links() -> list[str]:
         for p in REPO_ROOT.rglob("*.md")
         if ".venv" not in str(p) and "node_modules" not in str(p) and ".pytest_cache" not in str(p)
     ]
+    anchor_cache: dict[Path, set[str]] = {}
     for path in all_md:
         text = path.read_text(encoding="utf-8", errors="replace")
         for match in LINK_PATTERN.finditer(text):
             label, target = match.group(1), match.group(2)
             if target.startswith(("http://", "https://", "mailto:")):
                 continue
-            target_path_only = target.split("#")[0]
-            if not target_path_only:
-                continue
-            resolved = (path.parent / target_path_only).resolve()
-            if not resolved.exists():
-                rel = path.relative_to(REPO_ROOT)
-                failures.append(f"{rel}: [{label}]({target}) does not resolve")
+            target_path_only, _, fragment = target.partition("#")
+            rel = path.relative_to(REPO_ROOT)
+
+            if target_path_only:
+                resolved = (path.parent / target_path_only).resolve()
+                if not resolved.exists():
+                    failures.append(f"{rel}: [{label}]({target}) does not resolve")
+                    continue
+            else:
+                resolved = path  # a same-file "#fragment" link
+
+            if fragment and resolved.suffix == ".md":
+                if resolved not in anchor_cache:
+                    anchor_cache[resolved] = _anchors_in(
+                        resolved.read_text(encoding="utf-8", errors="replace")
+                    )
+                if fragment not in anchor_cache[resolved]:
+                    failures.append(
+                        f"{rel}: [{label}]({target}) -- #{fragment} is not a heading in "
+                        f"{resolved.relative_to(REPO_ROOT)}"
+                    )
     return failures
 
 
