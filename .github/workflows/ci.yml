@@ -17,22 +17,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # pyproject.toml declares `requires-python = ">=3.12"`; the matrix
+        # covers exactly the Python versions the package supports. Earlier
+        # versions (3.10/3.11) are not included here because `pip install`
+        # rejects them outright before any test runs -- a job for them can
+        # never pass and would only ever be permanently-red noise, not a
+        # useful compatibility signal.
         os: [ubuntu-latest, windows-latest, macos-latest]
         python-version: ["3.12", "3.13"]
-        experimental: [false]
-        include:
-          # pyproject.toml declares `requires-python = ">=3.12"`. 3.10/3.11
-          # are run for early signal only (on the fastest runner) and never
-          # block merges -- raising the CI matrix above what the package
-          # actually declares as supported would either be a silent no-op
-          # or a permanently-red, meaningless gate.
-          - os: ubuntu-latest
-            python-version: "3.10"
-            experimental: true
-          - os: ubuntu-latest
-            python-version: "3.11"
-            experimental: true
-    continue-on-error: ${{ matrix.experimental }}
     steps:
       - uses: actions/checkout@v4
 
