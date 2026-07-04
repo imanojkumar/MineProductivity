@@ -6,7 +6,7 @@
 | **Date** | 2026-07-04 |
 | **Deciders** | Chief Software Architect, MineProductivity |
 | **Governs** | `mineproductivity.decision` |
-| **Related documents** | [`docs/architecture/07_Decision_Intelligence_Design_Specification.md`](../architecture/07_Decision_Intelligence_Design_Specification.md); [`docs/design/07_Decision_Intelligence_Implementation_Checklist.md`](../design/07_Decision_Intelligence_Implementation_Checklist.md); [`docs/architecture/06_Analytics_Engine_Design_Specification.md`](../architecture/06_Analytics_Engine_Design_Specification.md) §4, §37; [`ADR-0006-Analytics-Engine.md`](ADR-0006-Analytics-Engine.md) |
+| **Related documents** | [`docs/architecture/07_Decision_Intelligence_Design_Specification.md`](../architecture/07_Decision_Intelligence_Design_Specification.md); [`docs/design/07_Decision_Intelligence_Implementation_Checklist.md`](../design/07_Decision_Intelligence_Implementation_Checklist.md); `docs/architecture/06_Analytics_Engine_Design_Specification.md` §4, §37 (not yet merged to `main` — see `feature/analytics-engine`); `ADR-0006-Analytics-Engine.md` (not yet merged to `main` — see `feature/analytics-engine`) |
 
 ## Context
 
