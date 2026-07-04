@@ -32,7 +32,7 @@ jobs:
       - name: Verify the tag matches the package version
         run: |
           TAG_VERSION="${GITHUB_REF_NAME#v}"
-          PKG_VERSION="$(python -c 'import mineproductivity; print(mineproductivity.__version__)')"
+          PKG_VERSION="$(python -c "import re, pathlib; print(re.search(r'__version__\s*=\s*\"([^\"]+)\"', pathlib.Path('src/mineproductivity/__init__.py').read_text()).group(1))")"
           echo "tag=$TAG_VERSION package=$PKG_VERSION"
           if [ "$TAG_VERSION" != "$PKG_VERSION" ]; then
             echo "::error::Tag $GITHUB_REF_NAME does not match src/mineproductivity/__init__.py's __version__ ($PKG_VERSION)"

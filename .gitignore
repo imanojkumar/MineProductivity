@@ -47,3 +47,22 @@ datasets/generated/**/*.csv
 datasets/generated/**/*.parquet
 datasets/raw/**/*
 !datasets/raw/**/README.md
+
+
+# -------------------------------------------------------------------
+# Internal engineering assets (local only)
+# -------------------------------------------------------------------
+prompts/
+
+# Local Claude Desktop / AI working files
+.claude/
+
+# Temporary development artifacts
+*.log
+*.tmp
+*.bak
+*.orig
+
+# Local SQLite databases
+*.sqlite
+*.sqlite3
