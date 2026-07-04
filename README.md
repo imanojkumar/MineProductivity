@@ -1,16 +1,23 @@
 # MineProductivity
 
-**A metadata-first, ontology-driven, event-sourced platform for mining productivity
-intelligence - KPI computation, digital twins, decision support, and AI agents,
-built on a clean, plugin-first Python architecture.**
+**Enterprise-grade Python framework for mining productivity intelligence, KPI standardization, Analytics, Decision Intelligence, Digital Twins, Optimization, Simulation and AI Agents.**
 
 [![CI](https://github.com/imanojkumar/MineProductivity/actions/workflows/ci.yml/badge.svg)](https://github.com/imanojkumar/MineProductivity/actions/workflows/ci.yml)
+
 [![Quality](https://github.com/imanojkumar/MineProductivity/actions/workflows/quality.yml/badge.svg)](https://github.com/imanojkumar/MineProductivity/actions/workflows/quality.yml)
-[![DOI](https://zenodo.org/badge/1286272754.svg)](https://doi.org/10.5281/zenodo.21172767)
+
+[![CodeQL](https://github.com/imanojkumar/MineProductivity/actions/workflows/codeql.yml/badge.svg)](https://github.com/imanojkumar/MineProductivity/actions/workflows/codeql.yml)
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21172767.svg)](https://doi.org/10.5281/zenodo.21172767)
+
+[![GitHub release](https://img.shields.io/github/v/release/imanojkumar/MineProductivity)](https://github.com/imanojkumar/MineProductivity/releases)
+
+[![Python](https://img.shields.io/badge/python-3.12+-blue.svg)](pyproject.toml)
+
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
-[![Python](https://img.shields.io/badge/python-3.12%2B-blue.svg)](pyproject.toml)
+
 [![Status](https://img.shields.io/badge/status-pre--alpha-orange.svg)](ROADMAP.md)
-[![Version](https://img.shields.io/badge/version-0.7.4-lightgrey.svg)](CHANGELOG.md)
+
 
 > **Status: Incremental Implementation.** `core` (framework primitives), `events`
 > (the Event Sourcing model), `ontology` (the typed domain vocabulary),
@@ -67,6 +74,26 @@ MineProductivity/
 
 See [`docs/architecture/README.md`](docs/architecture/README.md) for the full
 architectural rationale behind this layout.
+
+## Architecture Progress
+
+| Package | Architecture | Implementation |
+|----------|--------------|----------------|
+| Core | ✅ | ✅ |
+| Events | ✅ | ✅ |
+| Ontology | ✅ | ✅ |
+| Registry | ✅ | ✅ |
+| Plugins | ✅ | ✅ |
+| Connectors | ✅ | ✅ |
+| KPI Engine | ✅ | ✅ |
+| Analytics | ✅ | 🚧 |
+| Decision Intelligence | ✅ | 🚧 |
+| Digital Twin | ⏳ | ⏳ |
+| Simulation | ⏳ | ⏳ |
+| Optimization | ⏳ | ⏳ |
+| Visualization | ⏳ | ⏳ |
+| AI Agents | ⏳ | ⏳ |
+| Certification | ⏳ | ⏳ |
 
 ## Architectural Layering & Dependency Direction
 
@@ -134,15 +161,30 @@ structured, versioned notes and placeholders that mirror their sections. See
 
 ## Project Status
 
-**Version 0.7.4.** The architecture is versioned v1.0 (locked,
-documentation-complete). The software is versioned independently, starting at
-`0.1.0`, and will only reach `1.0.0` once the reference implementation
-satisfies the Reference Implementation Blueprint and passes the Certification
-suite. Implemented so far: `core` (v0.2.0), `events` (v0.3.0), `ontology`
-(v0.4.0), `registry`/`plugins` (v0.5.0), `connectors` (v0.6.0), `kpis`
-(v0.7.0); v0.7.1–v0.7.4 are packaging-, documentation-, CI/CD-, and
-onboarding-validation patch releases (no new functionality). See
-[CHANGELOG.md](CHANGELOG.md) and [ROADMAP.md](ROADMAP.md).
+**Current Release: v0.9.0**
+
+The project follows an architecture-first development methodology. Each milestone begins with a fully reviewed architecture specification (Design Specification, Implementation Checklist, and ADR), followed by implementation.
+
+Completed milestones:
+
+| Version | Milestone | Status |
+|---------|-----------|--------|
+| v0.2.0 | Core Framework | ✅ Implemented |
+| v0.3.0 | Event Framework | ✅ Implemented |
+| v0.4.0 | Ontology Framework | ✅ Implemented |
+| v0.5.0 | Registry & Plugin Framework | ✅ Implemented |
+| v0.6.0 | Connector Framework | ✅ Implemented |
+| v0.7.0 | KPI Engine | ✅ Implemented |
+| v0.8.0 | Analytics Engine Architecture | ✅ Architecture Complete |
+| v0.9.0 | Decision Intelligence Architecture | ✅ Architecture Complete |
+
+The next planned milestone is:
+
+- **v1.0.0 — Digital Twin Architecture**
+
+See: 
+ - [CHANGELOG.md](CHANGELOG.md) and 
+ - [ROADMAP.md](ROADMAP.md)
 
 ## Getting Started
 
@@ -233,12 +275,14 @@ Apache License 2.0 - see [LICENSE](LICENSE).
 
 If you use MineProductivity in research or industrial projects, please cite:
 
-Kumar, M. (2026).
+> Kumar, M. (2026). *MineProductivity*. Zenodo.
+> https://doi.org/10.5281/zenodo.21172767
 
-MineProductivity (Version v0.7.0).
+The DOI above is the **Concept DOI**, which always resolves to the latest published release.
 
-Zenodo.
+For version-specific citations, see the Releases page or Zenodo.
 
-https://doi.org/10.5281/zenodo.21172768
+See [`CITATION.cff`](CITATION.cff) for machine-readable citation metadata.
 
-See [CITATION.cff](CITATION.cff).
+<!-- See [CITATION.cff](CITATION.cff). -->
+

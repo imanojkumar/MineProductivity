@@ -6,7 +6,7 @@ type: software
 
 title: "MineProductivity"
 
-version: 0.7.0
+version: 0.9.0
 
 url: "https://github.com/imanojkumar/MineProductivity"
 
@@ -16,7 +16,7 @@ authors:
   - family-names: "Kumar"
     given-names: "Manoj"
 
-doi: 10.5281/zenodo.21172768
+DOI: 10.5281/zenodo.21172767
 
 license: Apache-2.0
 
@@ -25,8 +25,9 @@ date-released: 2026-07-03
 keywords:
   - mining
   - productivity
-  - kpi
-  - digital-twin
   - ontology
+  - kpi
+  - analytics
+  - digital-twin
   - event-sourcing
   - python

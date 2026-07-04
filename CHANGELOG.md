@@ -5,15 +5,70 @@ All notable changes to MineProductivity are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-> **Note:** The software version (currently `0.7.4`) is independent of the
+> **Note:** The software version (currently `0.9.0`) is independent of the
 > architecture document version (`v1.0`, locked). The architecture is
-> considered final for this phase; the software implementing it is not.
+> considered final for this phase; the software implementing it continues
+> to evolve incrementally.
 
 ## [Unreleased]
+
+## [0.9.0] - 2026-07-04
+
+Decision Intelligence Architecture milestone.
+
+This release completes the architectural design of the Decision Intelligence
+subsystem. No production implementation is included; this release delivers the
+approved architecture, implementation roadmap, and architectural decision
+records that will guide future development.
+
+### Added
+
+- Decision Intelligence Design Specification.
+- Decision Intelligence Implementation Checklist.
+- ADR-0007: Decision Intelligence Architecture Decision Record.
+- Documentation updates reflecting the v0.9.0 architecture milestone.
+- README updated with architecture progress, project status, badges, and
+  current release information.
+- Citation metadata updated to use the Zenodo Concept DOI.
+
+### Fixed
+
+- Corrected broken documentation links in ADR-0007.
+- Documentation validation passes with zero broken links.
+- README and citation information synchronized with the latest architecture
+  milestone.
+
+### Notes
+
+- This is an architecture milestone only.
+- No production Decision Intelligence implementation is included.
+- The next planned milestone is **v1.0.0 – Digital Twin Architecture**.
 
 ### Added
 
 - Nothing yet.
+
+## [0.8.0] - 2026-07-04
+
+Analytics Engine Architecture milestone.
+
+This release completes the architectural design of the Analytics Engine. No
+production implementation is included; this release provides the approved
+architecture specification, implementation checklist, and ADR defining the
+Analytics subsystem.
+
+### Added
+
+- Analytics Engine Design Specification.
+- Analytics Engine Implementation Checklist.
+- ADR-0006: Analytics Engine Architecture Decision Record.
+- Architecture documentation for the Analytics subsystem.
+
+### Notes
+
+- Architecture milestone only.
+- No production Analytics Engine implementation is included.
+- Forms the architectural foundation for the Decision Intelligence milestone.
 
 ## [0.7.4] - 2026-07-03
 
