@@ -1,15 +1,17 @@
-# MineProductivity
+# MineProductivity [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21172767.svg)](https://doi.org/10.5281/zenodo.21172767)
+
 
 **Enterprise-grade Python framework for mining productivity intelligence, KPI standardization, Analytics, Decision Intelligence, Digital Twins, Optimization, Simulation and AI Agents.**
 
 [![CI](https://github.com/imanojkumar/MineProductivity/actions/workflows/ci.yml/badge.svg)](https://github.com/imanojkumar/MineProductivity/actions/workflows/ci.yml)
 [![Quality](https://github.com/imanojkumar/MineProductivity/actions/workflows/quality.yml/badge.svg)](https://github.com/imanojkumar/MineProductivity/actions/workflows/quality.yml)
 [![CodeQL](https://github.com/imanojkumar/MineProductivity/actions/workflows/codeql.yml/badge.svg)](https://github.com/imanojkumar/MineProductivity/actions/workflows/codeql.yml)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21172767.svg)](https://doi.org/10.5281/zenodo.21172767)
 [![GitHub release](https://img.shields.io/github/v/release/imanojkumar/MineProductivity)](https://github.com/imanojkumar/MineProductivity/releases)
 [![Python](https://img.shields.io/badge/python-3.12+-blue.svg)](pyproject.toml)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 [![Status](https://img.shields.io/badge/status-pre--alpha-orange.svg)](ROADMAP.md)
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21172767.svg)](https://doi.org/10.5281/zenodo.21172767)
 
 
 > **Status: Incremental Implementation.** `core` (framework primitives), `events`
