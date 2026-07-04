@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+**/__pycache__/
 
 # Distribution / packaging
 build/
@@ -47,3 +48,47 @@ datasets/generated/**/*.csv
 datasets/generated/**/*.parquet
 datasets/raw/**/*
 !datasets/raw/**/README.md
+
+# --------------------------------------------------------------------
+# MineProductivity local development
+# --------------------------------------------------------------------
+
+# Internal prompts
+prompts/
+
+# Python
+**/__pycache__/
+.python-version
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+
+# Profiling
+.prof
+.profraw
+.profdata
+
+# SQLite
+*.sqlite
+*.sqlite3
+
+# Documentation build
+docs/_build/
+
+# Benchmark outputs
+benchmark/results/
+benchmark/output/
+
+# Local experiment outputs
+artifacts/
+outputs/
+experiments/
+
+# Local history
+.history/
