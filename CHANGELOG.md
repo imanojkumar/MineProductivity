@@ -91,7 +91,7 @@ now the actual published `main` branch.
   install-verification snippet: a table routing a first-time user to
   the quickstart script, the beginner notebook, and the right first
   example for KPIs, ontology, connectors, events, and the registry/
-  plugin discovery mechanism — none of which the README linked to
+  plugin discovery mechanism - none of which the README linked to
   anywhere before this release, despite all of it existing and being
   exercised in CI.
 - Anchor-fragment validation in `scripts/quality/check_docs.py`:
@@ -105,7 +105,7 @@ now the actual published `main` branch.
   section linked to `docs/architecture/README.md#dependency-rules`, an
   anchor that has never existed in that file (the closest real heading
   is `#dependencies`, a different section entirely). The surrounding
-  sentence was also stale — it read "documented (not yet mechanically
+  sentence was also stale - it read "documented (not yet mechanically
   enforced)," which stopped being true as of the Ontology milestone
   (v0.4.0): every implemented package's own `test_public_api.py::
   TestNoForbiddenDependencies` has enforced this mechanically ever
@@ -126,7 +126,7 @@ now the actual published `main` branch.
   `notebooks/beginner/01_first_kpi_lookup.ipynb`, were re-executed
   fresh and pass.
 - `docs/developer_guide/` (the in-repo home for the locked Developer &
-  Cookbook Guide's three parts) remains an unpopulated placeholder —
+  Cookbook Guide's three parts) remains an unpopulated placeholder -
   not fixed in this release. Recreating a multi-part external reference
   document from scratch is content authorship, not an onboarding-
   friction fix, and risks drifting from the actual locked source
@@ -159,7 +159,7 @@ with a real, enterprise-grade pipeline.
   (every relative Markdown link in the repository, every fenced
   ```python``` block in the root and package READMEs), and full
   notebook execution.
-- `.github/workflows/benchmark.yml`: a performance *smoke* test —
+- `.github/workflows/benchmark.yml`: a performance *smoke* test -
   generous wall-clock ceilings on cold-import time, a batched KPI
   compute, and dependency-graph resolution, meant to catch a
   catastrophic regression, not track performance over time.
@@ -212,7 +212,7 @@ with a real, enterprise-grade pipeline.
   documented exception (`--ignore-vuln`) rather than a silently-ignored
   finding or a permanently-red gate: fixing it properly means bumping
   across roughly nine major `pyarrow` releases and re-validating
-  `events`' `ArrowEventCodec`/`ParquetEventCodec` against the new API —
+  `events`' `ArrowEventCodec`/`ParquetEventCodec` against the new API -
   a framework-compatibility change out of scope for CI/CD tooling work.
   See `docs/governance/CI_CD_GUIDE.md`'s Known Exceptions.
 - `docs.yml` builds with `mkdocs build`, not `--strict`:
@@ -227,7 +227,7 @@ with a real, enterprise-grade pipeline.
 
 ## [0.7.2] - 2026-07-03
 
-Documentation & API Validation — a documentation-and-API-quality audit with
+Documentation & API Validation - a documentation-and-API-quality audit with
 no new functionality. Every README, example, notebook, and documented code
 snippet across the repository was executed or cross-checked against the
 real, current source; the public API surface of all seven implemented
@@ -258,7 +258,7 @@ packages was re-verified for intentional, sorted, gap-free `__all__` lists.
   directories (`core/`, `events/`, `ontology/`, `registry/`, `connectors/`,
   `kpis/`, 20 scripts total) entirely. Rewritten to list both groups
   accurately.
-- `docs/api/README.md` said "Placeholder — no API exists yet to document,"
+- `docs/api/README.md` said "Placeholder - no API exists yet to document,"
   no longer true with seven implemented, documented packages; corrected to
   point at each package's own `README.md` while automated reference
   generation remains genuinely not wired up.
@@ -287,14 +287,14 @@ packages was re-verified for intentional, sorted, gap-free `__all__` lists.
   change (none was made — none is in scope for this milestone).
 - No architecture, dependency direction, or public API changed. No new
   packages were added. `docs/architecture/*_Design_Specification.md`'s own
-  "Design specification only — no implementation" status lines are now
+  "Design specification only - no implementation" status lines are now
   stale for the five implemented frameworks but were deliberately left
   unmodified as locked governance documents, out of scope for this
   milestone.
 
 ## [0.7.1] - 2026-07-03
 
-Packaging & Installation Validation — a release-engineering milestone with
+Packaging & Installation Validation - a release-engineering milestone with
 no new functionality. `mineproductivity` was built, checked, and installed
 from every supported distribution channel: wheel, sdist, `pip install -e .`,
 and `pip install git+https://github.com/imanojkumar/MineProductivity.git`.
@@ -303,7 +303,7 @@ and `pip install git+https://github.com/imanojkumar/MineProductivity.git`.
 
 - `pyproject.toml` declared a `[project.scripts]` console entry point
   (`mineproductivity = "mineproductivity.cli:main"`) pointing at a
-  `main()` function that has never existed — `mineproductivity.cli` is
+  `main()` function that has never existed - `mineproductivity.cli` is
   still an unimplemented structural placeholder. Every `pip install`
   therefore shipped a console script that crashed
   (`ImportError: cannot import name 'main' from 'mineproductivity.cli'`)
@@ -315,7 +315,7 @@ and `pip install git+https://github.com/imanojkumar/MineProductivity.git`.
 
 - `pyproject.toml` gained a `keywords` field (`mining`, `productivity`,
   `kpi`, `digital-twin`, `ontology`, `event-sourcing`, `python`),
-  matching `CITATION.cff`'s existing keyword list — previously absent,
+  matching `CITATION.cff`'s existing keyword list - previously absent,
   hurting PyPI/GitHub topic discoverability.
 - `README.md`'s "Getting Started" section, which still read "There is
   no functionality to run yet" (a leftover from the `v0.1.0` skeleton
@@ -356,7 +356,7 @@ and `pip install git+https://github.com/imanojkumar/MineProductivity.git`.
   `BaseKPI`/`CompositeKPI` (leaf vs. composite, never conflated),
   nine category base classes (`ProductionKPI`, `UtilizationKPI`,
   `MaintenanceKPI`, `HaulageKPI`, `DelayKPI`, `EnergyKPI`, `QualityKPI`,
-  `CostKPI`, `SafetyKPI`), `KPIEngine` (orchestration only — zero
+  `CostKPI`, `SafetyKPI`), `KPIEngine` (orchestration only - zero
   metric-specific logic, AD-KP-01), `DependencyGraph`
   (`topological_order`/`detect_cycle`, cycle detection proven at
   registration time, never deferred to first execution),
@@ -367,7 +367,7 @@ and `pip install git+https://github.com/imanojkumar/MineProductivity.git`.
   inheritance, e.g. `PROD.TPH.Ore`), `parse_identifier`/`KPIIdentifier`
   (the `NAMESPACE.Name` naming standard), `KPIValidator`, and
   `CertificationFixture`/`run_certification_fixture`.
-- Four pluggable `ExecutionBackend` implementations — `PandasBackend`
+- Four pluggable `ExecutionBackend` implementations - `PandasBackend`
   (default), `NumPyBackend` (no DataFrame dependency at all),
   `PolarsBackend`, and `DuckDBBackend` — with mechanically proven
   backend parity: the same `_compute` produces an identical
@@ -389,9 +389,9 @@ and `pip install git+https://github.com/imanojkumar/MineProductivity.git`.
   a realistic one-shift golden dataset (every canonical event type) and
   the full CSV → canonical events → `EventStore` → `KPIEngine` pipeline
   proven end to end with no stage bypassed.
-- `examples/kpis/`: four runnable examples — single-KPI execution,
+- `examples/kpis/`: four runnable examples - single-KPI execution,
   composite `UTIL.OEE` execution, batched multi-KPI `summary()`, and
-  `REGISTRY` discovery — plus a shared sample-dataset loader.
+  `REGISTRY` discovery - plus a shared sample-dataset loader.
 - `notebooks/beginner/01_first_kpi_lookup.ipynb`: the first notebook in
   the Learning & Benchmark Suite v1.0's pedagogical progression, proven
   to execute headlessly end to end.
@@ -403,7 +403,7 @@ and `pip install git+https://github.com/imanojkumar/MineProductivity.git`.
 
 - `DuckDBBackend.group_and_aggregate` was silently dropping the
   group-by column from its projected output (`relation.aggregate()`
-  only returns what is listed in its own SELECT expression) — a
+  only returns what is listed in its own SELECT expression) - a
   genuine backend-parity violation, caught by the pre-pytest smoke
   test and now covered by a dedicated regression test.
 - `PhysicalAvailability._compute` (`UTIL.PA`) indexed `rows[0]`
@@ -418,7 +418,7 @@ and `pip install git+https://github.com/imanojkumar/MineProductivity.git`.
   only — mechanically verified
   (`tests/unit/kpis/test_public_api.py`) to import nothing from
   `connectors`, `analytics`, `optimization`, `simulation`, `decision`,
-  `digital_twin`, or `agents` — the single most load-bearing rule in
+  `digital_twin`, or `agents` - the single most load-bearing rule in
   the design specification.
 - `KPIValidator`'s canonical time-model textual check now scopes to
   leaf (non-composite) `UtilizationKPI` subclasses only, since a
@@ -432,7 +432,7 @@ and `pip install git+https://github.com/imanojkumar/MineProductivity.git`.
 
 ### Added
 
-- `mineproductivity.connectors`: the Connector Framework — the single,
+- `mineproductivity.connectors`: the Connector Framework - the single,
   small contract every data source must satisfy to feed the platform,
   and the only place in the codebase permitted to know that a specific
   vendor or file format exists, implementing
@@ -450,12 +450,12 @@ and `pip install git+https://github.com/imanojkumar/MineProductivity.git`.
 - Six reference connectors, all genuinely functional (not stubs):
   `CSVConnector`/`ExcelConnector` (file, with local-timezone
   normalization to UTC), `RestConnector`/`GraphQLConnector` (network,
-  stdlib `urllib` only — paginate, 401-triggered auth refresh, retry/
+  stdlib `urllib` only - paginate, 401-triggered auth refresh, retry/
   backoff on transient failures), and `KafkaConnector`/`MqttConnector`
   (streaming, via a pluggable message-source abstraction rather than a
   broker client library dependency). All six are registered into
   `CONNECTORS` by default.
-- Five OEM adapter shapes — `MineStarConnector`, `DispatchConnector`,
+- Five OEM adapter shapes - `MineStarConnector`, `DispatchConnector`,
   `WencoConnector`, `ModularConnector`, `HexagonConnector` — plus an
   illustrative `ReasonCodeMap` per vendor. Documentation-only: both
   `get_cycle_data`/`get_delay_data` raise `NotImplementedError`, and
@@ -478,7 +478,7 @@ and `pip install git+https://github.com/imanojkumar/MineProductivity.git`.
 - `connectors/README.md`: architecture, dependency rules, public API
   reference, extension guide, design rationale, and anti-patterns.
 - New optional dependency group `connectors` (`openpyxl`, and `tzdata`
-  on Windows only) — imported lazily, never required to `import
+  on Windows only) - imported lazily, never required to `import
   mineproductivity.connectors`.
 
 ### Notes
@@ -487,7 +487,7 @@ and `pip install git+https://github.com/imanojkumar/MineProductivity.git`.
   only — mechanically verified
   (`tests/unit/connectors/test_public_api.py`) to import nothing from
   `kpis`, `analytics`, `optimization`, `simulation`, `decision`,
-  `digital_twin`, or `agents` — the single most load-bearing rule in
+  `digital_twin`, or `agents` - the single most load-bearing rule in
   the design specification.
 - `pyproject.toml` gained `[[tool.mypy.overrides]]` entries for
   `openpyxl` (no bundled type stubs) and the registry test fixture
@@ -510,7 +510,7 @@ and `pip install git+https://github.com/imanojkumar/MineProductivity.git`.
   `DiscoveryCache` (scan-once-per-process memoization, safe under
   concurrent calls for the same spec).
 - `mineproductivity.plugins`: the plugin lifecycle layer built on
-  `registry` — `PluginManifest`/`PluginDependency`, `PluginState`
+  `registry` - `PluginManifest`/`PluginDependency`, `PluginState`
   (`DISCOVERED`/`VALIDATED`/`ACTIVE`/`FAILED`/`DEACTIVATED`),
   `PluginLifecycle` (the ABC) and `_DefaultPluginLifecycle` (the
   reference implementation, in the pattern of `events._InMemoryEventStore`),
@@ -561,7 +561,7 @@ and `pip install git+https://github.com/imanojkumar/MineProductivity.git`.
   with structural validation enforced at construction and JSON Schema
   export via `to_schema()`), `Relationship`/`RelationshipKind` (explicit,
   typed edges between entity ids), `OntologyValidator` (contextual,
-  cross-entity referential validation — an unresolved reference is always
+  cross-entity referential validation - an unresolved reference is always
   a warning, never a raised exception), and
   `KnowledgeGraphProjection`/`GraphNode`/`GraphEdge` (the contract a
   future Knowledge Graph builder consumes).
@@ -582,7 +582,7 @@ and `pip install git+https://github.com/imanojkumar/MineProductivity.git`.
   `mineproductivity.events.canonical.safety_event` to its permanent,
   governed home in `ontology.safety`, for the identical reason
   `DelayCategory` is owned by `ontology` and not `events` (a closed,
-  governed taxonomy is domain reference data, not event structure —
+  governed taxonomy is domain reference data, not event structure -
   design spec AD-ON-03). `events.SafetyEvent.safety_event_type` now
   imports and consumes this enum rather than defining its own copy.
 - `tests/unit/ontology/`: a full unit test suite (207 tests, 100% line
@@ -615,24 +615,24 @@ and `pip install git+https://github.com/imanojkumar/MineProductivity.git`.
 ### Fixed
 
 - `core.BaseEntity` has no `__post_init__`/`validate()` hook of its own
-  (no package built entity *types* on top of it before this one) —
+  (no package built entity *types* on top of it before this one) -
   `BaseEntityType` adds that hook locally, mirroring
   `core.BaseValueObject`'s existing `_normalize()`/`validate()` pattern
   exactly, without modifying the locked `core` package.
 - `Relationship.validate()` previously raised the bare
   `core.ValidationError` instead of the package-scoped
   `ontology.exceptions.RelationshipError` its own exception hierarchy
-  defines for exactly this case — fixed for consistency with every other
+  defines for exactly this case - fixed for consistency with every other
   validation path in this package.
 
 ### Notes
 
-- `ontology` depends on `core` only — mechanically verified
+- `ontology` depends on `core` only - mechanically verified
   (`tests/unit/ontology/test_public_api.py`) to import nothing from
   `events`, `registry`, `connectors`, `kpis`, `analytics`, `optimization`,
   `simulation`, `decision`, `digital_twin`, or `agents`.
-- `events` now depends on two ontology reference taxonomies —
-  `DelayCategory` and `SafetyEventType` — both closed, governed enums with
+- `events` now depends on two ontology reference taxonomies -
+  `DelayCategory` and `SafetyEventType` - both closed, governed enums with
   no behavior beyond what the design specification defines; still no
   ontology entity types, registry, or services are consumed by `events`.
 
@@ -640,7 +640,7 @@ and `pip install git+https://github.com/imanojkumar/MineProductivity.git`.
 
 ### Added
 
-- `mineproductivity.events`: the Event Framework — the immutable,
+- `mineproductivity.events`: the Event Framework - the immutable,
   append-only event model (Event Sourcing) every derived state in the
   platform is computed from, implementing
   `docs/architecture/01_Event_Framework_Design_Specification.md` exactly.
@@ -674,17 +674,17 @@ and `pip install git+https://github.com/imanojkumar/MineProductivity.git`.
 - A `@dataclass(slots=True)` + inheritance + bare `super()` gotcha in
   `EventMetadata.validate()` (slotted dataclasses rebuild the class
   object, which breaks the implicit `__class__` cell a zero-arg `super()`
-  relies on) — fixed with the explicit two-argument form, with a
+  relies on) - fixed with the explicit two-argument form, with a
   regression test guarding it.
 - An Arrow/Parquet limitation where an all-empty `metadata.attributes`
   column across a batch produced a zero-child struct type that Parquet's
-  writer cannot represent — fixed by JSON-string-encoding that one
+  writer cannot represent - fixed by JSON-string-encoding that one
   open-ended field for the Arrow/Parquet codecs specifically.
 
 ### Notes
 
 - `events` depends on `core` and, minimally, `ontology.DelayCategory`
-  only — mechanically verified (`tests/unit/events/test_public_api.py`)
+  only - mechanically verified (`tests/unit/events/test_public_api.py`)
   to import nothing from `connectors`, `kpis`, `analytics`,
   `optimization`, `simulation`, `decision`, `digital_twin`, or `agents`.
 - `pyproject.toml` gained an `events` optional-dependency group

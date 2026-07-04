@@ -3,19 +3,12 @@
 **Enterprise-grade Python framework for mining productivity intelligence, KPI standardization, Analytics, Decision Intelligence, Digital Twins, Optimization, Simulation and AI Agents.**
 
 [![CI](https://github.com/imanojkumar/MineProductivity/actions/workflows/ci.yml/badge.svg)](https://github.com/imanojkumar/MineProductivity/actions/workflows/ci.yml)
-
 [![Quality](https://github.com/imanojkumar/MineProductivity/actions/workflows/quality.yml/badge.svg)](https://github.com/imanojkumar/MineProductivity/actions/workflows/quality.yml)
-
 [![CodeQL](https://github.com/imanojkumar/MineProductivity/actions/workflows/codeql.yml/badge.svg)](https://github.com/imanojkumar/MineProductivity/actions/workflows/codeql.yml)
-
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21172767.svg)](https://doi.org/10.5281/zenodo.21172767)
-
 [![GitHub release](https://img.shields.io/github/v/release/imanojkumar/MineProductivity)](https://github.com/imanojkumar/MineProductivity/releases)
-
 [![Python](https://img.shields.io/badge/python-3.12+-blue.svg)](pyproject.toml)
-
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
-
 [![Status](https://img.shields.io/badge/status-pre--alpha-orange.svg)](ROADMAP.md)
 
 
@@ -180,7 +173,7 @@ Completed milestones:
 
 The next planned milestone is:
 
-- **v1.0.0 — Digital Twin Architecture**
+- **v1.0.0 - Digital Twin Architecture**
 
 See: 
  - [CHANGELOG.md](CHANGELOG.md) and 
@@ -232,25 +225,25 @@ print(tph.value, tph.unit)  # 18.33... t/h
 
 ### Next Steps
 
-Installed and verified — now go **use** it:
+Installed and verified - now go **use** it:
 
 | I want to... | Start here |
 |---|---|
-| See the whole platform in one script | [`examples/quickstart/01_five_minute_tour.py`](examples/quickstart/01_five_minute_tour.py) — one truck, one shift, one KPI, ~50 lines. |
+| See the whole platform in one script | [`examples/quickstart/01_five_minute_tour.py`](examples/quickstart/01_five_minute_tour.py) - one truck, one shift, one KPI, ~50 lines. |
 | Follow a guided, cell-by-cell walkthrough | [`notebooks/beginner/01_first_kpi_lookup.ipynb`](notebooks/beginner/01_first_kpi_lookup.ipynb) (`pip install "mineproductivity[notebooks,analytics] @ git+..."` first). |
 | Compute my first KPI | [`examples/kpis/01_simple_execution.py`](examples/kpis/01_simple_execution.py), then [`02_composite_oee.py`](examples/kpis/02_composite_oee.py), [`03_batch_summary.py`](examples/kpis/03_batch_summary.py), [`04_discovery.py`](examples/kpis/04_discovery.py). |
 | Model equipment, fleets, and shifts | [`examples/ontology/01_equipment_modelling.py`](examples/ontology/01_equipment_modelling.py). |
 | Ingest data from a real source | [`examples/connectors/01_csv_ingestion.py`](examples/connectors/01_csv_ingestion.py), [`02_rest_with_retry.py`](examples/connectors/02_rest_with_retry.py). |
 | Record my first event | [`examples/events/01_first_event.py`](examples/events/01_first_event.py). |
-| Understand how KPIs/connectors get discovered as plugins | [`examples/registry/01_register_and_discover.py`](examples/registry/01_register_and_discover.py) — the register → discover → lookup mechanism every domain package (and every third-party plugin) shares. |
+| Understand how KPIs/connectors get discovered as plugins | [`examples/registry/01_register_and_discover.py`](examples/registry/01_register_and_discover.py) - the register → discover → lookup mechanism every domain package (and every third-party plugin) shares. |
 | Read the full API of a specific package | that package's own `README.md`, e.g. [`src/mineproductivity/kpis/README.md`](src/mineproductivity/kpis/README.md). |
 
-Every example above is a plain, runnable `.py` file with no test framework involved — `python examples/quickstart/01_five_minute_tour.py` and read along. [`examples/README.md`](examples/README.md) indexes all of them; [`notebooks/README.md`](notebooks/README.md) indexes the notebooks.
+Every example above is a plain, runnable `.py` file with no test framework involved - `python examples/quickstart/01_five_minute_tour.py` and read along. [`examples/README.md`](examples/README.md) indexes all of them; [`notebooks/README.md`](notebooks/README.md) indexes the notebooks.
 
 > **Looking for the Developer & Cookbook Guide?** It's one of the six locked
 > SSOT documents this repository implements (see
 > [Documentation](#documentation-single-source-of-truth) below) and is not
-> yet transcribed into `docs/developer_guide/` in browsable form — that
+> yet transcribed into `docs/developer_guide/` in browsable form - that
 > directory is still a placeholder. Until it is, the examples and package
 > READMEs above are the actual, maintained, up-to-date documentation.
 
