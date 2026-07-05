@@ -35,12 +35,25 @@ jobs:
         run: pip install -e ".[dev]"
 
       - name: Install pip-audit
-        run: pip install pip-audit
+        run: pip install --upgrade pip-audit
 
-      # --skip-editable: `mineproductivity` itself (and the registry test
-      # fixture packages) are editable-installed, unpublished local
-      # distributions -- not something PyPI's advisory database has an
-      # opinion on.
+      # -s osv: pip-audit's own `--strict` flag fails the whole audit on
+      # ANY skipped-or-unresolvable dependency, not just a found
+      # vulnerability (pip_audit/_cli.py: a SkippedDependency under
+      # --strict calls _fatal(), unconditionally). `mineproductivity`
+      # itself is editable-installed and unpublished, so:
+      #   - `--skip-editable` turns it into a SkippedDependency, which
+      #     --strict then treats as fatal (defeating the flag's purpose).
+      #   - the default PyPI vulnerability service can't resolve an
+      #     unpublished package at all ("not found on PyPI"), which
+      #     --strict *also* treats as fatal.
+      # The OSV service (Google's Open Source Vulnerabilities database,
+      # pip-audit's other first-class backend) resolves this cleanly: it
+      # audits every real dependency exactly as before and reports zero
+      # findings for the unpublished local `mineproductivity` package
+      # itself, with no skip and no error -- `--strict` stays meaningful
+      # for genuine resolution failures. `--skip-editable` is therefore
+      # no longer needed and is removed, not just left inert.
       #
       # --ignore-vuln PYSEC-2026-113: a real, known Use-After-Free in
       # Apache Arrow C++ (pyarrow < 23.0.1) that the `events` extra's
@@ -53,4 +66,4 @@ jobs:
       # ("no framework changes"). Tracked as follow-up work; see
       # docs/governance/CI_CD_GUIDE.md.
       - name: Audit installed dependencies
-        run: pip-audit --strict --desc --skip-editable --ignore-vuln PYSEC-2026-113
+        run: pip-audit --strict --desc -s osv --ignore-vuln PYSEC-2026-113
