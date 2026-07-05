@@ -19,8 +19,8 @@ This package implements the [Event Framework Design Specification](../../../docs
 
 **What must never belong here:**
 
-- Concrete connector implementations that produce events (see the future `connectors` package — this package defines what a connector must *produce*, never how to read a source).
-- KPI computation logic that consumes events (see the future `kpis` package).
+- Concrete connector implementations that produce events (see `connectors` — this package defines what a connector must *produce*, never how to read a source).
+- KPI computation logic that consumes events (see `kpis`).
 - Ontology entity *definitions* (equipment types, locations, organizations) — this package only *references* them by string id, with the sole, minimal exception of `ontology.DelayCategory` (see [Documentation Governance Rule #005](#documentation-governance-rule-005) below).
 - A concrete production storage/broker backend (a specific database, message queue client) — `EventStore`/`EventBus` are interfaces; concrete backends belong in `io`/`connectors`.
 
@@ -183,7 +183,7 @@ See [Package Structure](#package-structure) above for the full file layout.
 
 **Depends on:** `core`; `ontology` (only `DelayCategory`). Optionally, `pyarrow` (the `events` extra) for `ArrowEventCodec`/`ParquetEventCodec` — imported lazily, never required to `import mineproductivity.events`.
 
-**Depended on by:** the future `connectors` and `kpis` packages, and transitively `analytics`, `decision`, `digital_twin`.
+**Depended on by:** `connectors` and `kpis` directly, and transitively `analytics`, `decision`, `digital_twin`, and `simulation`.
 
 ## Future Work
 

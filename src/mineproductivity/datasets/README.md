@@ -28,7 +28,7 @@ Dataset abstractions and loader contracts for canonical, golden, benchmark, and 
 
 **Depends on:** `core`, `ontology`
 
-**Depended on by:** `kpis`, `benchmark`, `certification`
+**Depended on by:** `benchmark`, `certification` (once implemented). Not currently `kpis` — the implemented `kpis` package's tests and examples use their own `tests/fixtures/kpis` sample-dataset loader, a separate, already-existing mechanism independent of this still-unimplemented package.
 
 ## Future Work
 

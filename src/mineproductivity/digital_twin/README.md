@@ -26,9 +26,9 @@ State representation and synchronization for the live digital twin of mining ass
 
 ## Dependencies
 
-**Depends on:** `core`, `ontology`, `events`, `kpis`, `analytics`, `simulation`
+**Depends on:** `core`, `ontology`, `events`, `registry`, `plugins`, `kpis`, `analytics`, `decision`. (`connectors` is a permitted import under the platform-wide layering rule but is not exercised — by the time data reaches `digital_twin` it has already been normalized into `events` by the `connectors` → `events` pipeline.)
 
-**Depended on by:** `decision`, `agents`, `visualization`
+**Depended on by:** `simulation`, `optimization`, `agents`, `visualization`
 
 ## Future Work
 

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Simulation engines for modeling mining operations under hypothetical or forecast conditions, feeding the digital twin and decision layers.
+Simulation engines for projecting a mining system's state forward under a hypothetical or historical scenario — orchestrating pluggable Monte Carlo, discrete-event, system-dynamics, and calibration models, seeded from real `digital_twin` snapshots and event history, without owning KPI computation, statistics, or decision logic itself.
 
 ## Scope
 
@@ -25,9 +25,9 @@ Simulation engines for modeling mining operations under hypothetical or forecast
 
 ## Dependencies
 
-**Depends on:** `core`, `ontology`, `events`, `kpis`
+**Depends on:** `core`, `ontology`, `events`, `registry`, `plugins`, `kpis`, `analytics`, `decision`, `digital_twin`. (`connectors` is a permitted import under the platform-wide layering rule but is not exercised — simulation operates on already-computed, already-synchronized facts, never a vendor-specific wire format.)
 
-**Depended on by:** `digital_twin`, `decision`
+**Depended on by:** `optimization`, `agents`, `visualization`
 
 ## Future Work
 

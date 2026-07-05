@@ -30,7 +30,7 @@ This package implements the [Registry Framework Design Specification](../../../d
 core  →  registry  →  plugins
 ```
 
-`Registry[TKey, TItem]` is a deliberate structural echo of `core.BaseRepository`: a registry *is*, conceptually, a repository whose entities are types/classes/callables instead of domain entities. It does not subclass `BaseRepository` (its keys are typically strings/codes, not `BaseEntity` ids), and every domain-specific registry (a future `kpis.REGISTRY`, `connectors.CONNECTORS`, `ontology`'s internal entity-type registry) is a **type alias** over this one class, never a subclass with new behavior (design spec AD-RG-01) — composition over inheritance applied at the plugin-architecture level.
+`Registry[TKey, TItem]` is a deliberate structural echo of `core.BaseRepository`: a registry *is*, conceptually, a repository whose entities are types/classes/callables instead of domain entities. It does not subclass `BaseRepository` (its keys are typically strings/codes, not `BaseEntity` ids), and every domain-specific registry (`kpis.REGISTRY`, `connectors.CONNECTORS`, `ontology`'s internal entity-type registry) is a **type alias** over this one class, never a subclass with new behavior (design spec AD-RG-01) — composition over inheritance applied at the plugin-architecture level.
 
 Discovery is scan-once, cache-forever within a process (`DiscoveryCache`): `importlib.metadata` entry-point scanning touches installed-package metadata on disk and is not repeated on every `Registry.get()` call. Lookup itself is O(1) regardless of how many plugins are installed.
 
@@ -57,7 +57,7 @@ core  →  registry  →  plugins
 ```
 
 - **`registry` depends on:** `core` only. No other package.
-- **`registry` is depended on by:** `plugins`, and will be depended on by `ontology` (its internal entity-type registry, once migrated), `events`, `kpis`, `connectors`, `analytics`, `agents` — every package that exposes an extension point.
+- **`registry` is depended on by:** `plugins`, `kpis`, and `connectors` directly, and by `analytics`, `decision`, `digital_twin`, and `simulation` per their own locked design specifications' Registry Framework specialization (§21/equivalent of each spec) — every package that exposes an extension point. `ontology` does **not** currently depend on `registry`: its internal entity-type registry remains a separate, self-contained mechanism (see `ontology/README.md`'s Future Work); `events` has no extension point of its own and does not depend on `registry` either.
 - **Forbidden:** `registry` must never import `plugins`, `ontology`, `events`, `connectors`, `kpis`, `analytics`, `optimization`, `simulation`, `decision`, `digital_twin`, or `agents`. This is mechanically checked by `tests/unit/registry/test_public_api.py::TestNoForbiddenDependencies`.
 
 ## Public API
@@ -155,7 +155,7 @@ See [Package Structure](#package-structure) above for the full file layout.
 
 **Depends on:** `core` only.
 
-**Depended on by:** `plugins`; will be depended on by `ontology`, `events`, `kpis`, `connectors`, `analytics`, `agents`.
+**Depended on by:** `plugins`, `kpis`, `connectors` directly; `analytics`, `decision`, `digital_twin`, and `simulation` per their own locked specs' Registry Framework specialization. Not `ontology` or `events` — see Dependency Rules above.
 
 ## Future Work
 

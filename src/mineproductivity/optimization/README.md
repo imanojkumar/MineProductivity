@@ -26,9 +26,9 @@ Optimization models and solver interfaces for productivity improvement recommend
 
 ## Dependencies
 
-**Depends on:** `core`, `ontology`, `kpis`, `analytics`
+**Depends on:** `core`, `ontology`, `kpis`, `analytics`, and, per `decision`/`digital_twin`/`simulation`'s own locked Future Roadmap sections, expected to also consume `decision.ActionPlan`, `digital_twin`'s twin-state types, and `simulation.Experiment`/`ExperimentResult` (and to become a plausible first implementer of `simulation.CalibrationModel`) once designed.
 
-**Depended on by:** `decision`
+**Depended on by:** not yet consumed by another package. `decision` does **not** depend on `optimization` — Decision Intelligence spec 07 §36 explicitly states it "does not anticipate `decision` ever needing to call into a future `optimization`/`simulation` package."
 
 ## Future Work
 

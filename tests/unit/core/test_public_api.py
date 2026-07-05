@@ -9,6 +9,7 @@ from what is actually exported.
 from __future__ import annotations
 
 import importlib
+import importlib.metadata
 
 import mineproductivity.core as core
 
@@ -66,7 +67,9 @@ class TestPackageVersion:
     def test_top_level_package_exposes_version(self) -> None:
         import mineproductivity
 
-        assert mineproductivity.__version__ == "1.0.0"
+        # Compared against installed package metadata, not a hardcoded
+        # string, so this test never needs editing on a version bump.
+        assert mineproductivity.__version__ == importlib.metadata.version("mineproductivity")
 
     def test_core_has_no_dependency_on_sibling_packages(self) -> None:
         import ast

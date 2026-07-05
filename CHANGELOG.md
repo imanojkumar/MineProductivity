@@ -5,12 +5,51 @@ All notable changes to MineProductivity are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-> **Note:** The software version (currently `1.0.0`) is independent of the
+> **Note:** The software version (currently `1.1.0`) is independent of the
 > architecture document version (`v1.0`, locked). The architecture is
 > considered final for this phase; the software implementing it continues
 > to evolve incrementally.
 
 ## [Unreleased]
+
+## [1.1.0] - 2026-07-05
+
+Simulation Architecture milestone.
+
+This release completes the architectural design of the Simulation
+subsystem — the fourth package built on top of the Foundation Layer,
+sitting directly above the now-locked `digital_twin`. No production
+implementation is included; this release delivers the approved
+architecture specification, implementation checklist, and architectural
+decision record that will guide future development.
+
+### Added
+
+- Simulation Design Specification.
+- Simulation Implementation Checklist.
+- ADR-0009: Simulation Architecture Decision Record.
+- Repository-wide version bump to v1.1.0 reflecting the current release.
+
+### Fixed
+
+- `tests/unit/core/test_public_api.py::TestPackageVersion` compared
+  `mineproductivity.__version__` against a hardcoded string literal,
+  requiring an edit on every version bump. Rewritten to compare against
+  `importlib.metadata.version("mineproductivity")` — the installed
+  package's own metadata — so the test remains correct across future
+  releases with no changes required.
+
+### Notes
+
+- This is an architecture milestone only.
+- No production Simulation implementation is included.
+- Four interface-only ABCs (`MonteCarloModel`, `DiscreteEventModel`,
+  `SystemDynamicsModel`, `CalibrationModel`) are defined with zero
+  concrete implementations, mirroring the same discipline already
+  applied by the Analytics, Decision Intelligence, and Digital Twin
+  milestones.
+- Forms the architectural foundation for the future Optimization,
+  AI Agents, and Visualization milestones.
 
 ## [1.0.0] - 2026-07-05
 

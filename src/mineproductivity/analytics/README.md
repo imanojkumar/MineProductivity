@@ -26,9 +26,9 @@ Statistical and analytical processing built on top of KPI and event data — tre
 
 ## Dependencies
 
-**Depends on:** `core`, `ontology`, `events`, `kpis`
+**Depends on:** `core`, `ontology`, `events`, `registry`, `plugins`, `kpis`. (`connectors` is a permitted import under the platform-wide layering rule but is not exercised — analytics operates on already-computed `KPIResult`s, never a vendor-specific wire format.)
 
-**Depended on by:** `decision`, `digital_twin`, `agents`, `visualization`
+**Depended on by:** `decision`, `digital_twin`, `simulation`, `optimization`, `agents`, `visualization`
 
 ## Future Work
 

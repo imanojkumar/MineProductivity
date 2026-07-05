@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Dashboards and visual reporting for KPIs, digital twin state, analytics, and decisions.
+Dashboards and visual reporting for KPIs, analytics, decisions, digital twin state, and simulation results.
 
 ## Scope
 
@@ -24,7 +24,7 @@ Dashboards and visual reporting for KPIs, digital twin state, analytics, and dec
 
 ## Dependencies
 
-**Depends on:** `core`, `kpis`, `analytics`, `decision`, `digital_twin`
+**Depends on:** `core`, `kpis`, `analytics`, `decision`, `digital_twin`, `simulation`
 
 **Depended on by:** `cli`
 

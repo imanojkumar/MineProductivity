@@ -1,7 +1,7 @@
 # MineProductivity &nbsp;&nbsp;&nbsp; [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21172767.svg)](https://doi.org/10.5281/zenodo.21172767)
 
 
-**Enterprise-grade Python framework for mining productivity intelligence, KPI standardization, Analytics, Decision Intelligence, Digital Twins, Optimization, Simulation and AI Agents.**
+**MineProductivity is an enterprise-grade, ontology-driven Python framework for mining productivity intelligence, KPI standardization, Digital Twins, simulation, optimization, AI decision support, and operational analytics.**
 
 [![CI](https://github.com/imanojkumar/MineProductivity/actions/workflows/ci.yml/badge.svg)](https://github.com/imanojkumar/MineProductivity/actions/workflows/ci.yml)
 [![Quality](https://github.com/imanojkumar/MineProductivity/actions/workflows/quality.yml/badge.svg)](https://github.com/imanojkumar/MineProductivity/actions/workflows/quality.yml)
@@ -50,6 +50,15 @@ productivity across mining operations. It is designed from first principles to b
   Implementation Blueprint, and Developer & Cookbook Guides are the Single
   Source of Truth (SSOT); code implements documentation, not the reverse.
 
+
+## Current Development Phase
+
+> Architecture maturity:
+> ██████████ 100%
+
+> Implementation maturity:
+> ████░░░░░░ 40%
+
 ## Repository Structure
 
 ```
@@ -83,11 +92,36 @@ architectural rationale behind this layout.
 | Analytics | ✅ | 🚧 |
 | Decision Intelligence | ✅ | 🚧 |
 | Digital Twin | ✅ | 🚧 |
-| Simulation | ⏳ | ⏳ |
-| Optimization | ⏳ | ⏳ |
-| Visualization | ⏳ | ⏳ |
-| AI Agents | ⏳ | ⏳ |
-| Certification | ⏳ | ⏳ |
+| Simulation | ✅ | 🚧 |
+| Optimization | ⏳ | 🚧 |
+| Visualization | ⏳ | 🚧 |
+| AI Agents | ⏳ | 🚧 |
+| Certification | ⏳ | 🚧 |
+
+## Architecture Roadmap
+
+Foundation
+──────────
+✅ Core
+✅ Events
+✅ Ontology
+✅ Registry
+✅ Plugins
+✅ Connectors
+✅ KPI Engine
+
+Intelligence
+────────────
+✅ Analytics
+✅ Decision Intelligence
+✅ Digital Twin
+✅ Simulation
+
+Next
+────
+⏳ Optimization
+⏳ AI Agents
+⏳ Visualization
 
 ## Architectural Layering & Dependency Direction
 
@@ -155,7 +189,7 @@ structured, versioned notes and placeholders that mirror their sections. See
 
 ## Project Status
 
-**Current Stable Release: v1.0.0**
+**Current Stable Release: v1.1.0**
 
 The project follows an architecture-first development methodology. Each milestone begins with a fully reviewed architecture specification (Design Specification, Implementation Checklist, and ADR), followed by implementation.
 
@@ -172,6 +206,7 @@ Completed milestones:
 | v0.8.0 | Analytics Engine Architecture | ✅ Architecture Complete |
 | v0.9.0 | Decision Intelligence Architecture | ✅ Architecture Complete |
 | v1.0.0 | Digital Twin Architecture | ✅ Architecture Complete |
+| v1.1.0 | Simulation Architecture | ✅ Architecture Complete |
 
 See: 
  - [CHANGELOG.md](CHANGELOG.md) and 

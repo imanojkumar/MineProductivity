@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Decision-support and recommendation frameworks that translate analytics, optimization, and digital twin state into actionable guidance.
+Decision-support and recommendation frameworks that translate `analytics`' statistical judgments (trends, benchmarks, confidence intervals) into recommended, ranked, explained, actionable decisions — the platform's prescriptive layer, sitting directly above `analytics`' descriptive layer.
 
 ## Scope
 
@@ -26,9 +26,9 @@ Decision-support and recommendation frameworks that translate analytics, optimiz
 
 ## Dependencies
 
-**Depends on:** `core`, `ontology`, `events`, `kpis`, `analytics`, `optimization`, `digital_twin`
+**Depends on:** `core`, `ontology`, `events`, `registry`, `plugins`, `kpis`, `analytics`. (`connectors` is a permitted import under the platform-wide layering rule but is not exercised — decision operates on already-computed `KPIResult`/`AnalyticsResult` objects, never a vendor-specific wire format.)
 
-**Depended on by:** `agents`, `visualization`, `cli`
+**Depended on by:** `digital_twin`, `simulation`, `optimization`, `visualization`, `agents`, `cli`
 
 ## Future Work
 

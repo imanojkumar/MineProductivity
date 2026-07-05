@@ -107,7 +107,7 @@ core → ontology → events → registry → kpis
 ```
 
 - **`kpis` depends on:** `core`, `ontology`, `events`, `registry`.
-- **`kpis` is depended on by:** future `analytics`, `decision`, `digital_twin` packages — never the reverse.
+- **`kpis` is depended on by:** `analytics`, `decision`, `digital_twin`, and `simulation`, per their own locked design specifications (none is implemented yet) — never the reverse.
 - **Forbidden (the single most load-bearing rule in this document):** `kpis` MUST NOT import `connectors`, `analytics`, `optimization`, `simulation`, `decision`, `digital_twin`, or `agents`. This is mechanically checked by `tests/unit/kpis/test_public_api.py::TestNoForbiddenDependencies`, including a dedicated `test_never_imports_connectors_specifically` check.
 
 ## Public API
@@ -227,7 +227,7 @@ See [Package Structure](#package-structure) above for the full file layout.
 
 **Depends on:** `core`, `ontology`, `events`, `registry`. Optionally, `numpy`/`pandas`/`polars`/`duckdb` (the `analytics` extra) for the non-default `ExecutionBackend`s — `pandas` alone is required for the default `PandasBackend` and `KPIResult.to_frame()`.
 
-**Depended on by:** nothing yet in this milestone; future `analytics`, `decision`, and `digital_twin` packages will consume `kpis` for their own computations.
+**Depended on by:** `analytics`, `decision`, `digital_twin`, and `simulation`, per their own locked design specifications (none of the four is implemented yet, so no code currently imports `kpis`).
 
 ## Future Work
 

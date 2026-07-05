@@ -20,9 +20,9 @@ This package implements the [Ontology Framework Design Specification](../../../d
 **What must never belong here:**
 
 - Event schemas or event processing logic (see `events`).
-- KPI definitions or formulas (see the future `kpis`).
-- Any connector- or storage-specific representation (see the future `connectors`).
-- A generic, cross-package registry/plugin-discovery mechanism (see the future `registry`) — this package's internal entity-type registry is a minimal, self-contained stand-in, not that mechanism.
+- KPI definitions or formulas (see `kpis`).
+- Any connector- or storage-specific representation (see `connectors`).
+- A generic, cross-package registry/plugin-discovery mechanism (see `registry`) — this package's internal entity-type registry is a minimal, self-contained stand-in, not that mechanism (see Future Work below).
 - Instance-level persistence. `ontology` defines *types* and the *shape* of relationships; it never stores or looks up actual entity instances (that is a future `config`/datasets-loader concern, consumed through `OntologyValidator`'s optional `entity_resolver` callback).
 - Graph traversal (`neighbors`/`path`/`search`). `KnowledgeGraphProjection` only *emits* nodes/edges; traversal belongs to a future graph-adjacent capability that *consumes* this projection (design spec §4).
 
@@ -92,7 +92,7 @@ core  →  ontology
 ```
 
 - **`ontology` depends on:** `core` only. No other package.
-- **`ontology` is depended on by:** `events` (reference taxonomies only), and will be depended on by `registry`, `connectors`, `kpis`, and transitively `analytics`, `decision`, `digital_twin`.
+- **`ontology` is depended on by:** `events` (reference taxonomies only), `connectors` and `kpis` (the entity-type vocabulary directly), and transitively `analytics`, `decision`, `digital_twin`, and `simulation`. `registry` does **not** depend on `ontology` — `registry` is a lower-level, domain-agnostic mechanism that only `core` sits below.
 - **Forbidden:** `ontology` must never import `events`, `registry`, `connectors`, `kpis`, `analytics`, `optimization`, `simulation`, `decision`, `digital_twin`, or `agents`. This is mechanically checked by `tests/unit/ontology/test_public_api.py::TestNoForbiddenDependencies`.
 
 ## Public API
@@ -137,7 +137,7 @@ from mineproductivity.ontology import (
 )
 ```
 
-The entity type registry's lookup functions (`lookup_entity_type`, `get_entity_type`, `registered_entity_type_codes`) are internal (design spec §9 — the future Registry Framework owns the public discovery surface) and are imported from `mineproductivity.ontology.entity_type` directly, not the top-level namespace.
+The entity type registry's lookup functions (`lookup_entity_type`, `get_entity_type`, `registered_entity_type_codes`) are internal (design spec §9 — the Registry Framework, `registry`, owns the public discovery surface) and are imported from `mineproductivity.ontology.entity_type` directly, not the top-level namespace.
 
 ## Extension Guide
 
@@ -195,7 +195,7 @@ Runnable, narrated scripts live in [`examples/ontology/`](../../../examples/onto
 
 - **Why does `BaseEntityType` add its own `__post_init__`/`validate()` hook instead of `core.BaseEntity` providing one?** `core` is locked (Documentation Governance Rule: no modifications to already-shipped packages except through their own versioned milestone). Since no package before this one built entity *types* on top of `BaseEntity`, that hook simply did not exist yet. Adding it locally, mirroring `BaseValueObject`'s already-established `_normalize()`/`validate()` pattern exactly, satisfies the design spec's "structural validation enforced at construction" requirement (§19) without touching `core`.
 - **Why do `Relationship` and `KnowledgeGraphProjection` use plain string ids instead of holding direct references to the related entity objects?** Entities must remain independent and independently serializable (design spec AD-ON-02) — nesting object references would make partial datasets, lazy loading, and cross-package serialization far harder, and would silently reintroduce the very object-graph coupling `Relationship` exists to avoid.
-- **Why is the entity type registry (`_EntityTypeRegistry`) internal (leading underscore, not in `__all__`) rather than a public, general-purpose registry?** The future Registry Framework (v0.5.0) owns the platform's generic, plugin-discoverable registry contract. This package's registry is a minimal, self-contained mechanism — populated at import time by `register_entity_type`, existing only so `OntologyValidator` and `to_schema()` work without a forward dependency on a not-yet-implemented package (Documentation Governance Rule #005, applied in reverse: `ontology` ships before `registry`, so it carries its own small mechanism now and will delegate to `registry.Registry` without a public API change once that package exists).
+- **Why is the entity type registry (`_EntityTypeRegistry`) internal (leading underscore, not in `__all__`) rather than a public, general-purpose registry?** The Registry Framework (`registry`, v0.5.0) owns the platform's generic, plugin-discoverable registry contract. This package's registry is a minimal, self-contained mechanism — populated at import time by `register_entity_type`, originally built so `OntologyValidator` and `to_schema()` would work without a forward dependency on `registry` before that package was implemented (Documentation Governance Rule #005, applied in reverse: `ontology` shipped before `registry`, so it carried its own small mechanism at the time). `registry` is implemented now; migrating `_EntityTypeRegistry` to delegate to `registry.Registry` without a public API change remains open (see Future Work).
 - **Why is an unresolved `OntologyValidator` reference a warning, never a raised exception?** Cookbook Part I, Ch. 8's rule: one orphaned reference in a 10,000-row ingestion batch must never halt processing of the other 9,999 rows. Structural validation (which *does* raise, at construction) already guarantees no instance is internally malformed; contextual validation is strictly about cross-entity completeness, which is expected to have gaps during incremental ingestion.
 - **Why do `SafetyEventType` and `DelayCategory` live in `ontology` instead of `events`, even though only `events` currently constructs values of these types?** Both are closed, governed taxonomies — domain reference *data* that outlives any one event type and that a future `kpis`/`analytics` package will also need to reference directly, not structural fields specific to how an event is shaped (design spec AD-ON-03). Defining them in `events` would have made `events` the de facto owner of domain vocabulary it does not otherwise control.
 - **Why do equipment leaf types differ in which optional fields they declare (e.g. `RigidHaulTruck` has `fuel_type`, `Crusher` does not)?** Each leaf declares only the fields meaningful to that physical asset class; a haul truck's fuel type is operationally relevant (feeds `COST.FuelPerTonne`), a fixed crusher's is not modeled as a leaf-level field in this milestone. `EquipmentType.rated_capacity` and `operational_states` are the only fields every leaf is guaranteed to share.
@@ -224,11 +224,11 @@ See [Package Structure](#package-structure) above for the full file layout.
 
 **Depends on:** `core` only.
 
-**Depended on by:** `events` (`DelayCategory`, `SafetyEventType` only); will be depended on by `registry`, `connectors`, `kpis`, and transitively `analytics`, `decision`, `digital_twin`.
+**Depended on by:** `events` (`DelayCategory`, `SafetyEventType` only); `connectors` and `kpis` directly; transitively `analytics`, `decision`, `digital_twin`, and `simulation`. Not `registry` — see Dependency Rules above.
 
 ## Future Work
 
-- Once the Registry Framework (v0.5.0) exists, delegate `_EntityTypeRegistry` to `registry.Registry` without changing this package's public API.
+- The Registry Framework (`registry`, v0.5.0) is now implemented, but `_EntityTypeRegistry` has not yet been migrated to delegate to `registry.Registry` — this remains an open, tracked simplification, not a design gap; the migration is expected to be a non-breaking internal change with no public API impact.
 - Once a `config`/datasets loader package exists, wire a real `entity_resolver` implementation for `OntologyValidator` instead of requiring callers to supply their own callback.
 - Additional entity types (`Explosive`, `BlastPattern`, `Survey`) as further mining sub-domains are specified.
 

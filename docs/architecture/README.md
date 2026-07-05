@@ -10,21 +10,33 @@ Architectural rationale, layering diagrams, dependency rules, and cross-cutting 
 
 ## Responsibilities
 
-- Explain the inward-pointing dependency direction between `core`, `ontology`, `events`, `kpis`, `analytics`, `decision`, and `digital_twin`.
+- Explain the inward-pointing dependency direction between `core`, `ontology`, `events`, `kpis`, `analytics`, `decision`, `digital_twin`, and `simulation`.
 - Document forbidden import patterns and architectural boundaries.
 - Serve as the entry point for new contributors to understand system shape before reading code.
 
 ## Contents
+
+**Foundation** (implemented):
 
 - `01_Event_Framework_Design_Specification.md` — `events` package: `BaseEvent`, `EventEnvelope`, `EventStore`, `EventBus`, replay/time-travel, idempotency.
 - `02_Ontology_Framework_Design_Specification.md` — `ontology` package: the ten sub-ontology families (equipment, material, location, organization, production, maintenance, cost, quality, safety, environmental) and the Knowledge Graph projection contract.
 - `03_Registry_Framework_Design_Specification.md` — `registry` + `plugins` packages: the generic registration/discovery mechanism every domain registry (KPI, Connector, Ontology, Analytics) specializes.
 - `04_Connector_Framework_Design_Specification.md` — `connectors` package: the `FMSConnector` contract, reference connectors (CSV/Excel/REST/GraphQL/Kafka/MQTT), and OEM adapter shapes (MineStar, DISPATCH, Wenco, Modular Mining, Hexagon).
 - `05_KPI_Engine_Design_Specification.md` — `kpis` package: `BaseKPI`, the 29-field `KPIMetadata` schema, the dependency graph, aggregation semantics, and vectorized execution backends. The platform's most important design specification.
-- `locked_ssot_documents/` — verbatim archival copies of the locked source documents these specifications are derived from.
-- Architecture Decision Records (ADRs) — see `docs/adr/` — and rendered layering/sequence diagrams under `docs/images/` are added as implementation proceeds.
 
-Each design specification is implementation-ready: 37 normative sections covering purpose, object model, sequence/class diagrams, error handling, testing strategy, certification requirements, and package acceptance criteria. Their companion implementation contracts live in [`docs/design/`](../design/README.md). All five specifications above (`events`, `ontology`, `registry`/`plugins`, `connectors`, `kpis`) are now implemented against exactly as written; `analytics`, `decision`, and `digital_twin` remain design-only.
+**Intelligence** (design-complete, implementation not yet started):
+
+- `06_Analytics_Engine_Design_Specification.md` — `analytics` package: `AnalyticsModel`, forecasting/anomaly/outlier-detection interfaces (interface only), streaming and batch pipelines, statistical primitives (`describe`, `confidence_interval`) every higher package delegates to. **Not present on `main`** — exists on the unmerged `feature/analytics-engine` branch; see `ADR-0006-Analytics-Engine.md` in `docs/adr/` for the decision record once merged.
+- [`07_Decision_Intelligence_Design_Specification.md`](07_Decision_Intelligence_Design_Specification.md) — `decision` package: `DecisionModel`, rule engine, root-cause/what-if interfaces (interface only), policy governance, decision audit trail.
+- [`08_Digital_Twin_Design_Specification.md`](08_Digital_Twin_Design_Specification.md) — `digital_twin` package: `Twin` (a stateful `core.BaseEntity`), synchronization, snapshots, telemetry integration, an interface-only simulation bridge (`TwinSimulationModel`).
+- [`09_Simulation_Design_Specification.md`](09_Simulation_Design_Specification.md) — `simulation` package: scenario management, `SimulationRun` execution, interface-only Monte Carlo/discrete-event/system-dynamics/calibration models, experiment orchestration, scenario comparison and sensitivity analysis (delegated to `analytics`).
+
+**Supporting documents:**
+
+- `locked_ssot_documents/` — verbatim archival copies of the locked source documents these specifications are derived from.
+- Architecture Decision Records (ADRs) — see [`docs/adr/`](../adr/) (`ADR-0006` through `ADR-0009` govern why each Intelligence-tier package exists as a separate layer) — and rendered layering/sequence diagrams under `docs/images/` are added as implementation proceeds.
+
+Each design specification is implementation-ready: 37 normative sections covering purpose, object model, sequence/class diagrams, error handling, testing strategy, certification requirements, and package acceptance criteria. Their companion implementation contracts live in [`docs/design/`](../design/README.md). The five Foundation specifications (`events`, `ontology`, `registry`/`plugins`, `connectors`, `kpis`) are implemented exactly as written; `analytics`, `decision`, `digital_twin`, and `simulation` remain design-only — architecturally complete and locked, with no production implementation yet.
 
 ## Dependencies
 
@@ -32,7 +44,7 @@ None (documentation only). The specifications describe packages that depend on `
 
 ## Future Work
 
-Add ADRs as significant architectural decisions are made during implementation (see each design specification's own §35 Architecture Decisions for decisions already recorded at design time). Add rendered layering and sequence diagrams under `docs/images/` as an illustrated companion to the Mermaid diagrams already embedded in each specification.
+Add ADRs as significant architectural decisions are made during implementation. The five Foundation specifications (01–05) each record their own architecture decisions inline, in their own §35 Architecture Decisions section; specs 06–09 instead record theirs in a dedicated `docs/adr/ADR-000N-*.md` file each (`ADR-0006` through `ADR-0009`), a convention introduced starting with the Analytics milestone. Add rendered layering and sequence diagrams under `docs/images/` as an illustrated companion to the Mermaid diagrams already embedded in each specification.
 
 ## References
 
