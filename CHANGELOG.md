@@ -5,12 +5,35 @@ All notable changes to MineProductivity are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-> **Note:** The software version (currently `0.9.0`) is independent of the
+> **Note:** The software version (currently `1.0.0`) is independent of the
 > architecture document version (`v1.0`, locked). The architecture is
 > considered final for this phase; the software implementing it continues
 > to evolve incrementally.
 
 ## [Unreleased]
+
+## [1.0.0] - 2026-07-05
+
+Digital Twin Architecture milestone.
+
+This release completes the architectural design of the Digital Twin
+subsystem. No production implementation is included; this release delivers
+the approved architecture specification, implementation checklist, and
+architectural decision record that will guide future development.
+
+### Added
+
+- Digital Twin Design Specification.
+- Digital Twin Implementation Checklist.
+- ADR-0008: Digital Twin Architecture Decision Record.
+- Repository-wide version bump to v1.0.0 reflecting the current release.
+
+### Notes
+
+- This is an architecture milestone only.
+- No production Digital Twin implementation is included.
+- Forms the architectural foundation for the future Simulation,
+  Optimization, AI Agents, and Visualization milestones.
 
 ## [0.9.0] - 2026-07-04
 
