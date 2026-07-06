@@ -17,11 +17,20 @@ Statistical and analytical processing built on top of KPI and event data — tre
 ## Responsibilities
 
 - Implements the `analytics` subsystem as defined in the Reference Implementation Blueprint v1.0.
-- Currently contains no implementation — structural placeholder only.
+- Currently implements only the **Analytics Foundation** slice: entities, value objects,
+  metadata, enums, and the exception hierarchy. Statistical primitives, rolling analytics,
+  trend/baseline/benchmark computation, data-quality scoring, the pipeline engine, execution
+  modes, and the plugin registry are later implementation phases, not yet present.
 
 ## Contents
 
-- `__init__.py` — package marker (no public API yet).
+- `__init__.py` — public API surface (23 Foundation symbols).
+- `abstractions.py` — `AnalyticsModel` (ABC), `AnalyticsContext`.
+- `metadata.py` — `AnalyticsMetadata`, `AnalyticsCategory`.
+- `result.py` — `AnalyticsResult` and every concrete result/flag type.
+- `timeseries.py` — `TimeSeries`, `TimeSeriesPoint`.
+- `windowing.py` — `RollingSpec`.
+- `exceptions.py` — the package's exception hierarchy.
 - `README.md` — this file.
 
 ## Dependencies

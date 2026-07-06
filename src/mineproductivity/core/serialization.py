@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
+import copy
 import dataclasses
 from abc import ABC, abstractmethod
 from collections.abc import Mapping
-from typing import Any, Generic, Protocol, TypeVar, runtime_checkable
+from typing import Any, Generic, Protocol, TypeVar, cast, runtime_checkable
 
 from mineproductivity.core.exceptions import SerializationError
 
@@ -18,6 +19,34 @@ __all__ = [
 ]
 
 T = TypeVar("T")
+
+
+def _asdict_recursive(obj: Any) -> Any:
+    """Recursively converts ``obj`` into plain, JSON-safe values -- a
+    drop-in replacement for :func:`dataclasses.asdict`'s own recursion
+    (dataclass fields, lists/tuples, namedtuples, dicts) that additionally
+    normalizes any :class:`~collections.abc.Mapping` which is not already a
+    plain ``dict``.
+
+    ``dataclasses.asdict`` only special-cases ``isinstance(obj, dict)``;
+    everything else -- including ``types.MappingProxyType``, the type
+    :meth:`~mineproductivity.core.value_object.BaseValueObject._normalize`
+    is documented to freeze mutable mapping fields into -- falls through to
+    its ``copy.deepcopy`` fallback, which cannot pickle a ``mappingproxy``
+    and raises ``TypeError``. Widening the dict check to ``Mapping``
+    (``dict``'s own ABC, which ``mappingproxy`` also satisfies) is the one
+    behavioral difference from ``dataclasses.asdict``; every other branch
+    mirrors it exactly.
+    """
+    if dataclasses.is_dataclass(obj) and not isinstance(obj, type):
+        return {f.name: _asdict_recursive(getattr(obj, f.name)) for f in dataclasses.fields(obj)}
+    if isinstance(obj, tuple) and hasattr(obj, "_fields"):
+        return type(obj)(*(_asdict_recursive(v) for v in obj))
+    if isinstance(obj, (list, tuple)):
+        return type(obj)(_asdict_recursive(v) for v in obj)
+    if isinstance(obj, Mapping):
+        return {_asdict_recursive(k): _asdict_recursive(v) for k, v in obj.items()}
+    return copy.deepcopy(obj)
 
 
 @runtime_checkable
@@ -81,7 +110,7 @@ class DataclassSerializer(BaseSerializer[T]):
     def serialize(self, obj: T) -> dict[str, Any]:
         if not dataclasses.is_dataclass(obj) or isinstance(obj, type):
             raise SerializationError(f"{obj!r} is not a dataclass instance.")
-        return dataclasses.asdict(obj)
+        return cast(dict[str, Any], _asdict_recursive(obj))
 
     def deserialize(self, data: Mapping[str, Any]) -> T:
         try:
@@ -96,8 +125,8 @@ def to_dict(obj: Any) -> dict[str, Any]:
     """Best-effort conversion of ``obj`` into a plain ``dict``.
 
     Prefers a ``to_dict()`` method if ``obj`` implements
-    :class:`SupportsToDict`; falls back to :func:`dataclasses.asdict` for
-    plain dataclass instances.
+    :class:`SupportsToDict`; falls back to :func:`dataclasses.asdict`-equivalent
+    recursion (see :func:`_asdict_recursive`) for plain dataclass instances.
 
     Raises
     ------
@@ -107,5 +136,5 @@ def to_dict(obj: Any) -> dict[str, Any]:
     if isinstance(obj, SupportsToDict):
         return dict(obj.to_dict())
     if dataclasses.is_dataclass(obj) and not isinstance(obj, type):
-        return dataclasses.asdict(obj)
+        return cast(dict[str, Any], _asdict_recursive(obj))
     raise SerializationError(f"Object of type {type(obj).__name__!r} is not serializable.")
