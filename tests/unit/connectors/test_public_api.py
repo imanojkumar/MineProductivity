@@ -16,6 +16,7 @@ FORBIDDEN_IMPORT_PREFIXES = (
     "mineproductivity.decision",
     "mineproductivity.digital_twin",
     "mineproductivity.agents",
+    "mineproductivity.visualization",
 )
 
 ALLOWED_TOP_LEVEL_DEPENDENCIES = {"core", "ontology", "events", "registry", "connectors"}

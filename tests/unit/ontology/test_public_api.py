@@ -19,6 +19,7 @@ FORBIDDEN_IMPORT_PREFIXES = (
     "mineproductivity.decision",
     "mineproductivity.digital_twin",
     "mineproductivity.agents",
+    "mineproductivity.visualization",
 )
 
 
