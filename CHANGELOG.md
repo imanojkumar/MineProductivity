@@ -5,12 +5,100 @@ All notable changes to MineProductivity are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-> **Note:** The software version (currently `1.1.0`) is independent of the
+> **Note:** The software version (currently `1.4.0`) is independent of the
 > architecture document version (`v1.0`, locked). The architecture is
 > considered final for this phase; the software implementing it continues
 > to evolve incrementally.
 
 ## [Unreleased]
+
+## [1.4.0] - 2026-07-06
+
+Visualization Architecture milestone.
+
+This release completes the architectural design of the Visualization
+subsystem — the seventh package built on top of the Foundation Layer and
+the final package in the platform's architecture, sitting directly above
+the now-locked `agents`. No production implementation is included; this
+release delivers the approved architecture specification, implementation
+checklist, and architectural decision record that will guide future
+development.
+
+### Added
+
+- Visualization Design Specification.
+- Visualization Implementation Checklist.
+- ADR-0012: Visualization Architecture Decision Record.
+- Repository-wide version bump to v1.4.0 reflecting the current release.
+
+### Notes
+
+- This is an architecture milestone only.
+- No production Visualization implementation is included.
+- Two interface-only ABCs (`Visualization`, `Renderer`) are defined with
+  zero concrete implementations, mirroring the same discipline already
+  applied by every prior Intelligence-tier milestone.
+- This is the final package in the platform's architecture; no future
+  package is anticipated above it.
+
+## [1.3.0] - 2026-07-05
+
+AI Agents Architecture milestone.
+
+This release completes the architectural design of the AI Agents
+subsystem — the sixth package built on top of the Foundation Layer,
+sitting directly above the now-locked `optimization`. No production
+implementation is included; this release delivers the approved
+architecture specification, implementation checklist, and architectural
+decision record that will guide future development.
+
+### Added
+
+- AI Agents Design Specification.
+- AI Agents Implementation Checklist.
+- ADR-0011: AI Agents Architecture Decision Record.
+- Repository-wide version bump to v1.3.0 reflecting the current release.
+
+### Notes
+
+- This is an architecture milestone only.
+- No production AI Agents implementation is included.
+- Three interface-only ABCs (`Agent`, `Tool`, `AgentMemory`) are defined
+  with zero concrete implementations, mirroring the same discipline
+  already applied by every prior Intelligence-tier milestone.
+- Forms the architectural foundation for the future Visualization
+  milestone.
+
+## [1.2.0] - 2026-07-05
+
+Optimization Architecture milestone.
+
+This release completes the architectural design of the Optimization
+subsystem — the fifth package built on top of the Foundation Layer,
+sitting directly above the now-locked `simulation`. No production
+implementation is included; this release delivers the approved
+architecture specification, implementation checklist, and architectural
+decision record that will guide future development.
+
+### Added
+
+- Optimization Design Specification.
+- Optimization Implementation Checklist.
+- ADR-0010: Optimization Architecture Decision Record.
+- Repository-wide version bump to v1.2.0 reflecting the current release.
+
+### Notes
+
+- This is an architecture milestone only.
+- No production Optimization implementation is included.
+- Six interface-only ABCs (`LinearProgrammingModel`,
+  `MixedIntegerProgrammingModel`, `ConstraintProgrammingModel`,
+  `MultiObjectiveModel`, `EvolutionaryMetaheuristicModel`,
+  `NetworkOptimizationModel`) are defined with zero concrete
+  implementations, mirroring the same discipline already applied by every
+  prior Intelligence-tier milestone.
+- Forms the architectural foundation for the future AI Agents and
+  Visualization milestones.
 
 ## [1.1.0] - 2026-07-05
 

@@ -57,8 +57,8 @@ core  →  registry  →  plugins
 ```
 
 - **`registry` depends on:** `core` only. No other package.
-- **`registry` is depended on by:** `plugins`, `kpis`, and `connectors` directly, and by `analytics`, `decision`, `digital_twin`, and `simulation` per their own locked design specifications' Registry Framework specialization (§21/equivalent of each spec) — every package that exposes an extension point. `ontology` does **not** currently depend on `registry`: its internal entity-type registry remains a separate, self-contained mechanism (see `ontology/README.md`'s Future Work); `events` has no extension point of its own and does not depend on `registry` either.
-- **Forbidden:** `registry` must never import `plugins`, `ontology`, `events`, `connectors`, `kpis`, `analytics`, `optimization`, `simulation`, `decision`, `digital_twin`, or `agents`. This is mechanically checked by `tests/unit/registry/test_public_api.py::TestNoForbiddenDependencies`.
+- **`registry` is depended on by:** `plugins`, `kpis`, and `connectors` directly, and by `analytics`, `decision`, `digital_twin`, `simulation`, `optimization`, `agents`, and `visualization` per their own locked design specifications' Registry Framework specialization (§21/equivalent of each spec) — every package that exposes an extension point. `ontology` does **not** currently depend on `registry`: its internal entity-type registry remains a separate, self-contained mechanism (see `ontology/README.md`'s Future Work); `events` has no extension point of its own and does not depend on `registry` either.
+- **Forbidden:** `registry` must never import `plugins`, `ontology`, `events`, `connectors`, `kpis`, `analytics`, `optimization`, `simulation`, `decision`, `digital_twin`, `agents`, or `visualization`. This is mechanically checked by `tests/unit/registry/test_public_api.py::TestNoForbiddenDependencies`.
 
 ## Public API
 

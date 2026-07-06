@@ -6,7 +6,7 @@ type: software
 
 title: "MineProductivity"
 
-version: 1.1.0
+version: 1.4.0
 
 url: "https://github.com/imanojkumar/MineProductivity"
 
@@ -20,7 +20,7 @@ DOI: 10.5281/zenodo.21172767
 
 license: Apache-2.0
 
-date-released: 2026-07-05
+date-released: 2026-07-06
 
 keywords:
   - mining
@@ -31,5 +31,8 @@ keywords:
   - decision-intelligence
   - digital-twin
   - simulation
+  - optimization
+  - ai-agents
+  - visualization
   - event-sourcing
   - python

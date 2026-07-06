@@ -10,7 +10,7 @@ Architectural rationale, layering diagrams, dependency rules, and cross-cutting 
 
 ## Responsibilities
 
-- Explain the inward-pointing dependency direction between `core`, `ontology`, `events`, `kpis`, `analytics`, `decision`, `digital_twin`, and `simulation`.
+- Explain the inward-pointing dependency direction between `core`, `ontology`, `events`, `kpis`, `analytics`, `decision`, `digital_twin`, `simulation`, `optimization`, `agents`, and `visualization`.
 - Document forbidden import patterns and architectural boundaries.
 - Serve as the entry point for new contributors to understand system shape before reading code.
 
@@ -30,13 +30,16 @@ Architectural rationale, layering diagrams, dependency rules, and cross-cutting 
 - [`07_Decision_Intelligence_Design_Specification.md`](07_Decision_Intelligence_Design_Specification.md) — `decision` package: `DecisionModel`, rule engine, root-cause/what-if interfaces (interface only), policy governance, decision audit trail.
 - [`08_Digital_Twin_Design_Specification.md`](08_Digital_Twin_Design_Specification.md) — `digital_twin` package: `Twin` (a stateful `core.BaseEntity`), synchronization, snapshots, telemetry integration, an interface-only simulation bridge (`TwinSimulationModel`).
 - [`09_Simulation_Design_Specification.md`](09_Simulation_Design_Specification.md) — `simulation` package: scenario management, `SimulationRun` execution, interface-only Monte Carlo/discrete-event/system-dynamics/calibration models, experiment orchestration, scenario comparison and sensitivity analysis (delegated to `analytics`).
+- [`10_Optimization_Design_Specification.md`](10_Optimization_Design_Specification.md) — `optimization` package: `OptimizationModel`, six interface-only solving paradigms (linear programming, mixed-integer programming, constraint programming, multi-objective, evolutionary/metaheuristic, network optimization), `OptimizationRun` execution, plan comparison and sensitivity analysis (delegated to `analytics`).
+- [`11_AI_Agents_Design_Specification.md`](11_AI_Agents_Design_Specification.md) — `agents` package: `Agent`, model-independent reasoning-backend contract, `Task` lifecycle and execution, policy engine, human approval workflows, tool invocation and inter-agent delegation (interface-only `Agent`/`Tool`/`AgentMemory`).
+- [`12_Visualization_Design_Specification.md`](12_Visualization_Design_Specification.md) — `visualization` package: `Visualization`/`Renderer` (interface only), `Dashboard`/`Widget`/`Report`, rendering pipeline and export — the platform's final package; renders every lower package's already-structured output and performs no business computation of its own.
 
 **Supporting documents:**
 
 - `locked_ssot_documents/` — verbatim archival copies of the locked source documents these specifications are derived from.
-- Architecture Decision Records (ADRs) — see [`docs/adr/`](../adr/) (`ADR-0006` through `ADR-0009` govern why each Intelligence-tier package exists as a separate layer) — and rendered layering/sequence diagrams under `docs/images/` are added as implementation proceeds.
+- Architecture Decision Records (ADRs) — see [`docs/adr/`](../adr/) (`ADR-0006` through `ADR-0012` govern why each Intelligence-tier package exists as a separate layer) — and rendered layering/sequence diagrams under `docs/images/` are added as implementation proceeds.
 
-Each design specification is implementation-ready: 37 normative sections covering purpose, object model, sequence/class diagrams, error handling, testing strategy, certification requirements, and package acceptance criteria. Their companion implementation contracts live in [`docs/design/`](../design/README.md). The five Foundation specifications (`events`, `ontology`, `registry`/`plugins`, `connectors`, `kpis`) are implemented exactly as written; `analytics`, `decision`, `digital_twin`, and `simulation` remain design-only — architecturally complete and locked, with no production implementation yet.
+Each design specification is implementation-ready: normative sections covering purpose, object model, sequence/class diagrams, error handling, testing strategy, certification requirements, and package acceptance criteria. Their companion implementation contracts live in [`docs/design/`](../design/README.md). The five Foundation specifications (`events`, `ontology`, `registry`/`plugins`, `connectors`, `kpis`) are implemented exactly as written; `analytics`, `decision`, `digital_twin`, `simulation`, `optimization`, `agents`, and `visualization` remain design-only — architecturally complete and locked, with no production implementation yet. `visualization` is the final package in the platform's architecture; no future package is anticipated above it.
 
 ## Dependencies
 
@@ -44,7 +47,7 @@ None (documentation only). The specifications describe packages that depend on `
 
 ## Future Work
 
-Add ADRs as significant architectural decisions are made during implementation. The five Foundation specifications (01–05) each record their own architecture decisions inline, in their own §35 Architecture Decisions section; specs 06–09 instead record theirs in a dedicated `docs/adr/ADR-000N-*.md` file each (`ADR-0006` through `ADR-0009`), a convention introduced starting with the Analytics milestone. Add rendered layering and sequence diagrams under `docs/images/` as an illustrated companion to the Mermaid diagrams already embedded in each specification.
+Add ADRs as significant architectural decisions are made during implementation. The five Foundation specifications (01–05) each record their own architecture decisions inline, in their own §35 Architecture Decisions section; specs 06–12 instead record theirs in a dedicated `docs/adr/ADR-000N-*.md` file each (`ADR-0006` through `ADR-0012`), a convention introduced starting with the Analytics milestone. `visualization` (spec 12) is the final package in the architecture; any future ADR would govern implementation-phase decisions, not a new package layer. Add rendered layering and sequence diagrams under `docs/images/` as an illustrated companion to the Mermaid diagrams already embedded in each specification.
 
 ## References
 

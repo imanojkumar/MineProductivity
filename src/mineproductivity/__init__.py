@@ -28,5 +28,5 @@ and docs/architecture/README.md for the governing architecture, and
 ROADMAP.md for the implementation phasing.
 """
 
-__version__ = "1.1.0"
+__version__ = "1.4.0"
 __all__ = ["__version__"]

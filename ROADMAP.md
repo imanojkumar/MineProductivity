@@ -3,7 +3,7 @@
 MineProductivity's overall architecture (Master Architecture Handbook v1.0) is
 locked and documentation-complete. The software implementing it is versioned
 independently via [Semantic Versioning](https://semver.org/); the current
-software release is `1.1.0` (see [`CHANGELOG.md`](CHANGELOG.md) for the full
+software release is `1.4.0` (see [`CHANGELOG.md`](CHANGELOG.md) for the full
 milestone history). This roadmap tracks implementation phases against the
 Reference Implementation Blueprint v1.0 and reflects the repository's actual,
 current state — not a plan for a future not-yet-executed sequence.
@@ -58,8 +58,8 @@ Started** (neither exists yet).
 
 ## Phase 4 — Analytical Layer
 
-**Status: Architecture complete for `analytics` and `simulation`; not
-started for `optimization`.**
+**Status: Architecture complete for `analytics`, `simulation`, and
+`optimization`.**
 
 - `analytics` — **Architecture complete** (v0.8.0 milestone). Statistical and
   analytical processing built on `kpis`/`events`; interface-only
@@ -72,28 +72,38 @@ started for `optimization`.**
   orchestration, scenario comparison and sensitivity analysis (delegated to
   `analytics`). See
   [`docs/architecture/09_Simulation_Design_Specification.md`](docs/architecture/09_Simulation_Design_Specification.md).
-- `optimization` — **Not started.** No architecture specification or ADR
-  exists yet.
+- `optimization` — **Architecture complete** (v1.2.0 milestone). Solved-plan
+  search over six interface-only paradigms (linear programming, mixed-integer
+  programming, constraint programming, multi-objective, evolutionary/
+  metaheuristic, network optimization), plan comparison and sensitivity
+  analysis (delegated to `analytics`). See
+  [`docs/architecture/10_Optimization_Design_Specification.md`](docs/architecture/10_Optimization_Design_Specification.md).
 
 ## Phase 5 — Decision & Twin Layer
 
-**Status: Architecture complete for `decision` and `digital_twin`; not
-started for `agents`.**
+**Status: Architecture complete for `decision`, `digital_twin`, and
+`agents`.**
 
 - `decision` — **Architecture complete** (v0.9.0 milestone). Decision-support
   and recommendation frameworks that translate `analytics`' statistical
   judgments into actionable, explained recommendations.
 - `digital_twin` — **Architecture complete** (v1.0.0 milestone). Stateful
   twin representation and event-driven synchronization.
-- `agents` — **Not started.** No architecture specification or ADR exists
-  yet.
+- `agents` — **Architecture complete** (v1.3.0 milestone). Model-independent
+  agent orchestration layer — `Agent`/`Tool`/`AgentMemory` interfaces, task
+  lifecycle, policy engine, human approval workflows, multi-agent
+  delegation. See
+  [`docs/architecture/11_AI_Agents_Design_Specification.md`](docs/architecture/11_AI_Agents_Design_Specification.md).
 
 ## Phase 6 — Experience Layer
 
-**Status: Not started.**
+**Status: Architecture complete for `visualization`; not started for `cli`.**
 
-- `visualization` — dashboards and visual reporting. No architecture
-  specification exists yet.
+- `visualization` — **Architecture complete** (v1.4.0 milestone). The
+  platform's final package — dashboards, reports, and rendering-backend-
+  independent presentation of every lower package's already-structured
+  output. See
+  [`docs/architecture/12_Visualization_Design_Specification.md`](docs/architecture/12_Visualization_Design_Specification.md).
 - `cli` — command-line interface. No architecture specification exists yet.
 
 ## Phase 7 — Quality & Certification
@@ -125,8 +135,8 @@ already exist under `scripts/quality/`).
   should hardcode it (tests compare against installed package metadata
   instead — see `tests/unit/core/test_public_api.py`).
 - In practice, this repository has bumped the software's MINOR version once
-  per completed architecture milestone (`v0.7.0` KPI Engine through `v1.1.0`
-  Simulation) — a deliberate, precedented convention distinct from waiting
+  per completed architecture milestone (`v0.7.0` KPI Engine through `v1.4.0`
+  Visualization) — a deliberate, precedented convention distinct from waiting
   for a certification-gated `1.0` release. Under this convention, the
   software's SemVer track and the "Phase 7 certification-gated 1.0"
   milestone described above are two different concepts that happen to share

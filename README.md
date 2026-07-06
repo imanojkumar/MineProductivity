@@ -64,7 +64,7 @@ productivity across mining operations. It is designed from first principles to b
 ```
 MineProductivity/
 ├── docs/                    # Architecture, blueprint, developer guide, learning suite
-├── src/mineproductivity/    # The installable Python package (22 subsystems)
+├── src/mineproductivity/    # The installable Python package (24 subsystems)
 ├── tests/                   # Unit, integration, performance, regression, golden tests
 ├── datasets/                # Canonical, generated, golden, benchmark, synthetic data
 ├── notebooks/               # Beginner → research-grade learning notebooks
@@ -89,14 +89,16 @@ architectural rationale behind this layout.
 | Plugins | ✅ | ✅ |
 | Connectors | ✅ | ✅ |
 | KPI Engine | ✅ | ✅ |
-| Analytics | ✅ | 🚧 |
+| Analytics [^1] | ✅ | 🚧 |
 | Decision Intelligence | ✅ | 🚧 |
 | Digital Twin | ✅ | 🚧 |
 | Simulation | ✅ | 🚧 |
-| Optimization | ⏳ | 🚧 |
-| Visualization | ⏳ | 🚧 |
-| AI Agents | ⏳ | 🚧 |
+| Optimization | ✅ | 🚧 |
+| AI Agents | ✅ | 🚧 |
+| Visualization | ✅ | 🚧 |
 | Certification | ⏳ | 🚧 |
+
+[^1]: Architecture complete, but the design specification, implementation checklist, and `ADR-0006-Analytics-Engine.md` currently exist only on the unmerged `feature/analytics-engine` branch, not on `main`.
 
 ## Architecture Roadmap
 
@@ -116,12 +118,13 @@ Intelligence
 ✅ Decision Intelligence
 ✅ Digital Twin
 ✅ Simulation
+✅ Optimization
+✅ AI Agents
+✅ Visualization
 
 Next
 ────
-⏳ Optimization
-⏳ AI Agents
-⏳ Visualization
+⏳ Certification
 
 ## Architectural Layering & Dependency Direction
 
@@ -136,6 +139,14 @@ this is mechanically enforced, not just documented: each package's own
 
 ```
                      ┌───────────────────┐
+                     │   visualization   │
+                     ├───────────────────┤
+                     │       agents      │
+                     ├───────────────────┤
+                     │    optimization   │
+                     ├───────────────────┤
+                     │     simulation    │
+                     ├───────────────────┤
                      │   digital_twin    │
                      ├───────────────────┤
                      │     decision      │
@@ -150,13 +161,14 @@ this is mechanically enforced, not just documented: each package's own
                      ├───────────────────┤
                      │        core       │
                      └───────────────────┘
-   (core has no dependencies on any other MineProductivity package)
+   (core has no dependencies on any other MineProductivity package;
+   visualization is the final package — nothing depends on it)
 ```
 
 Cross-cutting packages (`config`, `io`, `utils`, `exceptions`, `registry`,
 `plugins`, `validation`, `cli`) may be depended upon by any layer, but must
-never depend on `kpis`, `analytics`, `decision`, `digital_twin`, `agents`,
-`connectors`, `optimization`, or `simulation`.
+never depend on `kpis`, `analytics`, `decision`, `digital_twin`, `simulation`,
+`optimization`, `agents`, `visualization`, or `connectors`.
 
 ## Documentation (Single Source of Truth)
 
@@ -189,7 +201,7 @@ structured, versioned notes and placeholders that mirror their sections. See
 
 ## Project Status
 
-**Current Stable Release: v1.1.0**
+**Current Stable Release: v1.4.0**
 
 The project follows an architecture-first development methodology. Each milestone begins with a fully reviewed architecture specification (Design Specification, Implementation Checklist, and ADR), followed by implementation.
 
@@ -207,6 +219,9 @@ Completed milestones:
 | v0.9.0 | Decision Intelligence Architecture | ✅ Architecture Complete |
 | v1.0.0 | Digital Twin Architecture | ✅ Architecture Complete |
 | v1.1.0 | Simulation Architecture | ✅ Architecture Complete |
+| v1.2.0 | Optimization Architecture | ✅ Architecture Complete |
+| v1.3.0 | AI Agents Architecture | ✅ Architecture Complete |
+| v1.4.0 | Visualization Architecture | ✅ Architecture Complete |
 
 See: 
  - [CHANGELOG.md](CHANGELOG.md) and 

@@ -6,7 +6,7 @@ The single installable Python package containing every MineProductivity subsyste
 
 ## Scope
 
-The `src/` layout root for the `mineproductivity` distribution. Contains 22 subsystem packages plus the package-level `__init__.py` exposing `__version__`. Does not contain tests (see `tests/`), datasets (see `datasets/`), or documentation (see `docs/`).
+The `src/` layout root for the `mineproductivity` distribution. Contains 24 subsystem packages plus the package-level `__init__.py` exposing `__version__`. Does not contain tests (see `tests/`), datasets (see `datasets/`), or documentation (see `docs/`).
 
 ## Responsibilities
 
@@ -15,7 +15,7 @@ The `src/` layout root for the `mineproductivity` distribution. Contains 22 subs
 
 ## Contents
 
-- `core/`, `events/`, `ontology/`, `kpis/`, `datasets/`, `connectors/`, `analytics/`, `optimization/`, `simulation/`, `digital_twin/`, `decision/`, `agents/`, `visualization/`, `benchmark/`, `certification/`, `config/`, `io/`, `utils/`, `cli/`, `exceptions/`, `registry/`, `plugins/`, `validation/`
+- `core/`, `events/`, `ontology/`, `kpis/`, `datasets/`, `connectors/`, `analytics/`, `optimization/`, `simulation/`, `digital_twin/`, `decision/`, `agents/`, `visualization/`, `benchmark/`, `certification/`, `config/`, `io/`, `utils/`, `typing/`, `cli/`, `exceptions/`, `registry/`, `plugins/`, `validation/`
 
 ## Dependencies
 

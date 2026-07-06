@@ -41,7 +41,7 @@ See the [design specification's §11–§14](../../../docs/architecture/01_Event
 
 ### Documentation Governance Rule #005
 
-`events.DelayEvent.delay_category` is typed against `ontology.DelayCategory`, an enum the Ontology Framework (a future package) owns. Since the full Ontology Framework has not been implemented yet, only this one minimal shared contract — a closed, six-value enum with no behavior beyond a `precedence` property — has been published ahead of schedule, at `src/mineproductivity/ontology/reference/delay_taxonomy.py`. No other ontology concept (entity types, registry, relationships, reasoning) exists yet. See `ontology/README.md` for the full governance note.
+`events.DelayEvent.delay_category` is typed against `ontology.DelayCategory`, an enum the Ontology Framework owns. At the time `events` was implemented (v0.3.0), the full Ontology Framework had not been implemented yet, so this one minimal shared contract — a closed, six-value enum with no behavior beyond a `precedence` property — was published ahead of schedule, at `src/mineproductivity/ontology/reference/delay_taxonomy.py`. The Ontology Framework has since been fully implemented (v0.4.0); `DelayCategory` remains at that same permanent home, unchanged. See `ontology/README.md` for the full governance note.
 
 ## Package Structure
 
@@ -80,8 +80,8 @@ core  →  ontology  →  events
 ```
 
 - **`events` depends on:** `core` and `ontology` (only `DelayCategory` — see above). No other package.
-- **`events` is depended on by:** `connectors` (produces events), `kpis` (consumes events), and transitively `analytics`, `decision`, `digital_twin`.
-- **Forbidden:** `events` must never import `connectors`, `kpis`, `analytics`, `optimization`, `simulation`, `decision`, `digital_twin`, or `agents`. This is mechanically checked by `tests/unit/events/test_public_api.py::TestNoForbiddenDependencies`.
+- **`events` is depended on by:** `connectors` (produces events), `kpis` (consumes events), and transitively `analytics`, `decision`, `digital_twin`, `simulation`, `optimization`, `agents`, `visualization`.
+- **Forbidden:** `events` must never import `connectors`, `kpis`, `analytics`, `optimization`, `simulation`, `decision`, `digital_twin`, `agents`, or `visualization`. This is mechanically checked by `tests/unit/events/test_public_api.py::TestNoForbiddenDependencies`.
 
 ## Public API
 

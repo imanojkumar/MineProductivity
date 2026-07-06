@@ -92,8 +92,8 @@ core  →  ontology
 ```
 
 - **`ontology` depends on:** `core` only. No other package.
-- **`ontology` is depended on by:** `events` (reference taxonomies only), `connectors` and `kpis` (the entity-type vocabulary directly), and transitively `analytics`, `decision`, `digital_twin`, and `simulation`. `registry` does **not** depend on `ontology` — `registry` is a lower-level, domain-agnostic mechanism that only `core` sits below.
-- **Forbidden:** `ontology` must never import `events`, `registry`, `connectors`, `kpis`, `analytics`, `optimization`, `simulation`, `decision`, `digital_twin`, or `agents`. This is mechanically checked by `tests/unit/ontology/test_public_api.py::TestNoForbiddenDependencies`.
+- **`ontology` is depended on by:** `events` (reference taxonomies only), `connectors` and `kpis` (the entity-type vocabulary directly), and transitively `analytics`, `decision`, `digital_twin`, `simulation`, `optimization`, `agents`, and `visualization`. `registry` does **not** depend on `ontology` — `registry` is a lower-level, domain-agnostic mechanism that only `core` sits below.
+- **Forbidden:** `ontology` must never import `events`, `registry`, `connectors`, `kpis`, `analytics`, `optimization`, `simulation`, `decision`, `digital_twin`, `agents`, or `visualization`. This is mechanically checked by `tests/unit/ontology/test_public_api.py::TestNoForbiddenDependencies`.
 
 ## Public API
 

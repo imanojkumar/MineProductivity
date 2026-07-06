@@ -107,8 +107,8 @@ core → ontology → events → registry → kpis
 ```
 
 - **`kpis` depends on:** `core`, `ontology`, `events`, `registry`.
-- **`kpis` is depended on by:** `analytics`, `decision`, `digital_twin`, and `simulation`, per their own locked design specifications (none is implemented yet) — never the reverse.
-- **Forbidden (the single most load-bearing rule in this document):** `kpis` MUST NOT import `connectors`, `analytics`, `optimization`, `simulation`, `decision`, `digital_twin`, or `agents`. This is mechanically checked by `tests/unit/kpis/test_public_api.py::TestNoForbiddenDependencies`, including a dedicated `test_never_imports_connectors_specifically` check.
+- **`kpis` is depended on by:** `analytics`, `decision`, `digital_twin`, `simulation`, `optimization`, `agents`, and `visualization`, per their own locked design specifications (none is implemented yet) — never the reverse.
+- **Forbidden (the single most load-bearing rule in this document):** `kpis` MUST NOT import `connectors`, `analytics`, `optimization`, `simulation`, `decision`, `digital_twin`, `agents`, or `visualization`. This is mechanically checked by `tests/unit/kpis/test_public_api.py::TestNoForbiddenDependencies`, including a dedicated `test_never_imports_connectors_specifically` check.
 
 ## Public API
 

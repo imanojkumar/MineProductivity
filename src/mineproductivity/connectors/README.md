@@ -95,7 +95,7 @@ core → ontology → events → connectors
 
 - **`connectors` depends on:** `core`, `ontology`, `events`, and `registry`.
 - **`connectors` is depended on by:** nothing in the domain-heart or intelligence layers directly — the platform depends on `connectors` only through the `events` it produces, never through a direct import.
-- **Forbidden (the single most load-bearing rule in this document):** `connectors` MUST NOT import `kpis`, `analytics`, `optimization`, `simulation`, `decision`, `digital_twin`, or `agents`. This is mechanically checked by `tests/unit/connectors/test_public_api.py::TestNoForbiddenDependencies`.
+- **Forbidden (the single most load-bearing rule in this document):** `connectors` MUST NOT import `kpis`, `analytics`, `optimization`, `simulation`, `decision`, `digital_twin`, `agents`, or `visualization`. This is mechanically checked by `tests/unit/connectors/test_public_api.py::TestNoForbiddenDependencies`.
 
 ## Public API
 

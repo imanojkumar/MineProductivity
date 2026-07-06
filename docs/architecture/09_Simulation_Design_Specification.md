@@ -372,7 +372,7 @@ Twenty-one implementation modules plus `__init__.py` and `README.md` — the lar
   ```
 - **Public Functions:** None.
 - **Public API:** all five exception classes listed above.
-- **Dependencies:** `core` (`ValidationError`, `NotFoundError`, `RegistrationError`, `MineProductivityError`).
+- **Dependencies:** `core` (`ValidationError`, `NotFoundError`, `MineProductivityError`), `registry` (`RegistrationError`).
 - **Extension Points:** a new exception type is added only alongside the specific failure mode it represents.
 
 ## 7. Public API

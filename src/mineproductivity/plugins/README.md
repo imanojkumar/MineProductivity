@@ -57,7 +57,7 @@ core  →  registry  →  plugins
 
 - **`plugins` depends on:** `core` and `registry`. No other package.
 - **`plugins` is depended on by:** the future `cli` package (a `mineprod plugins` surface); any package that needs manifest-driven activation rather than raw `registry` lookups.
-- **Forbidden:** `plugins` must never import `ontology`, `events`, `connectors`, `kpis`, `analytics`, `optimization`, `simulation`, `decision`, `digital_twin`, or `agents`. This is mechanically checked by `tests/unit/plugins/test_public_api.py::TestNoForbiddenDependencies`.
+- **Forbidden:** `plugins` must never import `ontology`, `events`, `connectors`, `kpis`, `analytics`, `optimization`, `simulation`, `decision`, `digital_twin`, `agents`, or `visualization`. This is mechanically checked by `tests/unit/plugins/test_public_api.py::TestNoForbiddenDependencies`.
 
 ## Public API
 

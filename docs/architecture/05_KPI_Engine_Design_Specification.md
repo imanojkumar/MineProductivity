@@ -145,7 +145,7 @@ core → ontology → events → kpis
 
 - **`kpis` depends on:** `core`, `ontology`, `events`, and the cross-cutting `registry`, `validation`, `config` packages. `kpis` MAY depend on optional, declared third-party vectorization libraries (Polars, DuckDB, pandas, NumPy) behind the `backends/` abstraction (§10.9) — these are the one deliberate exception to the platform's "essential packaging requirements only" default, installed as an optional extra (mirroring the Developer Documentation's `pip install "mineproductivity[analytics]"` pattern) rather than a hard core dependency.
 - **`kpis` is depended on by:** `analytics`, `optimization`, `simulation`, `decision`, `digital_twin`, `agents`, `visualization`, `benchmark`, `certification`.
-- **Forbidden:** `kpis` MUST NOT import `connectors` (Cookbook Part I, Ch. 3: *"kpis/ cannot import a fleet-management SDK, [so] a KPI can never accidentally depend on one vendor's data shape"*), nor `analytics`, `optimization`, `simulation`, `decision`, `digital_twin`, or `agents`.
+- **Forbidden:** `kpis` MUST NOT import `connectors` (Cookbook Part I, Ch. 3: *"kpis/ cannot import a fleet-management SDK, [so] a KPI can never accidentally depend on one vendor's data shape"*), nor `analytics`, `optimization`, `simulation`, `decision`, `digital_twin`, `agents`, or `visualization`.
 
 ## 8. Public API
 

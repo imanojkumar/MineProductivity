@@ -379,7 +379,7 @@ Twenty-two implementation modules plus `__init__.py` and `README.md` — compara
   ```
 - **Public Functions:** None.
 - **Public API:** all five exception classes listed above.
-- **Dependencies:** `core` (`ValidationError`, `NotFoundError`, `RegistrationError` — each exception here subclasses the matching `core` exception exactly as every other domain package's exceptions do).
+- **Dependencies:** `core` (`ValidationError`, `NotFoundError`), `registry` (`RegistrationError`) — each exception here subclasses the matching `core` or `registry` exception.
 - **Extension Points:** a new exception type is added only alongside the specific failure mode it represents — this module does not pre-declare exceptions for capabilities that do not yet exist (e.g. no `DecisionSimulationError` exists yet, since `WhatIfEngine` ships no concrete implementation to fail, §19).
 
 ## 7. Public API
