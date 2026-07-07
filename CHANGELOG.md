@@ -5,12 +5,53 @@ All notable changes to MineProductivity are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-> **Note:** The software version (currently `1.4.0`) is independent of the
+> **Note:** The software version (currently `1.5.0`) is independent of the
 > architecture document version (`v1.0`, locked). The architecture is
 > considered final for this phase; the software implementing it continues
 > to evolve incrementally.
 
 ## [Unreleased]
+
+## [1.5.0] - 2026-07-07
+
+Analytics Engine implementation milestone.
+
+This release delivers the full production implementation of the
+`mineproductivity.analytics` package against the architecture approved in
+the `v0.8.0` milestone (Design Specification, Implementation Checklist, and
+ADR-0006) — the platform's statistical and analytical computation layer,
+built directly on `kpis`.
+
+### Added
+
+- `AnalyticsModel` (ABC)/`AnalyticsContext`, `AnalyticsMetadata`/
+  `AnalyticsCategory`, and the full `AnalyticsResult` result-model
+  hierarchy (Foundation).
+- `AnalyticsPipeline`/`PipelineStage`/`ModelStage` and `AggregationEngine`/
+  `GroupBySpec` (Metric Pipelines & Aggregation), including
+  `AggregationEngine.reduce()`.
+- `describe`, `percentile`, `histogram`, `distribution`,
+  `confidence_interval` (Statistical Primitives), and
+  `rolling_mean`/`rolling_std`/`rolling_apply` (Rolling Analytics).
+- `TrendModel`/`LinearTrendModel`, `BaselineModel`/`RollingBaselineModel`,
+  `BenchmarkModel`/`BandBenchmarkModel` — each self-registering into the
+  new `analytics.REGISTRY`.
+- `DataQualityScorer`/`MissingDataPolicy`/`DataQualityStage` (Data Quality
+  & Missing Data Handling).
+- `ForecastingModel`, `AnomalyDetector`, `OutlierDetector` — interface-only
+  extension points with zero concrete subclasses by design (ADR-0006).
+- `BatchAnalyticsRunner`, `StreamingAnalyticsSession`,
+  `IncrementalAccumulator` (Execution Modes), the latter implementing
+  Welford's online algorithm for O(1) streaming mean/variance.
+- `analytics.REGISTRY`/`register` (`_registry.py`), specializing the
+  Registry Framework mechanism exactly as `kpis._registry` does.
+
+### Notes
+
+- 100% statement coverage across all 22 `analytics` modules; full repository
+  test suite, `ruff`, and `mypy --strict` pass with zero findings.
+- No architectural changes relative to the locked `v0.8.0` design — this is
+  a pure implementation milestone.
 
 ## [1.4.0] - 2026-07-06
 

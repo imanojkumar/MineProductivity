@@ -6,13 +6,13 @@ If you use **MineProductivity** in your research, publications, or industrial pr
 
 ## APA (7th Edition)
 
-Kumar, M. (2026). *MineProductivity* (Version 1.4.0) [Software]. Zenodo. https://doi.org/10.5281/zenodo.21172767
+Kumar, M. (2026). *MineProductivity* (Version 1.5.0) [Software]. Zenodo. https://doi.org/10.5281/zenodo.21172767
 
 ---
 
 ## IEEE
 
-M. Kumar, *MineProductivity*, Version 1.4.0, Zenodo, Jul. 2026. doi:10.5281/zenodo.21172767.
+M. Kumar, *MineProductivity*, Version 1.5.0, Zenodo, Jul. 2026. doi:10.5281/zenodo.21172767.
 
 ---
 
@@ -22,7 +22,7 @@ M. Kumar, *MineProductivity*, Version 1.4.0, Zenodo, Jul. 2026. doi:10.5281/zeno
 @software{MineProductivity2026,
   author       = {Manoj Kumar},
   title        = {MineProductivity},
-  version      = {1.4.0},
+  version      = {1.5.0},
   year         = {2026},
   publisher    = {Zenodo},
   doi          = {10.5281/zenodo.21172767},
@@ -35,7 +35,7 @@ M. Kumar, *MineProductivity*, Version 1.4.0, Zenodo, Jul. 2026. doi:10.5281/zeno
 ## Chicago
 
 Kumar, Manoj.
-*MineProductivity*. Version 1.4.0.
+*MineProductivity*. Version 1.5.0.
 Zenodo, 2026.
 https://doi.org/10.5281/zenodo.21172767.
 
@@ -59,7 +59,7 @@ https://github.com/imanojkumar/MineProductivity
 
 Version Used for this Release
 
-https://github.com/imanojkumar/MineProductivity/tree/v1.4.0
+https://github.com/imanojkumar/MineProductivity/tree/v1.5.0
 
 ---
 

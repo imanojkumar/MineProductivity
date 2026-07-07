@@ -3,7 +3,7 @@
 MineProductivity's overall architecture (Master Architecture Handbook v1.0) is
 locked and documentation-complete. The software implementing it is versioned
 independently via [Semantic Versioning](https://semver.org/); the current
-software release is `1.4.0` (see [`CHANGELOG.md`](CHANGELOG.md) for the full
+software release is `1.5.0` (see [`CHANGELOG.md`](CHANGELOG.md) for the full
 milestone history). This roadmap tracks implementation phases against the
 Reference Implementation Blueprint v1.0 and reflects the repository's actual,
 current state — not a plan for a future not-yet-executed sequence.
@@ -58,14 +58,16 @@ Started** (neither exists yet).
 
 ## Phase 4 — Analytical Layer
 
-**Status: Architecture complete for `analytics`, `simulation`, and
-`optimization`.**
+**Status: Implemented for `analytics`; Architecture complete for
+`simulation` and `optimization`.**
 
-- `analytics` — **Architecture complete** (v0.8.0 milestone). Statistical and
-  analytical processing built on `kpis`/`events`; interface-only
-  forecasting/anomaly/outlier-detection models. Design Specification exists
-  only on the unmerged `feature/analytics-engine` branch (see
-  `ADR-0006-Analytics-Engine.md`).
+- `analytics` — **Implemented** (v1.5.0 milestone, architecture approved at
+  the v0.8.0 milestone). Statistical and analytical processing built on
+  `kpis`/`events` — trend, baseline, and benchmark analysis, rolling and
+  aggregate statistics, data-quality scoring, batch/streaming/incremental
+  execution modes, and a self-registering plugin registry; interface-only
+  forecasting/anomaly/outlier-detection models (zero concrete subclasses by
+  design, see `ADR-0006-Analytics-Engine.md`).
 - `simulation` — **Architecture complete** (v1.1.0 milestone). Scenario
   management, `SimulationRun` execution, interface-only Monte Carlo/
   discrete-event/system-dynamics/calibration models, experiment
@@ -135,9 +137,10 @@ already exist under `scripts/quality/`).
   should hardcode it (tests compare against installed package metadata
   instead — see `tests/unit/core/test_public_api.py`).
 - In practice, this repository has bumped the software's MINOR version once
-  per completed architecture milestone (`v0.7.0` KPI Engine through `v1.4.0`
-  Visualization) — a deliberate, precedented convention distinct from waiting
-  for a certification-gated `1.0` release. Under this convention, the
+  per completed architecture or implementation milestone (`v0.7.0` KPI Engine
+  through `v1.5.0` Analytics Engine implementation) — a deliberate,
+  precedented convention distinct from waiting for a certification-gated
+  `1.0` release. Under this convention, the
   software's SemVer track and the "Phase 7 certification-gated 1.0"
   milestone described above are two different concepts that happen to share
   the digit `1.0`: the software already carries a version number at or past

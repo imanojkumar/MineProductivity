@@ -89,7 +89,7 @@ architectural rationale behind this layout.
 | Plugins | ✅ | ✅ |
 | Connectors | ✅ | ✅ |
 | KPI Engine | ✅ | ✅ |
-| Analytics [^1] | ✅ | 🚧 |
+| Analytics | ✅ | ✅ |
 | Decision Intelligence | ✅ | 🚧 |
 | Digital Twin | ✅ | 🚧 |
 | Simulation | ✅ | 🚧 |
@@ -97,8 +97,6 @@ architectural rationale behind this layout.
 | AI Agents | ✅ | 🚧 |
 | Visualization | ✅ | 🚧 |
 | Certification | ⏳ | 🚧 |
-
-[^1]: Architecture complete, but the design specification, implementation checklist, and `ADR-0006-Analytics-Engine.md` currently exist only on the unmerged `feature/analytics-engine` branch, not on `main`.
 
 ## Architecture Roadmap
 
@@ -201,7 +199,7 @@ structured, versioned notes and placeholders that mirror their sections. See
 
 ## Project Status
 
-**Current Stable Release: v1.4.0**
+**Current Stable Release: v1.5.0**
 
 The project follows an architecture-first development methodology. Each milestone begins with a fully reviewed architecture specification (Design Specification, Implementation Checklist, and ADR), followed by implementation.
 
@@ -222,6 +220,7 @@ Completed milestones:
 | v1.2.0 | Optimization Architecture | ✅ Architecture Complete |
 | v1.3.0 | AI Agents Architecture | ✅ Architecture Complete |
 | v1.4.0 | Visualization Architecture | ✅ Architecture Complete |
+| v1.5.0 | Analytics Engine Implementation | ✅ Implemented |
 
 See: 
  - [CHANGELOG.md](CHANGELOG.md) and 

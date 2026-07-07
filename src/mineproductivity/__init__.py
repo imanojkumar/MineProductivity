@@ -22,11 +22,16 @@ Design Specification. The ``mineproductivity.kpis`` package now implements
 the metric backbone -- the metadata-first, self-describing KPI Engine (the
 ``BaseKPI``/``CompositeKPI`` object model, dependency-graph orchestration,
 pluggable execution backends, and the 12-KPI Standard Library reference
-implementation) per the locked KPI Engine Design Specification. Every other
-subsystem package is still a structural placeholder. See the root README.md
-and docs/architecture/README.md for the governing architecture, and
-ROADMAP.md for the implementation phasing.
+implementation) per the locked KPI Engine Design Specification. The
+``mineproductivity.analytics`` package implements the statistical and
+analytical computation layer built directly on ``kpis`` -- trend, baseline,
+and benchmark analysis, rolling and aggregate statistics, data-quality
+scoring, batch/streaming/incremental execution modes, and the plugin
+registry -- per the locked Analytics Engine Design Specification. Every
+other subsystem package is still a structural placeholder. See the root
+README.md and docs/architecture/README.md for the governing architecture,
+and ROADMAP.md for the implementation phasing.
 """
 
-__version__ = "1.4.0"
+__version__ = "1.5.0"
 __all__ = ["__version__"]
