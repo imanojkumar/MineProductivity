@@ -2,8 +2,13 @@
 
 from __future__ import annotations
 
+import ast
+import inspect
+import textwrap
 from collections.abc import Callable
 from datetime import datetime, timezone
+from types import ModuleType
+from typing import Any
 
 import pytest
 
@@ -12,6 +17,8 @@ from mineproductivity.events.envelope import EventEnvelope, EventMetadata
 from mineproductivity.events.identifier import EventID
 from mineproductivity.events.store import _InMemoryEventStore
 from mineproductivity.events.versioning import EventVersion
+from mineproductivity.kpis import REGISTRY, KPIEngine, ResultCache
+from mineproductivity.kpis.backends import PandasBackend
 
 NOW = datetime(2026, 6, 25, 6, 0, tzinfo=timezone.utc)
 
@@ -61,3 +68,43 @@ def cycle_envelope_factory(
         )
 
     return factory
+
+
+@pytest.fixture
+def engine(event_store: _InMemoryEventStore) -> KPIEngine:
+    return KPIEngine(
+        store=event_store, registry=REGISTRY, backend=PandasBackend(), cache=ResultCache()
+    )
+
+
+def assert_stub_method_body(method: Callable[..., Any]) -> None:
+    """Assert ``method``'s body is a docstring only -- no statements, no
+    branching, no return. Shared by the interface-only modules'
+    (``forecasting.py``, ``anomaly.py``, ``outliers.py``) test suites to
+    mechanically prove "no algorithmic behavior exists beyond
+    orchestration" (design spec §35) without each duplicating the same
+    AST-parsing assertion."""
+    source = inspect.getsource(method)
+    (function_def,) = ast.parse(textwrap.dedent(source)).body
+    assert isinstance(function_def, ast.FunctionDef)
+    assert len(function_def.body) == 1
+    assert isinstance(function_def.body[0], ast.Expr)
+    assert isinstance(function_def.body[0].value, ast.Constant)
+    assert isinstance(function_def.body[0].value.value, str)
+
+
+def assert_no_import_from(module: ModuleType, *forbidden_submodules: str) -> None:
+    """Assert ``module`` (a ``mineproductivity.analytics`` submodule)
+    does not import from any of ``forbidden_submodules`` (sibling
+    ``analytics`` submodule names, e.g. ``"statistics"``, ``"rolling"``).
+    Shared by the execution-mode modules' (``batch.py``,
+    ``streaming.py``, ``incremental.py``) test suites to mechanically
+    prove they coordinate existing components rather than duplicating
+    logic that belongs in one specific, single-responsibility module."""
+    tree = ast.parse(inspect.getsource(module))
+    imported_modules = {
+        node.module for node in ast.walk(tree) if isinstance(node, ast.ImportFrom) and node.module
+    }
+    for forbidden in forbidden_submodules:
+        full_name = f"mineproductivity.analytics.{forbidden}"
+        assert full_name not in imported_modules, f"{module.__name__} imports from {full_name}"

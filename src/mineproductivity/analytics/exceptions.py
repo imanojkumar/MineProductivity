@@ -17,7 +17,9 @@ class AnalyticsValidationError(ValidationError):
     """An ``AnalyticsMetadata``, ``RollingSpec``, ``TimeSeries``, or other
     Analytics value object failed validation -- e.g. an empty ``code``,
     a ``RollingSpec`` with neither (or both) of ``time_window``/``periods``
-    set."""
+    set -- or a caller passed malformed arguments to an Analytics method,
+    e.g. ``AggregationEngine.reduce_kpi_results`` given an empty or
+    mixed-``code`` sequence of ``KPIResult``\\ s."""
 
 
 class InsufficientDataError(ValidationError):

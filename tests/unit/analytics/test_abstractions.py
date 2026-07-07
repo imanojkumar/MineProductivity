@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+import concurrent.futures
+from datetime import datetime, timedelta, timezone
 from typing import ClassVar
 
 import pytest
@@ -11,8 +12,9 @@ from mineproductivity.events.store import _InMemoryEventStore
 
 from mineproductivity.analytics.abstractions import AnalyticsContext, AnalyticsModel
 from mineproductivity.analytics.metadata import AnalyticsCategory, AnalyticsMetadata
-from mineproductivity.analytics.result import AnalyticsResult
+from mineproductivity.analytics.result import AnalyticsResult, TrendResult
 from mineproductivity.analytics.timeseries import TimeSeries, TimeSeriesPoint
+from mineproductivity.analytics.trend import LinearTrendModel
 
 DAY_1 = datetime(2026, 1, 1, tzinfo=timezone.utc)
 DAY_2 = datetime(2026, 1, 2, tzinfo=timezone.utc)
@@ -81,3 +83,41 @@ class TestAnalyticsModel:
         assert result.model_code == "TREND.Stub"
         assert len(result.warnings) == 1
         assert "insufficient data" in result.warnings[0]
+
+
+class TestAnalyticsModelStatelessConcurrency:
+    """``AnalyticsModel``'s own class docstring: 'every subclass MUST be
+    stateless across analyze() calls... so a single instance is safe to
+    share and invoke concurrently from multiple threads.' Proven here
+    against a real, already-implemented model (``LinearTrendModel``)
+    rather than a synthetic stub -- ``_StubModel`` above deliberately
+    mutates an ``analyze_calls`` counter to prove orchestration
+    call-counting, which is the opposite of what this test needs;
+    ``LinearTrendModel`` has no mutable instance state at all and a
+    nontrivial per-call computation (an OLS fit), so a data race would
+    show up as a wrong-slope result for one of the concurrent calls."""
+
+    def test_shared_instance_produces_correct_independent_results_under_concurrent_analyze(
+        self,
+    ) -> None:
+        model = LinearTrendModel()
+        context = AnalyticsContext(event_store=_InMemoryEventStore())
+
+        def _series_for(slope: float) -> TimeSeries:
+            return TimeSeries(
+                points=tuple(
+                    TimeSeriesPoint(timestamp=DAY_1 + timedelta(seconds=i), value=slope * i)
+                    for i in range(10)
+                )
+            )
+
+        slopes = [float(i) for i in range(1, 21)]
+        with concurrent.futures.ThreadPoolExecutor(max_workers=8) as pool:
+            futures = [
+                pool.submit(model.analyze, _series_for(slope), context=context) for slope in slopes
+            ]
+            results = [future.result() for future in futures]
+
+        for slope, result in zip(slopes, results, strict=True):
+            assert isinstance(result, TrendResult)
+            assert result.slope == pytest.approx(slope)

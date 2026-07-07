@@ -103,6 +103,21 @@ class TestNoCircularImports:
             "result",
             "timeseries",
             "abstractions",
+            "pipeline",
+            "aggregation",
+            "statistics",
+            "rolling",
+            "trend",
+            "baseline",
+            "benchmarking",
+            "quality",
+            "forecasting",
+            "anomaly",
+            "outliers",
+            "incremental",
+            "batch",
+            "streaming",
+            "_registry",
         ]
         for name in submodules:
             module = importlib.import_module(f"mineproductivity.analytics.{name}")

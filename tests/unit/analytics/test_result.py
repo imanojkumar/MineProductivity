@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 import pytest
 
 from mineproductivity.core import BaseValueObject
+from mineproductivity.core.serialization import DataclassSerializer, to_dict
 from mineproductivity.kpis import Direction
 
 from mineproductivity.analytics.result import (
@@ -174,3 +175,101 @@ class TestOutlierFlag:
     def test_is_not_an_analytics_result(self) -> None:
         assert not issubclass(OutlierFlag, AnalyticsResult)
         assert issubclass(OutlierFlag, BaseValueObject)
+
+
+class TestSerialization:
+    """Design spec §30: 'Every result type serializes via
+    core.serialization (DataclassSerializer/to_dict) with no bespoke
+    per-type serializer.' Confirmed directly here: none of these classes
+    defines its own ``to_dict()`` method, so the free ``to_dict()``
+    function always takes the generic dataclass-recursion path
+    (``_asdict_recursive``), never the ``SupportsToDict`` short-circuit
+    -- the same generic mechanism every other domain package's result
+    types (e.g. ``kpis.KPIResult``) already rely on."""
+
+    _INSTANCES: tuple[AnalyticsResult | AnomalyFlag | OutlierFlag, ...] = (
+        AnalyticsResult(model_code="TREND.Linear", warnings=("low n",)),
+        StatisticalSummary(n=3, mean=2.0, std=1.0, minimum=1.0, maximum=3.0, percentiles={50: 2.0}),
+        TrendResult(
+            slope=1.5,
+            intercept=0.0,
+            r_squared=0.98,
+            direction="increasing",
+            window=RollingSpec(periods=7),
+        ),
+        BenchmarkResult(
+            kpi_code="PROD.TPH",
+            value=1200.0,
+            band="top_quartile",
+            direction=Direction.HIGHER_IS_BETTER,
+        ),
+        Baseline(mean=100.0, std=5.0, lower=90.0, upper=110.0, spec=RollingSpec(periods=14)),
+        DistributionSummary(mean=1.0, std=0.5, skewness=0.1, kurtosis=3.0, percentiles={50: 1.0}),
+        Histogram(bin_edges=(0.0, 1.0, 2.0), counts=(3, 5)),
+        ConfidenceInterval(lower=9.5, upper=10.5, confidence=0.95, method="t"),
+        DataQualityScore(
+            completeness=1.0, validity=0.9, overall_score=0.9, reasons=("2 rows out of range",)
+        ),
+        ForecastResult(
+            horizon=1,
+            predicted=(105.0,),
+            intervals=(
+                ConfidenceInterval(lower=100.0, upper=110.0, confidence=0.95, method="normal"),
+            ),
+        ),
+        AnomalyFlag(
+            timestamp=datetime(2026, 1, 1, tzinfo=timezone.utc),
+            observed_value=500.0,
+            expected_value=100.0,
+            severity="high",
+        ),
+        OutlierFlag(index=42, value=999.0, method_hint="iqr"),
+    )
+
+    @pytest.mark.parametrize("instance", _INSTANCES)
+    def test_to_dict_works_generically_for_every_result_type(
+        self, instance: AnalyticsResult | AnomalyFlag | OutlierFlag
+    ) -> None:
+        data = to_dict(instance)
+        assert isinstance(data, dict)
+        assert data
+
+    @pytest.mark.parametrize("instance", _INSTANCES)
+    def test_no_result_type_defines_its_own_to_dict_method(
+        self, instance: AnalyticsResult | AnomalyFlag | OutlierFlag
+    ) -> None:
+        assert "to_dict" not in type(instance).__dict__
+
+
+class TestDataclassSerializerRoundTrip:
+    """Round-trips flat (no nested-dataclass-field) result types through
+    ``DataclassSerializer`` -- ``deserialize`` reconstructs via
+    ``target_type(**data)`` directly (its own docstring's ``Point``
+    example), which is correct for a flat dataclass but would pass a
+    plain ``dict`` where a nested-dataclass field (e.g.
+    ``TrendResult.window: RollingSpec``) expects a ``RollingSpec``
+    instance -- that one-level scope is a property of
+    ``DataclassSerializer`` itself (design spec §30 does not ask for
+    deep reconstruction), not something this package works around."""
+
+    def test_analytics_result_round_trips(self) -> None:
+        serializer = DataclassSerializer(AnalyticsResult)
+        original = AnalyticsResult(model_code="TREND.Linear", warnings=("low n",))
+        assert serializer.deserialize(serializer.serialize(original)) == original
+
+    def test_statistical_summary_round_trips(self) -> None:
+        serializer = DataclassSerializer(StatisticalSummary)
+        original = StatisticalSummary(
+            n=3, mean=2.0, std=1.0, minimum=1.0, maximum=3.0, percentiles={50: 2.0, 90: 2.8}
+        )
+        assert serializer.deserialize(serializer.serialize(original)) == original
+
+    def test_benchmark_result_round_trips(self) -> None:
+        serializer = DataclassSerializer(BenchmarkResult)
+        original = BenchmarkResult(
+            kpi_code="PROD.TPH",
+            value=1200.0,
+            band="top_quartile",
+            direction=Direction.HIGHER_IS_BETTER,
+        )
+        assert serializer.deserialize(serializer.serialize(original)) == original
