@@ -3,7 +3,7 @@
 MineProductivity's overall architecture (Master Architecture Handbook v1.0) is
 locked and documentation-complete. The software implementing it is versioned
 independently via [Semantic Versioning](https://semver.org/); the current
-software release is `1.5.0` (see [`CHANGELOG.md`](CHANGELOG.md) for the full
+software release is `1.6.0` (see [`CHANGELOG.md`](CHANGELOG.md) for the full
 milestone history). This roadmap tracks implementation phases against the
 Reference Implementation Blueprint v1.0 and reflects the repository's actual,
 current state — not a plan for a future not-yet-executed sequence.
@@ -83,12 +83,29 @@ Started** (neither exists yet).
 
 ## Phase 5 — Decision & Twin Layer
 
-**Status: Architecture complete for `decision`, `digital_twin`, and
-`agents`.**
+**Status: `decision` fully implemented; Architecture complete for
+`digital_twin` and `agents`.**
 
-- `decision` — **Architecture complete** (v0.9.0 milestone). Decision-support
-  and recommendation frameworks that translate `analytics`' statistical
-  judgments into actionable, explained recommendations.
+- `decision` — **Fully implemented** (Phases 07.1-07.4, architecture
+  approved at the v0.9.0 milestone; software release v1.6.0).
+  Decision-support and recommendation frameworks that translate
+  `analytics`' statistical judgments into actionable, explained
+  recommendations. `DecisionModel`/`DecisionContext`, `DecisionMetadata`/
+  `DecisionCategory`, the full `DecisionResult` family,
+  `DecisionPipeline`/`PipelineStage`/`ModelStage`, and the `REGISTRY`/
+  `register` plugin mechanism (07.1); rule composition/evaluation
+  (`Rule`, `RuleEngine`, `RuleEngineStage`), versioned policy governance
+  (`Policy`, `DecisionStatus`), and the default, concrete
+  `ThresholdDecisionStrategy` with real threshold-breach evaluation
+  (07.2); `DecisionScorer`/`ConfidenceScorer`, `RankingStrategy`/
+  `WeightedScoreRanking`, `ExplanationBuilder`/`ExplanationStage`,
+  `ActionPrioritizer`, and the interface-only `RootCauseAnalyzer` (07.3);
+  and the interface-only `WhatIfEngine`, `ActionPlanner`,
+  `AlertGenerator`, `RealTimeDecisionSession`/`BatchDecisionRunner`, and
+  `DecisionAuditTrail`/`DecisionAuditEntry` (07.4) are all implemented.
+  `decision` is now feature-complete per the Reference Implementation
+  Blueprint's design spec §6 module list (see
+  `src/mineproductivity/decision/README.md`).
 - `digital_twin` — **Architecture complete** (v1.0.0 milestone). Stateful
   twin representation and event-driven synchronization.
 - `agents` — **Architecture complete** (v1.3.0 milestone). Model-independent
@@ -125,6 +142,32 @@ already exist under `scripts/quality/`).
   this differs from the software's own SemVer track, which has already
   passed `1.0.0` for unrelated reasons.
 
+## Future Architecture Proposals
+
+Entries here are **proposals, not phases**: no Design Specification,
+Implementation Checklist, or ADR exists for them, they are not scheduled, and
+no code may be written against them. They are recorded so the intent survives
+until their revisit trigger is reached.
+
+### Analytics Maturity Assessment (post-v2.0)
+
+- **What:** An analytics maturity assessment framework for mining
+  enterprises — structured maturity scoring that helps leadership prioritize
+  AI investments, quantify business-value assurance, accelerate digital
+  transformation initiatives, and support governance.
+- **Status:** Proposal only, captured July 2026 (software v1.6.0).
+  Explicitly out of scope for every phase above.
+- **Revisit trigger:** Only after the MineProductivity core platform is
+  complete (the Reference Implementation Blueprint phases above reach
+  **Implemented**).
+- **Deferred packaging decision:** Either a separate package (e.g.
+  `mineproductivity.assessment`) or an application built on top of the
+  framework. The locked architecture names `visualization` as the final
+  package in the platform's dependency chain, so the package option would
+  require an explicit architecture amendment, while the application option
+  leaves the locked chain untouched. Neither option is chosen yet; the
+  evaluation belongs to the revisit, not to any current phase.
+
 ## Versioning Policy
 
 - **Architecture documents** are versioned independently and are already
@@ -138,7 +181,7 @@ already exist under `scripts/quality/`).
   instead — see `tests/unit/core/test_public_api.py`).
 - In practice, this repository has bumped the software's MINOR version once
   per completed architecture or implementation milestone (`v0.7.0` KPI Engine
-  through `v1.5.0` Analytics Engine implementation) — a deliberate,
+  through `v1.6.0` Decision Intelligence implementation) — a deliberate,
   precedented convention distinct from waiting for a certification-gated
   `1.0` release. Under this convention, the
   software's SemVer track and the "Phase 7 certification-gated 1.0"

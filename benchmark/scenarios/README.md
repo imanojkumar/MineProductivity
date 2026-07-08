@@ -14,7 +14,7 @@ Benchmark data/definitions only. No harness implementation code.
 
 ## Contents
 
-- Placeholder — no benchmark content exists yet.
+- `decision/` — standalone Decision Intelligence scenarios (`rule_engine_throughput.py`, `audit_trail_latency.py`); harness-free by design until `mineproductivity.benchmark` exists.
 
 ## Dependencies
 

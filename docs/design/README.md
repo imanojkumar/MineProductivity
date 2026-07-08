@@ -21,7 +21,7 @@ Implementation checklists derived from each `docs/architecture/*_Design_Specific
 - `03_Registry_Implementation_Checklist.md` — implementation contract for `registry` + `plugins`.
 - `04_Connector_Implementation_Checklist.md` — implementation contract for `connectors`.
 - `05_KPI_Implementation_Checklist.md` — implementation contract for `kpis`.
-- `06_Analytics_Engine_Implementation_Checklist.md` — implementation contract for `analytics`. **Not present on `main`** — exists on the unmerged `feature/analytics-engine` branch.
+- `06_Analytics_Engine_Implementation_Checklist.md` — implementation contract for `analytics`.
 - `07_Decision_Intelligence_Implementation_Checklist.md` — implementation contract for `decision`.
 - `08_Digital_Twin_Implementation_Checklist.md` — implementation contract for `digital_twin`.
 - `09_Simulation_Implementation_Checklist.md` — implementation contract for `simulation`.

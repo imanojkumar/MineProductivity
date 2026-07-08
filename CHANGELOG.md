@@ -5,12 +5,105 @@ All notable changes to MineProductivity are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-> **Note:** The software version (currently `1.5.0`) is independent of the
+> **Note:** The software version (currently `1.6.0`) is independent of the
 > architecture document version (`v1.0`, locked). The architecture is
 > considered final for this phase; the software implementing it continues
 > to evolve incrementally.
 
 ## [Unreleased]
+
+## [1.6.0] - 2026-07-08
+
+Decision Intelligence implementation milestone.
+
+This release delivers the full production implementation of the
+`mineproductivity.decision` package against the architecture approved in
+the `v0.9.0` milestone (Design Specification, Implementation Checklist,
+and ADR-0007) — the platform's prescriptive layer, built directly on
+`analytics`. Delivered across four internal phases (Foundation, Rule
+Engine, Analysis Layer, Operational Services), all bundled into this one
+release since none of the intermediate phases were independently
+tagged.
+
+### Added
+
+- `DecisionModel` (ABC)/`DecisionContext`, `DecisionMetadata`/
+  `DecisionCategory`, and the full `DecisionResult` result-model
+  hierarchy (`Recommendation`, `RankedRecommendation`, `ActionPlan`,
+  `Alert`, `RootCauseResult`, `WhatIfResult`, plus supporting value
+  objects) (Foundation).
+- `DecisionPipeline`/`PipelineStage`/`ModelStage`, `Threshold`, and
+  `decision.REGISTRY`/`register`, specializing the Registry Framework
+  mechanism exactly as `analytics._registry`/`kpis._registry` do
+  (Foundation).
+- `Rule`/`RuleEngine`/`RuleEngineStage`, `DecisionStatus`/`Policy`
+  (versioned publish/supersede governance), and `DecisionStrategy`
+  (ABC)/`ThresholdDecisionStrategy` — the default, concrete,
+  rule/threshold-driven strategy, self-registering into `REGISTRY`
+  (Rule Engine).
+- `DecisionScorer`/`ConfidenceScorer`, `RankingStrategy`
+  (ABC)/`WeightedScoreRanking`, `ExplanationBuilder`/`ExplanationStage`,
+  `ActionPrioritizer`, and the interface-only `RootCauseAnalyzer` with
+  zero concrete subclasses by design (Analysis Layer).
+- `WhatIfEngine` — an interface-only extension point with zero concrete
+  subclasses by design, reusing `events.AsOf`'s reserved `scenario`
+  field (Operational Services).
+- `ActionPlanner` — dependency-respecting topological action ordering
+  via its own narrow, self-contained implementation (deliberately not
+  `kpis.DependencyGraph`) (Operational Services).
+- `AlertGenerator` — produces an `Alert` from a `ThresholdBreach` or a
+  high-severity `Recommendation` (Operational Services).
+- `RealTimeDecisionSession`/`BatchDecisionRunner` — the two execution
+  modes, composing `kpis.KPIEngine`/`analytics.BatchAnalyticsRunner`
+  rather than recomputing anything themselves (Operational Services).
+- `DecisionAuditTrail`/`DecisionAuditEntry` — the append-only
+  accountability record every operationally-actionable
+  `DecisionPipeline` run can feed (Operational Services).
+- `recommendation.py` — the design spec §6 generation-logic module,
+  with no public API of its own per §6's own entry for it
+  (`ThresholdDecisionStrategy` delegates `Recommendation` construction
+  to it); originally folded into `strategy.py`, extracted in this
+  release's completion pass so the package structure matches §6's
+  twenty-two-module list exactly (completion pass).
+- `examples/decision/` — four runnable, `mypy --strict`/`ruff`-clean
+  example scripts per the implementation checklist: the design spec §9
+  worked example end-to-end over real `UTIL.OEE`/trend evidence,
+  action prioritization + dependency-respecting planning, a
+  `RealTimeDecisionSession` over a live `EventBus`, and a
+  third-party-style entry-point plugin strategy (completion pass).
+- `benchmark/scenarios/decision/` and `benchmark/reports/decision/` —
+  the implementation checklist's two recorded benchmarks:
+  `RuleEngine.evaluate()` throughput (~1.3–1.6 M rules/s, flat across
+  10–250-rule batches) and `DecisionAuditTrail` append/query latency
+  (append ~0.3 µs/entry, flat across 10³–10⁵ entries — the O(1) proof)
+  (completion pass).
+- Checklist acceptance-proof tests added to the suite: real-time/batch
+  parity (`RealTimeDecisionSession.latest()` vs. `BatchDecisionRunner`
+  over the same assembled context), `DecisionAuditTrail.query()`
+  non-blocking under concurrent `record()` calls, and
+  registered-by-default coverage for the two built-in strategies
+  (completion pass).
+- Design spec §12's activation gate: `policy.publish_policy` now raises
+  `DecisionModelNotFoundError` when a `Policy` is published as `Active`
+  while its `strategy_code` names no registered `DecisionModel` —
+  failing at activation time, never silently at first evaluation; a
+  `Proposed` policy may still be authored ahead of its strategy's
+  registration (completion pass).
+
+### Notes
+
+- 100% statement coverage across all 23 `decision` modules; full
+  repository test suite (2160+ tests), `ruff`, and `mypy --strict` pass
+  with zero findings.
+- `decision` is now feature-complete per the Reference Implementation
+  Blueprint's design spec §6 module list — the only remaining future
+  work is a concrete `RootCauseAnalyzer`/`WhatIfEngine` plugin (neither
+  is expected to ship inside this package itself, by design) and
+  whatever `digital_twin`/`simulation`/`optimization`/`agents`/
+  `visualization` need from this package as those packages move from
+  architecture-complete to implemented.
+- No architectural changes relative to the locked `v0.9.0` design — this
+  is a pure implementation milestone.
 
 ## [1.5.0] - 2026-07-07
 

@@ -24,6 +24,7 @@ Implemented, runnable today — **new here? Start with `quickstart/`:**
 - [`registry/`](registry/README.md) — register/discover, version compatibility (2 scripts; also covers `plugins`).
 - [`connectors/`](connectors/README.md) — CSV ingestion, REST with retry/auth-refresh (2 scripts).
 - [`kpis/`](kpis/README.md) — simple execution, composite `UTIL.OEE`, batch summary, `REGISTRY` discovery (4 scripts).
+- [`decision/`](decision/README.md) — audited pipeline over real KPI/trend evidence, action prioritization/planning, real-time session, plugin strategy (4 scripts).
 
 Placeholders, pending their corresponding subsystem's implementation:
 
@@ -31,7 +32,7 @@ Placeholders, pending their corresponding subsystem's implementation:
 
 ## Dependencies
 
-`mineproductivity`, editable-installed from this repository (`pip install -e .`); `mineproductivity[analytics]` additionally for the `kpis/` examples.
+`mineproductivity`, editable-installed from this repository (`pip install -e .`); `mineproductivity[analytics]` additionally for the `kpis/` and `decision/` examples.
 
 ## Future Work
 

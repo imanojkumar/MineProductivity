@@ -27,11 +27,17 @@ implementation) per the locked KPI Engine Design Specification. The
 analytical computation layer built directly on ``kpis`` -- trend, baseline,
 and benchmark analysis, rolling and aggregate statistics, data-quality
 scoring, batch/streaming/incremental execution modes, and the plugin
-registry -- per the locked Analytics Engine Design Specification. Every
-other subsystem package is still a structural placeholder. See the root
-README.md and docs/architecture/README.md for the governing architecture,
-and ROADMAP.md for the implementation phasing.
+registry -- per the locked Analytics Engine Design Specification. The
+``mineproductivity.decision`` package implements the platform's
+prescriptive layer built directly on ``analytics`` -- rule/policy-driven
+decision strategies, ranking, explanation, prioritization, action
+planning, alerting, real-time and batch decision execution, and an
+append-only decision audit trail -- per the locked Decision Intelligence
+Design Specification. Every other subsystem package is still a
+structural placeholder. See the root README.md and
+docs/architecture/README.md for the governing architecture, and
+ROADMAP.md for the implementation phasing.
 """
 
-__version__ = "1.5.0"
+__version__ = "1.6.0"
 __all__ = ["__version__"]

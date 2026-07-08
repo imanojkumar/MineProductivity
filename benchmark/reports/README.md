@@ -14,7 +14,7 @@ Benchmark data/definitions only. No harness implementation code.
 
 ## Contents
 
-- Placeholder — no benchmark content exists yet.
+- `decision/` — Decision Intelligence benchmark reports (`RuleEngine.evaluate()` throughput, `DecisionAuditTrail` append/query latency), first recorded at software v1.6.0.
 
 ## Dependencies
 

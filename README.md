@@ -53,11 +53,26 @@ productivity across mining operations. It is designed from first principles to b
 
 ## Current Development Phase
 
-> Architecture maturity:
-> ██████████ 100%
+> Architecture maturity: ██████████ 100%
 
-> Implementation maturity:
-> ████░░░░░░ 40%
+> Implementation maturity: ███████░░░ 60%
+
+> Foundation ████████████████████████████ 100%
+
+> Analytics Engine ████████████████████████████ 100%
+
+> Decision Intelligence ████████████████████████████ 100%
+
+> Digital Twin ░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0%
+
+> Simulation ░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0%
+
+> Optimization ░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0%
+
+> Applications ░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0%
+
+
+
 
 ## Repository Structure
 
@@ -90,9 +105,9 @@ architectural rationale behind this layout.
 | Connectors | ✅ | ✅ |
 | KPI Engine | ✅ | ✅ |
 | Analytics | ✅ | ✅ |
-| Decision Intelligence | ✅ | 🚧 |
-| Digital Twin | ✅ | 🚧 |
-| Simulation | ✅ | 🚧 |
+| Decision Intelligence | ✅ | ✅ |
+| Digital Twin | ✅ | ⏳ |
+| Simulation | ✅ | ⏳ |
 | Optimization | ✅ | 🚧 |
 | AI Agents | ✅ | 🚧 |
 | Visualization | ✅ | 🚧 |
@@ -120,8 +135,8 @@ Intelligence
 ✅ AI Agents
 ✅ Visualization
 
-Next
-────
+Remaining Major Implementations
+─────────────────────────────────
 ⏳ Certification
 
 ## Architectural Layering & Dependency Direction
@@ -199,11 +214,12 @@ structured, versioned notes and placeholders that mirror their sections. See
 
 ## Project Status
 
-**Current Stable Release: v1.5.0**
+**Current Stable Release: v1.6.0**
 
-The project follows an architecture-first development methodology. Each milestone begins with a fully reviewed architecture specification (Design Specification, Implementation Checklist, and ADR), followed by implementation.
+Decision Intelligence Implementation
+Production Ready
 
-Completed milestones:
+**Completed milestones:**
 
 | Version | Milestone | Status |
 |---------|-----------|--------|
@@ -221,6 +237,36 @@ Completed milestones:
 | v1.3.0 | AI Agents Architecture | ✅ Architecture Complete |
 | v1.4.0 | Visualization Architecture | ✅ Architecture Complete |
 | v1.5.0 | Analytics Engine Implementation | ✅ Implemented |
+| v1.6.0 | Decision Intelligence Implementation | ✅ Implemented |
+
+## What's New in v1.6.0
+
+The Decision Intelligence package is now fully implemented, completing every module the design specification's §6 module list enumerates.
+
+**Highlights:**
+
+- Decision Foundation (`DecisionModel`/`DecisionContext`, the full `DecisionResult` family, `DecisionPipeline`, the plugin registry)
+- Rule Composition & Evaluation (`Rule`, `RuleEngine`)
+- Policy Governance (`Policy`, `DecisionStatus`, versioned publish/supersede)
+- Threshold-Driven Decision Strategy (`ThresholdDecisionStrategy`)
+- Decision & Confidence Scoring
+- Weighted-Score Ranking
+- Explanation Generation
+- Action Prioritization
+- Interface-Only Root-Cause & What-If Extension Points
+- Action Planning (dependency-respecting topological ordering)
+- Alert Generation
+- Real-Time & Batch Decision Execution
+- Append-Only Decision Audit Trail
+
+**Engineering Quality**
+
+- 2150+ automated tests
+- 100% Decision package coverage
+- Cross-platform CI
+- Automated GitHub Releases
+- Strict typing (mypy)
+- Ruff formatting and linting
 
 See: 
  - [CHANGELOG.md](CHANGELOG.md) and 
@@ -324,5 +370,4 @@ For version-specific citations, see the Releases page or Zenodo.
 
 See [`CITATION.cff`](CITATION.cff) for machine-readable citation metadata.
 
-<!-- See [CITATION.cff](CITATION.cff). -->
 
