@@ -113,27 +113,31 @@ architectural rationale behind this layout.
 | Visualization | ✅ | 🚧 |
 | Certification | ⏳ | 🚧 |
 
+
 ## Architecture Roadmap
 
-Foundation
-──────────
-✅ Core
-✅ Events
-✅ Ontology
-✅ Registry
-✅ Plugins
-✅ Connectors
-✅ KPI Engine
 
-Intelligence
-────────────
-✅ Analytics
-✅ Decision Intelligence
-✅ Digital Twin
-✅ Simulation
-✅ Optimization
-✅ AI Agents
-✅ Visualization
+| Foundation |
+|----------|
+| ✅ Core |
+| ✅ Events |
+| ✅ Ontology |
+| ✅ Registry |
+| ✅ Plugins |
+| ✅ Connectors |
+| ✅ KPI Engine |
+
+
+| Intelligence |
+|----------|
+| ✅ Analytics |
+| ✅ Decision Intelligence |
+| ✅ Digital Twin |
+| ✅ Simulation |
+| ✅ Optimization |
+| ✅ AI Agents |
+| ✅ Visualization |
+
 
 Remaining Major Implementations
 ─────────────────────────────────
