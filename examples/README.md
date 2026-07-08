@@ -25,10 +25,11 @@ Implemented, runnable today — **new here? Start with `quickstart/`:**
 - [`connectors/`](connectors/README.md) — CSV ingestion, REST with retry/auth-refresh (2 scripts).
 - [`kpis/`](kpis/README.md) — simple execution, composite `UTIL.OEE`, batch summary, `REGISTRY` discovery (4 scripts).
 - [`decision/`](decision/README.md) — audited pipeline over real KPI/trend evidence, action prioritization/planning, real-time session, plugin strategy (4 scripts).
+- [`digital_twin/`](digital_twin/README.md) — cold-start + live twin synchronization, category/scope discovery, snapshot serialization, plugin twin type (4 scripts).
 
 Placeholders, pending their corresponding subsystem's implementation:
 
-- `production/`, `visualization/`, `ai/`, `digital_twin/`.
+- `production/`, `visualization/`, `ai/`.
 
 ## Dependencies
 
@@ -36,7 +37,7 @@ Placeholders, pending their corresponding subsystem's implementation:
 
 ## Future Work
 
-Author `production/`, `visualization/`, `ai/`, and `digital_twin/` examples as their corresponding subsystems are implemented.
+Author `production/`, `visualization/`, and `ai/` examples as their corresponding subsystems are implemented.
 
 ## References
 

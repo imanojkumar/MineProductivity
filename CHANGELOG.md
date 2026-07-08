@@ -12,6 +12,97 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.7.0] - 2026-07-08
+
+Digital Twin implementation milestone.
+
+This release delivers the full production implementation of the
+`mineproductivity.digital_twin` package against the architecture
+approved in the `v1.0.0` milestone (Design Specification,
+Implementation Checklist, and ADR-0008) — the platform's stateful
+representation layer, built directly on `decision`, and the first
+package in the series whose central abstraction is entity-shaped
+(`core.BaseEntity[str]`) rather than stateless. The complete design
+spec §6 module list (fifteen modules) ships in one implementation
+phase.
+
+### Added
+
+- `Twin` (ABC) — a frozen `core.BaseEntity[str]` subclass by literal
+  inheritance: identity-based equality inherited unchanged, `scope`
+  frozen at provisioning time, state changes producing a new instance
+  via `with_state()`, never in-place mutation — and `TwinContext`,
+  carrying `KPIResult`/`AnalyticsResult`/`DecisionResult` evidence
+  read, never re-derived.
+- `TwinMetadata`/`TwinCategory` (closed eleven-member enum) and the
+  eleven twin category base classes (`MineTwin` through
+  `ProductionTwin`), each contributing only an import-time
+  namespace/category-conformance check, mirroring `kpis`' nine
+  category bases.
+- `TwinStatus` — the instance-level operational lifecycle
+  (`Provisioned`/`Synchronized`/`Stale`/`Degraded`/`Retired`);
+  `Retired` is terminal and enforced by the synchronizer.
+- `TwinState` (open, documented `attributes` mapping plus its own
+  per-value `schema_version` — the third, independent versioning axis)
+  and `TwinSnapshot` (point-in-time capture reusing `events.AsOf`,
+  deliberately distinct from `events.EventSnapshot`).
+- `TwinSynchronizer`/`SyncPolicy` — live synchronization via
+  `events.EventBus.subscribe`, cold-start reconstruction via
+  `events.EventStore.replay` (provably convergent with incremental
+  synchronization), `Degraded`-on-repeated-failure lifecycle handling,
+  and repository-mediated per-id state swaps; `TwinStateConflictError`
+  raised only when a non-conforming repository violates the per-id
+  write-serialization contract.
+- `TelemetryReading` — the twin-local shape of already-event-sourced
+  sensor readings; deliberately not a second ingestion boundary
+  parallel to `connectors.FMSConnector`.
+- `TwinSimulationModel` — an interface-only ABC with zero concrete
+  subclasses by design (ADR-0008), the twin-state-level half of the
+  bridge whose business-decision-level half is `decision.WhatIfEngine`;
+  `TwinSimulationResult` defined ahead of any producer.
+- `by_category`/`by_scope` — plain `core.PredicateSpecification`
+  discovery factories composed with `TwinRepository.list()`.
+- `TwinRepository` — a literal `type` alias over
+  `core.BaseRepository[Twin, str]` (the strongest reuse in the series);
+  the reference implementation is `core.InMemoryRepository`, unchanged,
+  with zero new persistence code.
+- `TwinStateCache` — evidence-input caching keyed by
+  `(twin_id, as_of)`; never authoritative for current state
+  (deliberately not a reuse of `kpis.ResultCache` — recorded
+  "shape fits, coupling doesn't" trade-off).
+- `TwinResult`/`SyncResult`/`TwinSimulationResult` result family and
+  the full exception hierarchy (`TwinValidationError`,
+  `TwinNotFoundError`, `TwinSyncError`, `TwinVersionConflictError`,
+  `TwinStateConflictError`).
+- `digital_twin.REGISTRY`/`register` — the Registry Framework
+  specialization, exactly as `decision`/`analytics`/`kpis` specialize
+  it; the package itself ships zero registered built-in twin types by
+  design.
+- `examples/digital_twin/` — four runnable, `mypy --strict`/`ruff`-clean
+  example scripts per the implementation checklist: the design spec §15
+  worked example end-to-end (cold-start + live subscribe), discovery
+  composition, snapshot capture + serialization round-trip, and a
+  third-party entry-point twin type.
+- `benchmark/scenarios/digital_twin/` and
+  `benchmark/reports/digital_twin/` — the implementation checklist's
+  two recorded benchmarks: `TwinRepository.get()`/`list()` latency
+  (get ~0.08 µs, flat across 10³–10⁵ twins — the O(1) proof) and
+  cold-start replay cost vs. history length with/without
+  `TwinSnapshot` seeding.
+
+### Notes
+
+- 100% statement coverage across all 16 `digital_twin` modules; full
+  repository test suite (2380+ tests), `ruff`, and `mypy --strict` pass
+  with zero findings.
+- The seven design spec §32 package acceptance proofs
+  (no-fact-recomputation, immutability, interface-purity,
+  no-architectural-drift, replay-consistency, scope-immutability,
+  repository-substitutability) are each independently verified by
+  dedicated tests.
+- No architectural changes relative to the locked `v1.0.0` design —
+  this is a pure implementation milestone.
+
 ## [1.6.0] - 2026-07-08
 
 Decision Intelligence implementation milestone.

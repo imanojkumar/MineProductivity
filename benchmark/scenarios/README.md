@@ -15,6 +15,7 @@ Benchmark data/definitions only. No harness implementation code.
 ## Contents
 
 - `decision/` — standalone Decision Intelligence scenarios (`rule_engine_throughput.py`, `audit_trail_latency.py`); harness-free by design until `mineproductivity.benchmark` exists.
+- `digital_twin/` — standalone Digital Twin scenarios (`repository_latency.py`, `cold_start_replay.py`); same harness-free posture.
 
 ## Dependencies
 

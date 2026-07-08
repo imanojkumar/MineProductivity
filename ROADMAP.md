@@ -3,7 +3,7 @@
 MineProductivity's overall architecture (Master Architecture Handbook v1.0) is
 locked and documentation-complete. The software implementing it is versioned
 independently via [Semantic Versioning](https://semver.org/); the current
-software release is `1.6.0` (see [`CHANGELOG.md`](CHANGELOG.md) for the full
+software release is `1.7.0` (see [`CHANGELOG.md`](CHANGELOG.md) for the full
 milestone history). This roadmap tracks implementation phases against the
 Reference Implementation Blueprint v1.0 and reflects the repository's actual,
 current state — not a plan for a future not-yet-executed sequence.
@@ -83,8 +83,8 @@ Started** (neither exists yet).
 
 ## Phase 5 — Decision & Twin Layer
 
-**Status: `decision` fully implemented; Architecture complete for
-`digital_twin` and `agents`.**
+**Status: `decision` and `digital_twin` fully implemented; Architecture
+complete for `agents`.**
 
 - `decision` — **Fully implemented** (Phases 07.1-07.4, architecture
   approved at the v0.9.0 milestone; software release v1.6.0).
@@ -106,8 +106,23 @@ Started** (neither exists yet).
   `decision` is now feature-complete per the Reference Implementation
   Blueprint's design spec §6 module list (see
   `src/mineproductivity/decision/README.md`).
-- `digital_twin` — **Architecture complete** (v1.0.0 milestone). Stateful
-  twin representation and event-driven synchronization.
+- `digital_twin` — **Fully implemented** (architecture approved at the
+  v1.0.0 milestone; software release v1.7.0). The platform's stateful
+  representation layer — `Twin` (a `core.BaseEntity[str]` subclass, the
+  first entity-shaped central abstraction in the series)/`TwinContext`,
+  `TwinMetadata`/`TwinCategory`, the eleven twin category base classes,
+  `TwinStatus`, `TwinState`/`TwinSnapshot`, `TwinSynchronizer`/
+  `SyncPolicy` (live `EventBus` subscription and cold-start
+  `EventStore.replay` reconstruction, provably convergent),
+  `TelemetryReading`, the interface-only `TwinSimulationModel` (zero
+  concrete subclasses by design), `by_category`/`by_scope` discovery,
+  `TwinRepository` as a literal type alias over
+  `core.BaseRepository[Twin, str]`, `TwinStateCache`, the
+  `TwinResult`/`SyncResult`/`TwinSimulationResult` family, and the
+  `REGISTRY`/`register` plugin mechanism. `digital_twin` is
+  feature-complete per the Reference Implementation Blueprint's design
+  spec §6 module list (see
+  `src/mineproductivity/digital_twin/README.md`).
 - `agents` — **Architecture complete** (v1.3.0 milestone). Model-independent
   agent orchestration layer — `Agent`/`Tool`/`AgentMemory` interfaces, task
   lifecycle, policy engine, human approval workflows, multi-agent

@@ -106,7 +106,7 @@ architectural rationale behind this layout.
 | KPI Engine | ✅ | ✅ |
 | Analytics | ✅ | ✅ |
 | Decision Intelligence | ✅ | ✅ |
-| Digital Twin | ✅ | ⏳ |
+| Digital Twin | ✅ | ✅ |
 | Simulation | ✅ | ⏳ |
 | Optimization | ✅ | 🚧 |
 | AI Agents | ✅ | 🚧 |
@@ -242,31 +242,30 @@ Production Ready
 | v1.4.0 | Visualization Architecture | ✅ Architecture Complete |
 | v1.5.0 | Analytics Engine Implementation | ✅ Implemented |
 | v1.6.0 | Decision Intelligence Implementation | ✅ Implemented |
+| v1.7.0 | Digital Twin Implementation | ✅ Implemented |
 
-## What's New in v1.6.0
+## What's New in v1.7.0
 
-The Decision Intelligence package is now fully implemented, completing every module the design specification's §6 module list enumerates.
+The Digital Twin package is now fully implemented, completing every module the design specification's §6 module list enumerates — the platform's stateful representation layer, and the first package in the series built on `core.BaseEntity` rather than a stateless model root.
 
 **Highlights:**
 
-- Decision Foundation (`DecisionModel`/`DecisionContext`, the full `DecisionResult` family, `DecisionPipeline`, the plugin registry)
-- Rule Composition & Evaluation (`Rule`, `RuleEngine`)
-- Policy Governance (`Policy`, `DecisionStatus`, versioned publish/supersede)
-- Threshold-Driven Decision Strategy (`ThresholdDecisionStrategy`)
-- Decision & Confidence Scoring
-- Weighted-Score Ranking
-- Explanation Generation
-- Action Prioritization
-- Interface-Only Root-Cause & What-If Extension Points
-- Action Planning (dependency-respecting topological ordering)
-- Alert Generation
-- Real-Time & Batch Decision Execution
-- Append-Only Decision Audit Trail
+- `Twin` as an immutable, identity-bearing `core.BaseEntity[str]` (state changes produce new instances via `with_state()`)
+- Eleven twin category base classes with import-time namespace conformance
+- Instance lifecycle (`TwinStatus`) with terminal retirement and degraded-recovery handling
+- Live event-driven synchronization (`TwinSynchronizer` + `SyncPolicy` over `events.EventBus`)
+- Cold-start reconstruction from event history (`EventStore.replay`), provably convergent with incremental sync
+- Current state (`TwinState`) and point-in-time snapshots (`TwinSnapshot`) as distinct first-class concepts
+- Interface-Only Twin Simulation Extension Point (`TwinSimulationModel`)
+- Category/scope discovery via composable specifications
+- `TwinRepository` as a literal type alias over `core.BaseRepository[Twin, str]` — zero new persistence code
+- Evidence caching (`TwinStateCache`) keyed by `(twin_id, as_of)`
+- Plugin registry with entry-point discovery (`REGISTRY`/`register`)
 
 **Engineering Quality**
 
-- 2150+ automated tests
-- 100% Decision package coverage
+- 2380+ automated tests
+- 100% Digital Twin package coverage
 - Cross-platform CI
 - Automated GitHub Releases
 - Strict typing (mypy)
