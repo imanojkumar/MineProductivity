@@ -26,6 +26,7 @@ Implemented, runnable today — **new here? Start with `quickstart/`:**
 - [`kpis/`](kpis/README.md) — simple execution, composite `UTIL.OEE`, batch summary, `REGISTRY` discovery (4 scripts).
 - [`decision/`](decision/README.md) — audited pipeline over real KPI/trend evidence, action prioritization/planning, real-time session, plugin strategy (4 scripts).
 - [`digital_twin/`](digital_twin/README.md) — cold-start + live twin synchronization, category/scope discovery, snapshot serialization, plugin twin type (4 scripts).
+- [`simulation/`](simulation/README.md) — snapshot-seeded Monte Carlo experiment, scenario comparison, sensitivity sweep, plugin simulation model (4 scripts).
 
 Placeholders, pending their corresponding subsystem's implementation:
 
@@ -33,7 +34,7 @@ Placeholders, pending their corresponding subsystem's implementation:
 
 ## Dependencies
 
-`mineproductivity`, editable-installed from this repository (`pip install -e .`); `mineproductivity[analytics]` additionally for the `kpis/` and `decision/` examples.
+`mineproductivity`, editable-installed from this repository (`pip install -e .`); `mineproductivity[analytics]` additionally for the `kpis/`, `decision/`, and `simulation/` examples.
 
 ## Future Work
 

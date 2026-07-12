@@ -3,7 +3,7 @@
 MineProductivity's overall architecture (Master Architecture Handbook v1.0) is
 locked and documentation-complete. The software implementing it is versioned
 independently via [Semantic Versioning](https://semver.org/); the current
-software release is `1.7.0` (see [`CHANGELOG.md`](CHANGELOG.md) for the full
+software release is `1.8.0` (see [`CHANGELOG.md`](CHANGELOG.md) for the full
 milestone history). This roadmap tracks implementation phases against the
 Reference Implementation Blueprint v1.0 and reflects the repository's actual,
 current state — not a plan for a future not-yet-executed sequence.
@@ -58,8 +58,8 @@ Started** (neither exists yet).
 
 ## Phase 4 — Analytical Layer
 
-**Status: Implemented for `analytics`; Architecture complete for
-`simulation` and `optimization`.**
+**Status: Implemented for `analytics` and `simulation`; Architecture
+complete for `optimization`.**
 
 - `analytics` — **Implemented** (v1.5.0 milestone, architecture approved at
   the v0.8.0 milestone). Statistical and analytical processing built on
@@ -68,12 +68,24 @@ Started** (neither exists yet).
   execution modes, and a self-registering plugin registry; interface-only
   forecasting/anomaly/outlier-detection models (zero concrete subclasses by
   design, see `ADR-0006-Analytics-Engine.md`).
-- `simulation` — **Architecture complete** (v1.1.0 milestone). Scenario
-  management, `SimulationRun` execution, interface-only Monte Carlo/
-  discrete-event/system-dynamics/calibration models, experiment
-  orchestration, scenario comparison and sensitivity analysis (delegated to
-  `analytics`). See
-  [`docs/architecture/09_Simulation_Design_Specification.md`](docs/architecture/09_Simulation_Design_Specification.md).
+- `simulation` — **Fully implemented** (architecture approved at the
+  v1.1.0 milestone; software release v1.8.0). The platform's projection
+  layer — `SimulationModel`/`SimulationContext`, `Scenario`/`ScenarioStatus`
+  as a versioned, governed artifact with publish/supersede conflict
+  enforcement, `SimulationRun` (the series' second `core.BaseEntity[str]`
+  abstraction)/`RunStatus`/`SimulationExecutor` (category-driven dispatch,
+  terminal `Completed`/`Failed`), `SimulationState`/`SimulationClock`/
+  `TimeProgressionMode`, `seed_from_replay` over `events.EventStore.replay`,
+  the four interface-only ABCs (Monte Carlo/discrete-event/system-dynamics/
+  calibration, zero concrete subclasses by design), `Experiment`/
+  `ExperimentRunner` (concurrent, seed-reproducible trials),
+  `ScenarioComparator`/`SensitivityAnalyzer` (statistics delegated entirely
+  to `analytics`), `by_category`/`by_scope` discovery, `SimulationRunRepository`
+  as a literal type alias over `core.BaseRepository[SimulationRun, str]`,
+  `SimulationStateCache`, the `SimulationResult`/`ExperimentResult` family,
+  and the `REGISTRY`/`register` plugin mechanism. `simulation` is
+  feature-complete per the Reference Implementation Blueprint's design
+  spec §6 module list (see `src/mineproductivity/simulation/README.md`).
 - `optimization` — **Architecture complete** (v1.2.0 milestone). Solved-plan
   search over six interface-only paradigms (linear programming, mixed-integer
   programming, constraint programming, multi-objective, evolutionary/

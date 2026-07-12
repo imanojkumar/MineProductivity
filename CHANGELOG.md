@@ -5,12 +5,98 @@ All notable changes to MineProductivity are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-> **Note:** The software version (currently `1.6.0`) is independent of the
+> **Note:** The software version (currently `1.8.0`) is independent of the
 > architecture document version (`v1.0`, locked). The architecture is
 > considered final for this phase; the software implementing it continues
 > to evolve incrementally.
 
 ## [Unreleased]
+
+## [1.8.0] - 2026-07-08
+
+Simulation implementation milestone.
+
+This release delivers the full production implementation of the
+`mineproductivity.simulation` package against the architecture approved
+in the `v1.1.0` milestone (Design Specification, Implementation
+Checklist, and ADR-0009) — the platform's projection layer, built
+directly on `digital_twin`, and the package both `decision` (spec 07
+§19) and `digital_twin` (spec 08 §14, §34) named by anticipation. The
+complete design spec §6 module list (twenty-one modules) ships in one
+implementation phase.
+
+### Added
+
+- `SimulationModel` (ABC, deliberately no shared abstract execution
+  method — each methodology declares its own) and `SimulationContext`,
+  carrying `KPIResult`/`AnalyticsResult`/`DecisionResult` evidence
+  read, never re-derived.
+- `SimulationMetadata`/`SimulationCategory` (closed four-member enum)
+  with import-time namespace/category conformance on every category
+  base.
+- `Scenario`/`ScenarioStatus` — the package's versioned, governed
+  configuration artifact, reusing `digital_twin.TwinSnapshot` for
+  real-history starting conditions and `events.AsOf` for the scenario
+  hook `decision.WhatIfEngine` was designed around; publish/supersede
+  governance with `ScenarioConflictError` raised at publication time.
+- `SimulationRun` — the series' second `core.BaseEntity[str]`
+  abstraction (identity-based equality inherited unchanged,
+  `with_state()` producing new instances) — with `RunStatus`
+  (`Completed`/`Failed` terminal) and `SimulationExecutor`:
+  category-driven dispatch to `_trial`/`_advance`/`_step` (never
+  branching on concrete type), clock-mode conformance validation,
+  snapshot/cached-replay/provisioned seeding, per-step repository
+  persistence, and `Failed`-marking on model errors.
+- `SimulationState` (open attributes mapping + simulated time),
+  `SimulationClock`/`TimeProgressionMode` (fixed-timestep, next-event,
+  trial-based pacing), and `seed_from_replay` — a thin wrapper over
+  `events.EventStore.replay`, no second replay mechanism.
+- The four interface-only ABCs with zero concrete subclasses by design
+  (ADR-0009): `MonteCarloModel` (`_trial`, seed-anchored
+  reproducibility), `DiscreteEventModel` (`_advance`),
+  `SystemDynamicsModel` (`_step`), and `CalibrationModel`
+  (`_calibrate` over `TwinSnapshot` ground truth; deliberately not a
+  `SimulationModel` subclass).
+- `Experiment`/`ExperimentRunner` — concurrent trial dispatch with a
+  distinct `random_seed` per trial; zero trials returns an empty
+  experiment, never a raise.
+- `ScenarioComparator`/`SensitivityAnalyzer` — thin orchestration
+  layers delegating every statistical judgment to
+  `analytics.describe`/`distribution`/`confidence_interval`;
+  `sweep()` produces one run per swept value, ordered to match.
+- `by_category`/`by_scope` discovery factories; `SimulationRunRepository`
+  as a literal `type` alias over
+  `core.BaseRepository[SimulationRun, str]`; `SimulationStateCache`
+  keyed by `(scenario_code, as_of)`; the
+  `SimulationResult`/`ExperimentResult` family; `REGISTRY`/`register`;
+  and the full exception hierarchy.
+- `examples/simulation/` — four runnable, `mypy --strict`/`ruff`-clean
+  example scripts per the implementation checklist, including the
+  design spec §17 worked example (a 500-trial Monte Carlo experiment
+  seeded from a `TwinSnapshot`), also reproduced end-to-end as
+  `tests/integration/test_simulation_experiment.py`.
+- `benchmark/scenarios/simulation/` and
+  `benchmark/reports/simulation/` — the implementation checklist's two
+  recorded benchmarks: `SimulationRunRepository.get()`/`list()` latency
+  (get ~0.08 µs, flat across 10³–10⁵ runs — the O(1) proof) and
+  `SimulationStateCache` effectiveness (199/200 hit-rate, 98.8% of
+  experiment wall time saved over a 10⁴-event history).
+
+### Notes
+
+- 100% statement coverage across all 22 `simulation` modules; full
+  repository test suite (2580+ tests), `ruff`, and `mypy --strict`
+  pass with zero findings.
+- The six design spec §35 package acceptance proofs
+  (no-fact-recomputation, no-statistics-reimplementation, immutability,
+  interface-purity, no-architectural-drift, reproducibility) are each
+  independently verified by dedicated tests.
+- No architectural changes relative to the locked `v1.1.0` design —
+  this is a pure implementation milestone. One disclosed spec-internal
+  imprecision resolved minimally: §22's `by_category` resolves a run's
+  category through the published-scenario store plus the model
+  registry (the locked `SimulationRun` shape carries neither field),
+  documented in `discovery.py`'s own module docstring.
 
 ## [1.7.0] - 2026-07-08
 

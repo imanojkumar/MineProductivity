@@ -63,7 +63,7 @@ productivity across mining operations. It is designed from first principles to b
 
 > Decision Intelligence ████████████████████████████ 100%
 
-> Digital Twin ░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0%
+> Digital Twin ████████████████████████████ 100%
 
 > Simulation ░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0%
 
@@ -107,7 +107,7 @@ architectural rationale behind this layout.
 | Analytics | ✅ | ✅ |
 | Decision Intelligence | ✅ | ✅ |
 | Digital Twin | ✅ | ✅ |
-| Simulation | ✅ | ⏳ |
+| Simulation | ✅ | ✅ |
 | Optimization | ✅ | 🚧 |
 | AI Agents | ✅ | 🚧 |
 | Visualization | ✅ | 🚧 |
@@ -139,9 +139,10 @@ architectural rationale behind this layout.
 | ✅ Visualization |
 
 
-Remaining Major Implementations
-─────────────────────────────────
-⏳ Certification
+| Remaining Major Implementations |
+|----------|
+| ⏳ Certification |
+
 
 ## Architectural Layering & Dependency Direction
 
@@ -243,29 +244,28 @@ Production Ready
 | v1.5.0 | Analytics Engine Implementation | ✅ Implemented |
 | v1.6.0 | Decision Intelligence Implementation | ✅ Implemented |
 | v1.7.0 | Digital Twin Implementation | ✅ Implemented |
+| v1.8.0 | Simulation Implementation | ✅ Implemented |
 
-## What's New in v1.7.0
+## What's New in v1.8.0
 
-The Digital Twin package is now fully implemented, completing every module the design specification's §6 module list enumerates — the platform's stateful representation layer, and the first package in the series built on `core.BaseEntity` rather than a stateless model root.
+The Simulation package is now fully implemented, completing every module the design specification's §6 module list enumerates — the platform's projection layer, and the package positioned to deliver the first concrete `digital_twin.TwinSimulationModel` and `decision.WhatIfEngine` implementations by composition.
 
 **Highlights:**
 
-- `Twin` as an immutable, identity-bearing `core.BaseEntity[str]` (state changes produce new instances via `with_state()`)
-- Eleven twin category base classes with import-time namespace conformance
-- Instance lifecycle (`TwinStatus`) with terminal retirement and degraded-recovery handling
-- Live event-driven synchronization (`TwinSynchronizer` + `SyncPolicy` over `events.EventBus`)
-- Cold-start reconstruction from event history (`EventStore.replay`), provably convergent with incremental sync
-- Current state (`TwinState`) and point-in-time snapshots (`TwinSnapshot`) as distinct first-class concepts
-- Interface-Only Twin Simulation Extension Point (`TwinSimulationModel`)
-- Category/scope discovery via composable specifications
-- `TwinRepository` as a literal type alias over `core.BaseRepository[Twin, str]` — zero new persistence code
-- Evidence caching (`TwinStateCache`) keyed by `(twin_id, as_of)`
+- Governed, versioned scenarios (`Scenario`/`ScenarioStatus`) with publish/supersede conflict enforcement
+- `SimulationRun` as an immutable `core.BaseEntity[str]` with executor-driven lifecycle (`Scheduled`→`Running`→`Completed`/`Failed`)
+- Category-driven execution dispatch (`SimulationExecutor` + `SimulationClock`/`TimeProgressionMode`)
+- Event-replay scenario seeding (`seed_from_replay` over `events.EventStore.replay`)
+- Four Interface-Only Methodology Extension Points (Monte Carlo, discrete-event, system dynamics, calibration)
+- Concurrent, seed-reproducible experiments (`ExperimentRunner`)
+- Scenario comparison and sensitivity sweeps with all statistics delegated to `analytics`
+- Replay-seed caching (`SimulationStateCache`) — 98.8% experiment wall-time saved in the recorded benchmark
 - Plugin registry with entry-point discovery (`REGISTRY`/`register`)
 
 **Engineering Quality**
 
-- 2380+ automated tests
-- 100% Digital Twin package coverage
+- 2580+ automated tests
+- 100% Simulation package coverage
 - Cross-platform CI
 - Automated GitHub Releases
 - Strict typing (mypy)
