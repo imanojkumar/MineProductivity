@@ -1,30 +1,219 @@
 site_name: MineProductivity
-site_description: A metadata-first, ontology-driven, event-sourced platform for mining productivity intelligence.
+site_description: An enterprise-grade, ontology-driven Python framework for mining productivity intelligence — KPIs, Digital Twins, simulation, optimization, AI decision support, and analytics.
+site_author: Manoj Kumar
+site_url: https://imanojkumar.github.io/MineProductivity/
 repo_url: https://github.com/imanojkumar/MineProductivity
 repo_name: imanojkumar/MineProductivity
+copyright: Copyright &copy; 2026 Manoj Kumar — Apache-2.0
 
 docs_dir: docs
 site_dir: site
 
+hooks:
+  - scripts/docs/link_rewrite_hook.py
+
+# Placeholders and GitHub-only source documents are kept in the repo but
+# excluded from the built site (they have no site content, or link outside
+# the docs tree). Their canonical content is reused elsewhere in the site.
+exclude_docs: |
+  /README.md
+  api/README.md
+  developer_guide/
+  reference_blueprint/
+  learning_suite/
+  assets/
+  images/
+  release_notes/
+  architecture/locked_ssot_documents/
+  **/why.txt
+
 theme:
   name: material
   palette:
-    - scheme: default
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
       primary: indigo
       accent: amber
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: amber
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+  icon:
+    repo: fontawesome/brands/github
+    logo: material/pickaxe
   features:
     - navigation.tabs
+    - navigation.tabs.sticky
     - navigation.sections
-    - toc.integrate
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - search.share
     - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/imanojkumar/MineProductivity
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+plugins:
+  - search
+  - include-markdown
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          options:
+            docstring_style: numpy
+            docstring_section_style: table
+            show_root_heading: true
+            show_root_full_path: false
+            show_source: false
+            show_bases: true
+            separate_signature: true
+            merge_init_into_class: true
+            filters: ["!^_"]
 
 nav:
-  - Home: README.md
-  - Architecture: architecture/README.md
-  - Reference Blueprint: reference_blueprint/README.md
-  - Developer Guide: developer_guide/README.md
-  - Learning Suite: learning_suite/README.md
-  - API Reference: api/README.md
-
-# NOTE: This is a structural placeholder. No documentation build pipeline
-# has been wired up yet (see .github/workflows/docs.yml).
+  - Home: index.md
+  - Getting Started:
+      - getting-started/installation.md
+      - Quick Start: getting-started/quick-start.md
+      - Next Steps: getting-started/next-steps.md
+  - Tutorials:
+      - tutorials/index.md
+      - Quick tour: tutorials/quickstart.md
+      - Core: tutorials/core.md
+      - Events: tutorials/events.md
+      - Ontology: tutorials/ontology.md
+      - Registry & Plugins: tutorials/registry.md
+      - Connectors: tutorials/connectors.md
+      - KPIs: tutorials/kpis.md
+      - Decision: tutorials/decision.md
+      - Digital Twin: tutorials/digital_twin.md
+      - Simulation: tutorials/simulation.md
+      - Optimization: tutorials/optimization.md
+      - AI Agents: tutorials/agents.md
+      - Visualization: tutorials/visualization.md
+  - User Guide: user-guide/index.md
+  - Packages:
+      - packages/index.md
+      - Core: packages/core.md
+      - Ontology: packages/ontology.md
+      - Events: packages/events.md
+      - Registry: packages/registry.md
+      - Plugins: packages/plugins.md
+      - Connectors: packages/connectors.md
+      - KPIs: packages/kpis.md
+      - Analytics: packages/analytics.md
+      - Decision: packages/decision.md
+      - Digital Twin: packages/digital_twin.md
+      - Simulation: packages/simulation.md
+      - Optimization: packages/optimization.md
+      - AI Agents: packages/agents.md
+      - Visualization: packages/visualization.md
+  - API Reference:
+      - api-reference/index.md
+      - core: api-reference/core.md
+      - ontology: api-reference/ontology.md
+      - events: api-reference/events.md
+      - registry: api-reference/registry.md
+      - plugins: api-reference/plugins.md
+      - connectors: api-reference/connectors.md
+      - kpis: api-reference/kpis.md
+      - analytics: api-reference/analytics.md
+      - decision: api-reference/decision.md
+      - digital_twin: api-reference/digital_twin.md
+      - simulation: api-reference/simulation.md
+      - optimization: api-reference/optimization.md
+      - agents: api-reference/agents.md
+      - visualization: api-reference/visualization.md
+  - Architecture:
+      - Handbook: architecture/README.md
+      - "01 · Event Framework": architecture/01_Event_Framework_Design_Specification.md
+      - "02 · Ontology Framework": architecture/02_Ontology_Framework_Design_Specification.md
+      - "03 · Registry Framework": architecture/03_Registry_Framework_Design_Specification.md
+      - "04 · Connector Framework": architecture/04_Connector_Framework_Design_Specification.md
+      - "05 · KPI Engine": architecture/05_KPI_Engine_Design_Specification.md
+      - "06 · Analytics Engine": architecture/06_Analytics_Engine_Design_Specification.md
+      - "07 · Decision Intelligence": architecture/07_Decision_Intelligence_Design_Specification.md
+      - "08 · Digital Twin": architecture/08_Digital_Twin_Design_Specification.md
+      - "09 · Simulation": architecture/09_Simulation_Design_Specification.md
+      - "10 · Optimization": architecture/10_Optimization_Design_Specification.md
+      - "11 · AI Agents": architecture/11_AI_Agents_Design_Specification.md
+      - "12 · Visualization": architecture/12_Visualization_Design_Specification.md
+  - ADRs:
+      - adr/index.md
+      - "ADR-0006 · Analytics": adr/ADR-0006-Analytics-Engine.md
+      - "ADR-0007 · Decision": adr/ADR-0007-Decision-Intelligence.md
+      - "ADR-0008 · Digital Twin": adr/ADR-0008-Digital-Twin.md
+      - "ADR-0009 · Simulation": adr/ADR-0009-Simulation.md
+      - "ADR-0010 · Optimization": adr/ADR-0010-Optimization.md
+      - "ADR-0011 · AI Agents": adr/ADR-0011-AI-Agents.md
+      - "ADR-0012 · Visualization": adr/ADR-0012-Visualization.md
+      - "ADR-0013 · Placeholder packages": adr/ADR-0013-Placeholder-Package-Rationalization.md
+  - Benchmarks:
+      - benchmarks/index.md
+      - Decision: benchmarks/decision.md
+      - Digital Twin: benchmarks/digital_twin.md
+      - Simulation: benchmarks/simulation.md
+      - Optimization: benchmarks/optimization.md
+      - AI Agents: benchmarks/agents.md
+      - Visualization: benchmarks/visualization.md
+  - Certification: certification/2.0-certification.md
+  - Project:
+      - Roadmap: project/roadmap.md
+      - Changelog: project/changelog.md
+      - Contributing: project/contributing.md
+      - Code of Conduct: project/code-of-conduct.md
+      - Security: project/security.md
+      - Citation: project/citation.md
+      - Governance:
+          - Engineering Rules: governance/ENGINEERING_RULES.md
+          - Release Checklist: governance/RELEASE_CHECKLIST.md
+          - CI/CD Guide: governance/CI_CD_GUIDE.md

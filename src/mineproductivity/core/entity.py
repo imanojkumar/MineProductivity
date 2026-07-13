@@ -30,15 +30,12 @@ class BaseEntity(Generic[TId]):
     event-first architecture, in which entity state is a projection of an
     immutable event stream, not a mutable record.
 
-    Type Parameters
-    ----------------
-    TId:
-        The type of this entity's identity. Any hashable type is
-        acceptable, including a raw ``str``/``int``/``uuid.UUID`` or a
-        dedicated :class:`~mineproductivity.core.identifier.BaseIdentifier`
-        subclass (recommended for anything beyond trivial examples, since
-        it prevents accidentally comparing/mixing ids from different
-        entity types).
+    **Type parameter** ``TId`` — the type of this entity's identity. Any
+    hashable type is acceptable, including a raw ``str``/``int``/``uuid.UUID``
+    or a dedicated
+    :class:`~mineproductivity.core.identifier.BaseIdentifier` subclass
+    (recommended for anything beyond trivial examples, since it prevents
+    accidentally comparing/mixing ids from different entity types).
 
     Note that ``__repr__`` is intentionally *not* overridden here: each
     concrete subclass gets the standard dataclass-generated ``repr``
