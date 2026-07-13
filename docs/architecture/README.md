@@ -43,7 +43,7 @@ Each design specification is implementation-ready: normative sections covering p
 
 ## Dependencies
 
-None (documentation only). The specifications describe packages that depend on `core` per the dependency direction in the root [README.md](../../README.md#architectural-layering--dependency-direction).
+None (documentation only). The specifications describe packages that depend on `core` per the dependency direction in the root [README.md](../../README.md#the-platform).
 
 ## Future Work
 

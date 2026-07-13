@@ -6,7 +6,7 @@ hide:
 
 # MineProductivity
 
-**An enterprise-grade, ontology-driven Python framework for mining productivity intelligence** - KPI standardization, Digital Twins, simulation, optimization, AI decision support, and operational analytics.
+**Enterprise-grade Python framework for mining analytics, Digital Twins, optimization and AI** 
 
 [Get started :material-rocket-launch:](getting-started/installation.md){ .md-button .md-button--primary }
 [View on GitHub :fontawesome-brands-github:](https://github.com/imanojkumar/MineProductivity){ .md-button }

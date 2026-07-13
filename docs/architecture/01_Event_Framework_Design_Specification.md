@@ -23,7 +23,7 @@ Every architectural fact in this document is cross-referenced against the locked
 
 The Event Framework is the system of record for MineProductivity. It defines the immutable, append-only event model that every derived state in the platform — KPI values, Digital Twin state, analytics, decisions — is computed from. It exists to guarantee one property above all others: **any number the platform ever produces can be recomputed, byte-for-byte, from the events that produced it.**
 
-This is the concrete realization of the "event-first" principle stated in the root [README.md](../../README.md#engineering-philosophy): *"Events are the immutable source of truth; everything else is a derived, rebuildable projection."*
+This is the concrete realization of the "event-first" principle stated in the root [README.md](../../README.md#why-mineproductivity): *"Events are the immutable source of truth; everything else is a derived, rebuildable projection."*
 
 ## 2. Scope
 
@@ -65,7 +65,7 @@ The following are explicitly **not** part of this package and must not be implem
 
 ## 5. Architecture
 
-The Event Framework sits directly above `ontology` in the platform's dependency stack (see root README's [layering diagram](../../README.md#architectural-layering--dependency-direction)):
+The Event Framework sits directly above `ontology` in the platform's dependency stack (see root README's [layering diagram](../../README.md#the-platform)):
 
 ```
 core  →  ontology  →  events  →  kpis  →  analytics  →  decision  →  digital_twin

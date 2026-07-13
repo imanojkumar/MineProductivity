@@ -12,7 +12,7 @@ read the locked Single Source of Truth documents referenced in
    first be justified against the Master Architecture Handbook v1.0 or the
    Reference Implementation Blueprint v1.0.
 2. **Respect the dependency direction.** See the layering diagram in the root
-   [README.md](README.md#architectural-layering--dependency-direction).
+   [README.md](README.md#the-platform).
    Lower layers (`core`, `ontology`) must never import from higher layers.
 3. **Test-first.** New code in `src/mineproductivity/<package>/` must be
    accompanied by tests in the mirrored `tests/unit/<package>/` (and

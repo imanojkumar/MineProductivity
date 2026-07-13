@@ -325,7 +325,7 @@ core/
 3.12+ standard library only.
 
 **Depended on by:** every other `mineproductivity` package, per the
-dependency direction documented in the root [README.md](../../../README.md#architectural-layering--dependency-direction).
+dependency direction documented in the root [README.md](../../../README.md#the-platform).
 
 ## Future Work
 
