@@ -24,6 +24,15 @@ read the locked Single Source of Truth documents referenced in
    hard-coding them into `core`.
 6. **No shortcuts.** Do not bypass pre-commit hooks, do not merge without
    review, and do not introduce TODO-only or partially-implemented code paths.
+7. **Architecture is locked; the code is the source of truth.** The platform
+   architecture is complete and stable — change it only to correct a genuine
+   defect, inconsistency, or dependency-rule violation, never for novelty.
+   New capability ships as plugins and applications, not as edits to the
+   locked packages. When documentation conflicts with the verified
+   implementation, update the documentation to match the code. These and the
+   other durable engineering rules (version single-source, Concept-DOI
+   citation, the End-of-Phase Standard) live in
+   [`docs/governance/ENGINEERING_RULES.md`](docs/governance/ENGINEERING_RULES.md).
 
 ## Development Setup
 
@@ -53,6 +62,16 @@ pre-commit install
 - Every package must retain an accurate `README.md` describing its purpose,
   scope, responsibilities, contents, dependencies, future work, and
   references.
+
+## Versioning & Releases
+
+The one authoritative version source is `src/mineproductivity/__init__.py`'s
+`__version__`; `pyproject.toml` reads it dynamically. Do not hardcode the
+version elsewhere (citation files are the one hand-synced exception). The
+full release procedure — the six-step End-of-Phase Standard, the per-release
+merge gate, and the Concept-DOI citation rule — is documented in
+[`docs/governance/ENGINEERING_RULES.md`](docs/governance/ENGINEERING_RULES.md)
+and [`docs/governance/RELEASE_CHECKLIST.md`](docs/governance/RELEASE_CHECKLIST.md).
 
 ## Commit Messages
 

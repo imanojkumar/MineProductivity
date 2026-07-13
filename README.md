@@ -9,20 +9,21 @@
 [![GitHub release](https://img.shields.io/github/v/release/imanojkumar/MineProductivity)](https://github.com/imanojkumar/MineProductivity/releases)
 [![Python](https://img.shields.io/badge/python-3.12+-blue.svg)](pyproject.toml)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/status-pre--alpha-orange.svg)](ROADMAP.md)
+[![Status](https://img.shields.io/badge/status-stable-brightgreen.svg)](ROADMAP.md)
 
 
 
-> **Status: Incremental Implementation.** `core` (framework primitives), `events`
-> (the Event Sourcing model), `ontology` (the typed domain vocabulary),
-> `registry`/`plugins` (the plugin-first discovery-and-lifecycle backbone),
-> `connectors` (the vendor-neutral ingestion boundary), and `kpis` (the
-> metadata-first, self-describing KPI Engine) are implemented, tested
-> (100% line coverage), and documented. Every other package remains a
-> structural placeholder, built incrementally guided by the locked
-> architecture documents described below. Every directory in this tree mirrors
-> an approved section of the Master Architecture Handbook and the Reference
-> Implementation Blueprint.
+> **Status: Architecture complete and locked — certified `v2.0.0`.** All
+> eleven domain packages of the locked architecture —
+> `core → ontology → events → kpis → analytics → decision → digital_twin
+> → simulation → optimization → agents → visualization` — plus the three
+> cross-cutting infrastructure packages (`registry`, `plugins`,
+> `connectors`) are implemented, tested (2,986 passing tests, `mypy
+> --strict` clean across 314 source files), documented, and released. The
+> public APIs are stable by contract as of `v2.0.0`. New value now ships as
+> plugins and applications, not as changes to the locked packages. Every
+> directory in this tree mirrors an approved section of the Master
+> Architecture Handbook and the Reference Implementation Blueprint.
 
 ## What is MineProductivity?
 
@@ -55,9 +56,9 @@ productivity across mining operations. It is designed from first principles to b
 
 > Architecture maturity: ██████████ 100%
 
-> Implementation maturity: ███████░░░ 60%
+> Implementation maturity: ██████████ 100%
 
-> Foundation ████████████████████████████ 100%
+> Foundation (core → kpis) ████████████████████████████ 100%
 
 > Analytics Engine ████████████████████████████ 100%
 
@@ -65,11 +66,15 @@ productivity across mining operations. It is designed from first principles to b
 
 > Digital Twin ████████████████████████████ 100%
 
-> Simulation ░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0%
+> Simulation ████████████████████████████ 100%
 
-> Optimization ░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0%
+> Optimization ████████████████████████████ 100%
 
-> Applications ░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0%
+> AI Agents ████████████████████████████ 100%
+
+> Visualization ████████████████████████████ 100%
+
+> Certification (v2.0.0) ████████████████████████████ 100% (certified)
 
 
 
@@ -108,10 +113,11 @@ architectural rationale behind this layout.
 | Decision Intelligence | ✅ | ✅ |
 | Digital Twin | ✅ | ✅ |
 | Simulation | ✅ | ✅ |
-| Optimization | ✅ | 🚧 |
-| AI Agents | ✅ | 🚧 |
-| Visualization | ✅ | 🚧 |
-| Certification | ⏳ | 🚧 |
+| Optimization | ✅ | ✅ |
+| AI Agents | ✅ | ✅ |
+| Visualization | ✅ | ✅ |
+
+> **Legend.** Architecture: ✅ locked design spec + checklist + ADR. Implementation: ✅ implemented, tested, and released as a versioned milestone. Every package in the locked architecture is implemented and released; the platform is certified at **v2.0.0** (see [`docs/certification/2.0-certification.md`](docs/certification/2.0-certification.md)). A future conformance-suite package (Phase 7 `certification`) remains a documented placeholder — see [ROADMAP.md](ROADMAP.md) and [`docs/adr/ADR-0013-Placeholder-Package-Rationalization.md`](docs/adr/ADR-0013-Placeholder-Package-Rationalization.md).
 
 
 ## Architecture Roadmap
@@ -139,9 +145,10 @@ architectural rationale behind this layout.
 | ✅ Visualization |
 
 
-| Remaining Major Implementations |
+| Post-v2.0 (optional, plugin/application layer) |
 |----------|
-| ⏳ Certification |
+| ⏳ Conformance-suite package (Phase 7 `certification`) |
+| ⏳ CLI application (`cli`) |
 
 
 ## Architectural Layering & Dependency Direction
@@ -219,9 +226,9 @@ structured, versioned notes and placeholders that mirror their sections. See
 
 ## Project Status
 
-**Current Stable Release: v1.6.0**
+**Current Stable Release: v2.0.0**
 
-Decision Intelligence Implementation
+Enterprise Certification — architecture complete and locked, public APIs stable by contract
 Production Ready
 
 **Completed milestones:**
@@ -245,31 +252,30 @@ Production Ready
 | v1.6.0 | Decision Intelligence Implementation | ✅ Implemented |
 | v1.7.0 | Digital Twin Implementation | ✅ Implemented |
 | v1.8.0 | Simulation Implementation | ✅ Implemented |
+| v1.9.0 | Optimization Implementation | ✅ Implemented |
+| v1.10.0 | AI Agents Implementation | ✅ Implemented |
+| v1.11.0 | Visualization Implementation | ✅ Implemented |
+| v2.0.0 | Enterprise Certification — architecture complete & locked | ✅ Certified |
 
-## What's New in v1.8.0
+## What's New in v2.0.0
 
-The Simulation package is now fully implemented, completing every module the design specification's §6 module list enumerates — the platform's projection layer, and the package positioned to deliver the first concrete `digital_twin.TwinSimulationModel` and `decision.WhatIfEngine` implementations by composition.
+`v2.0.0` is the **enterprise certification milestone: a stability declaration with zero breaking changes.** Every package in the locked architecture (`core → … → visualization`, plus `registry`/`plugins`/`connectors`) is implemented, released, documented, and exercised by examples and benchmarks. The public APIs are now **stable by contract** — they will not change incompatibly without a further MAJOR bump.
 
 **Highlights:**
 
-- Governed, versioned scenarios (`Scenario`/`ScenarioStatus`) with publish/supersede conflict enforcement
-- `SimulationRun` as an immutable `core.BaseEntity[str]` with executor-driven lifecycle (`Scheduled`→`Running`→`Completed`/`Failed`)
-- Category-driven execution dispatch (`SimulationExecutor` + `SimulationClock`/`TimeProgressionMode`)
-- Event-replay scenario seeding (`seed_from_replay` over `events.EventStore.replay`)
-- Four Interface-Only Methodology Extension Points (Monte Carlo, discrete-event, system dynamics, calibration)
-- Concurrent, seed-reproducible experiments (`ExperimentRunner`)
-- Scenario comparison and sensitivity sweeps with all statistics delegated to `analytics`
-- Replay-seed caching (`SimulationStateCache`) — 98.8% experiment wall-time saved in the recorded benchmark
-- Plugin registry with entry-point discovery (`REGISTRY`/`register`)
+- The full architecture is complete and locked; `optimization` (v1.9.0), `agents` (v1.10.0), and `visualization` (v1.11.0) completed the chain, and v2.0.0 certifies it
+- Public APIs stable by contract; new value ships as plugins (solver adapters, reasoning backends, renderers, connector adapters) and applications, never as changes to the locked packages
+- Repository is fully **tool-neutral**; durable engineering rules live in [`docs/governance/ENGINEERING_RULES.md`](docs/governance/ENGINEERING_RULES.md)
+- Repository-wide certification record in [`docs/certification/2.0-certification.md`](docs/certification/2.0-certification.md)
 
 **Engineering Quality**
 
-- 2580+ automated tests
-- 100% Simulation package coverage
+- 2,986 automated tests
+- 99–100% coverage across the domain packages
 - Cross-platform CI
 - Automated GitHub Releases
-- Strict typing (mypy)
-- Ruff formatting and linting
+- Strict typing (mypy `--strict`, 314 files clean)
+- Ruff formatting and linting; 0 broken documentation links
 
 See: 
  - [CHANGELOG.md](CHANGELOG.md) and 

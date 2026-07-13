@@ -17,6 +17,9 @@ Benchmark data/definitions only. No harness implementation code.
 - `decision/` — Decision Intelligence benchmark reports (`RuleEngine.evaluate()` throughput, `DecisionAuditTrail` append/query latency), first recorded at software v1.6.0.
 - `digital_twin/` — Digital Twin benchmark reports (`TwinRepository.get()`/`list()` latency, cold-start replay cost with/without snapshot seeding), first recorded at software v1.7.0.
 - `simulation/` — Simulation benchmark reports (`SimulationRunRepository.get()`/`list()` latency, `SimulationStateCache` hit-rate/time saved across repeated trials), first recorded at software v1.8.0.
+- `optimization/` — Optimization benchmark reports (`OptimizationRunRepository.get()`/`list()` latency, sweep re-solve throughput sequential vs. parallel), first recorded at software v1.9.0.
+- `agents/` — AI Agents benchmark reports (`TaskRepository.get()`/`list()` latency, task-dispatch throughput sequential vs. parallel), first recorded at software v1.10.0.
+- `visualization/` — Visualization benchmark reports (`DashboardRepository.get()`/`list()` latency, multi-widget render throughput sequential vs. parallel), first recorded at software v1.11.0.
 
 ## Dependencies
 

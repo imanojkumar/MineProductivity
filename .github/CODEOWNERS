@@ -12,6 +12,13 @@
 /src/mineproductivity/plugins/ @imanojkumar
 /src/mineproductivity/connectors/ @imanojkumar
 /src/mineproductivity/kpis/ @imanojkumar
+/src/mineproductivity/analytics/ @imanojkumar
+/src/mineproductivity/decision/ @imanojkumar
+/src/mineproductivity/digital_twin/ @imanojkumar
+/src/mineproductivity/simulation/ @imanojkumar
+/src/mineproductivity/optimization/ @imanojkumar
+/src/mineproductivity/agents/ @imanojkumar
+/src/mineproductivity/visualization/ @imanojkumar
 
 /.github/workflows/ @imanojkumar
 /docs/governance/ @imanojkumar

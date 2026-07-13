@@ -5,12 +5,309 @@ All notable changes to MineProductivity are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-> **Note:** The software version (currently `1.8.0`) is independent of the
+> **Note:** The software version (currently `2.0.0`) is independent of the
 > architecture document version (`v1.0`, locked). The architecture is
 > considered final for this phase; the software implementing it continues
 > to evolve incrementally.
 
 ## [Unreleased]
+
+## [2.0.0] - 2026-07-12
+
+**Enterprise certification milestone — architecture complete and locked.**
+
+`2.0.0` is a **stability declaration, not a feature release, and it contains
+zero breaking changes.** Every package in the locked architecture
+(`core → ontology → events → kpis → analytics → decision → digital_twin →
+simulation → optimization → agents → visualization`, plus the cross-cutting
+`registry`/`plugins`/`connectors`) is implemented, released, documented, and
+exercised by examples and benchmarks. The public APIs are now stable by
+contract: they will not change incompatibly without a further MAJOR bump.
+From here, new value ships as plugins (solver adapters, reasoning backends,
+renderers, connector adapters) and applications, evaluated against the locked
+specifications — not as changes to the locked packages.
+
+### Added
+
+- `docs/certification/2.0-certification.md` — the repository-wide
+  certification record: every package's acceptance-proof status, the full
+  quality-gate outputs (2,986 tests, `ruff`, `mypy --strict`, coverage), and
+  the production-readiness and repository-consistency audit results.
+- `docs/governance/ENGINEERING_RULES.md` — the durable, tool-neutral
+  engineering rules (architecture stability, version single-source,
+  Concept-DOI citation, the End-of-Phase Standard, code-as-source-of-truth),
+  migrated from the former repository-specific assistant instructions and
+  referenced from `CONTRIBUTING.md`.
+- `docs/adr/ADR-0013-Placeholder-Package-Rationalization.md` — a **proposed**
+  (not enacted) post-2.0 plan for the nine skeleton placeholder packages;
+  they are retained and honestly documented for 2.0, their fate deferred to a
+  separate governance review.
+
+### Changed
+
+- Repository made fully **tool-neutral**: removed the assistant-specific
+  `CLAUDE.md` (its durable rules migrated to `docs/governance/ENGINEERING_RULES.md`)
+  and the internal `docs/HANDOFF_TO_OPUS.md` sprint handoff.
+- Public-facing metadata corrected to reflect production maturity:
+  `pyproject.toml` `Development Status` is now `5 - Production/Stable` (was
+  `2 - Pre-Alpha`), author attribution matches `CITATION.cff`, and an
+  `Operating System :: OS Independent` classifier was added; `SECURITY.md`
+  rewritten from its skeleton-era "no business logic" text to an accurate
+  supported-versions and scope policy; `.github/CODEOWNERS` extended to cover
+  every domain package; the base-install smoke test now verifies all 14
+  implemented subpackages import cleanly.
+- Repository-wide documentation synchronized to the true, verified state
+  (README, ROADMAP, architecture handbook, implementation checklists, package
+  READMEs) and the version advanced to `2.0.0` across the single-source
+  `__version__` and the hand-synced citation files (Concept DOI unchanged).
+
+### Notes
+
+- No production code behavior changed in this release; it is release
+  engineering, documentation truth-restoration, and certification only. The
+  `1.9.0`/`1.10.0`/`1.11.0` milestones below delivered the optimization,
+  agents, and visualization implementations that this release certifies.
+- Full gate green at certification: 2,986 tests passed; `ruff check` +
+  `ruff format --check` clean; `mypy --strict` clean across 314 source files;
+  `check_docs.py` reports 0 broken links and 0 failed snippets; smoke and
+  perf checks pass.
+
+## [1.11.0] - 2026-07-12
+
+Visualization implementation milestone — **the platform's architecture is now complete.**
+
+This release delivers the full production implementation of the
+`mineproductivity.visualization` package against the architecture
+approved in the `v1.4.0` milestone (Design Specification, Implementation
+Checklist, and ADR-0012) — the platform's presentation layer and the
+**final package** in its architecture, built directly on `agents`. No
+package sits above it; with this release every package in the locked
+dependency chain `core → … → agents → visualization` is implemented and
+released. The complete design spec §6 module list ships in one
+implementation phase; the package's source and unit suite were authored
+in the preceding architecture-completion sprint, and this milestone
+completes the deferred release engineering.
+
+### Added
+
+- `Visualization`/`Renderer` — interface-only extension points with zero
+  concrete subclasses by design (ADR-0012); choosing a charting,
+  templating, or document-generation backend is exactly the
+  implementation decision this package's charter excludes (§3.1, §4).
+- `VisualizationMetadata`/`VisualizationCategory` (closed eight-member
+  enum: four general-purpose shapes — chart, graph, KPI card, timeline —
+  and four domain-specific views — simulation playback, digital-twin
+  view, optimization comparison, agent explanation) and
+  `VisualizationContext`, carrying every lower layer's already-structured
+  output read, never re-derived (§3.2, §8, §26).
+- `PresentationModel` — the backend-independent structured presentation a
+  `Visualization` produces, carrying no rendered bytes (§9).
+- `Dashboard` — the series' only lifecycle-free `core.BaseEntity[str]`
+  (no `status`, no `with_state()`, deliberately — a dashboard is edited,
+  not run to completion); `Widget`, `Layout`, `Theme` (§10).
+- `DashboardBuilder`/`ReportBuilder` — the series' first concrete
+  `core.BaseBuilder` subclasses; `ReportBuilder` composes the pipeline
+  once per section rather than duplicating its dispatch (§14).
+- `RenderingPipeline` — the single rendering code path for both live and
+  exported output (proven by a round-trip test): visualization dispatch →
+  `PresentationModel` → renderer dispatch → `RenderedOutput`, with the
+  "qualify, don't coerce" rule (incomplete evidence → warning, never a
+  raise) enforced end to end (§11, §30, §33).
+- `Report`/`ExportRequest`/`ExportResult` — an export is an ordinary
+  `pipeline.render` call wrapped in a result, never a second renderer
+  (§18–§19).
+- `by_owner`/`by_theme` discovery; `DashboardRepository` as a literal
+  `type` alias over `core.BaseRepository[Dashboard, str]`; dual registries
+  `REGISTRY` (visualization types) + `RENDERERS` (renderer types) with
+  `register`/`register_renderer`; and the full exception hierarchy.
+- `examples/visualization/` — five runnable, `mypy --strict`/`ruff`-clean
+  example scripts per the implementation checklist: a single widget
+  render (with the qualify-don't-coerce path), the design spec §15
+  multi-source dashboard, an exported report proving one rendering code
+  path, a simulation-playback view, and a third-party visualization+renderer
+  plugin discovered via entry points.
+- `benchmark/scenarios/visualization/` and `benchmark/reports/visualization/`
+  — the implementation checklist's two recorded benchmarks:
+  `DashboardRepository.get()`/`list()` latency (get ~0.10 µs, flat across
+  10³–10⁵ dashboards — the O(1) proof) and multi-widget render throughput
+  (~200k–248k sequential renders/s, with the contention-free-parallelism
+  correctness result recorded honestly against the GIL).
+
+### Notes
+
+- 100% statement coverage across all 16 `visualization` modules (99%
+  including branch coverage); full repository test suite (2986 tests),
+  `ruff`, and `mypy --strict` pass with zero findings.
+- The design spec §35 package acceptance proofs (no-fact-recomputation,
+  immutability, interface-purity, dependency-direction both ways,
+  single-rendering-code-path, and no-backend-coupling) are each
+  independently verified by dedicated tests.
+- No architectural changes relative to the locked `v1.4.0` design — this
+  is a pure implementation-and-release milestone, and the last package
+  milestone before the certified `v2.0.0` release.
+
+## [1.10.0] - 2026-07-12
+
+AI Agents implementation milestone.
+
+This release delivers the full production implementation of the
+`mineproductivity.agents` package against the architecture approved in
+the `v1.3.0` milestone (Design Specification, Implementation Checklist,
+and ADR-0011) — the platform's model-independent agent-orchestration
+layer, built directly on `optimization`. The complete design spec §6
+module list ships in one implementation phase. The package's source and
+unit suite were authored in the preceding architecture-completion
+sprint; this milestone completes the deferred release engineering —
+examples, benchmarks, documentation synchronization, and version review.
+
+### Added
+
+- `Agent`/`Tool`/`AgentMemory` — interface-only extension points with
+  zero concrete subclasses by design (ADR-0011); choosing a reasoning
+  backend, a tool integration, or a memory store is exactly the
+  implementation decision this package's charter excludes (§3.1, §4).
+- `AgentMetadata`/`AgentCategory` (closed enum), `AgentContext`, and the
+  `AgentResult` envelope — reusing `decision.Explanation` directly as
+  its evidence-linked justification, and carrying `ToolInvocation`
+  records (§20).
+- `Task`/`TaskStatus` — a `core.BaseEntity[str]` with the
+  `AwaitingApproval` state; `TaskState` open attributes; `TaskExecutor`
+  running the policy gate → dispatch → retry (per `connectors.RetryPolicy`)
+  → persist → audit sequence, plus `resume()` applying an already-resolved
+  `ApprovalRequest` (Approved → Running-and-dispatch; Rejected →
+  Failed-with-audited-warning) — the executor never constructs or
+  resolves an approval request itself (§12, §16).
+- `PolicyEngine`/`AgentPolicy`/`PolicyStatus` — versioned policy
+  governance with a mechanically-proven three-outcome contract (proceed /
+  route-to-approval / `PermissionDeniedError`); `AgentCapabilitySet`/
+  `Permission` capability governance (§10).
+- `WorkflowEngine` — goal decomposition (`decompose`/`run`) into one task
+  per named agent code, the delegation chain carried in open state
+  attributes, composing `simulation.ExperimentRunner` and
+  `optimization.OptimizationExecutor`/`PlanComparator` directly in the
+  concrete agent, never in the orchestrator (§13, §19).
+- `AgentAuditTrail`/`AgentAuditEntry` mirroring `decision.DecisionAuditTrail`;
+  `ApprovalRequest`/`ApprovalStatus`; `AgentMessage`/`DelegationRequest`;
+  `ConversationContext`/`ConversationTurn`; `Goal`; `by_category`/`by_scope`
+  discovery; `TaskRepository` as a literal `type` alias over
+  `core.BaseRepository[Task, str]`; dual registries `REGISTRY` (agent
+  types) + `TOOLS` (tool types) with `register`/`register_tool`; and the
+  full exception hierarchy.
+- `agents` is the only domain package that imports `connectors` (for the
+  `RetryPolicy` value object only, per spec 11 §12) — mechanically
+  enforced, with no other cross-layer coupling.
+- `examples/agents/` — five runnable, `mypy --strict`/`ruff`-clean example
+  scripts per the implementation checklist: a single agent task, a
+  policy-gated approval (with the denying hard-stop branch), the design
+  spec §19 multi-agent workflow, a planning agent composing `simulation`
+  and `optimization`, and a third-party agent+tool plugin discovered via
+  entry points.
+- `benchmark/scenarios/agents/` and `benchmark/reports/agents/` — the
+  implementation checklist's two recorded benchmarks: `TaskRepository.get()`/
+  `list()` latency (get ~0.08 µs, flat across 10³–10⁵ tasks — the O(1)
+  proof) and task-dispatch throughput (~36k–41k sequential dispatches/s,
+  with the contention-free-parallelism correctness result recorded
+  honestly against the GIL and the audit-trail serialization point).
+
+### Notes
+
+- 100% statement coverage across all 21 `agents` modules (99% including
+  branch coverage); full repository test suite (2986 tests), `ruff`, and
+  `mypy --strict` pass with zero findings.
+- The design spec §35 package acceptance proofs (no-fact-recomputation,
+  immutability, interface-purity, dependency-direction both ways,
+  policy-before-dispatch, and no-reasoning-backend-coupling) are each
+  independently verified by dedicated tests.
+- No architectural changes relative to the locked `v1.3.0` design — this
+  is a pure implementation-and-release milestone. `TaskExecutor.resume()`
+  is an added public method resolving the spec's Approved/Rejected
+  approval transitions, disclosed in the module docstring.
+
+## [1.9.0] - 2026-07-12
+
+Optimization implementation milestone.
+
+This release delivers the full production implementation of the
+`mineproductivity.optimization` package against the architecture
+approved in the `v1.2.0` milestone (Design Specification, Implementation
+Checklist, and ADR-0010) — the platform's prescriptive search layer,
+built directly on `simulation`. The complete design spec §6 module list
+(twenty modules) ships in one implementation phase. The package's source
+and unit suite were authored in the preceding architecture-completion
+sprint; this milestone completes the release engineering — examples,
+benchmarks, documentation synchronization, and version review — that
+the sprint deferred.
+
+### Added
+
+- `OptimizationModel` (ABC, deliberately no shared abstract solve
+  method — each of the six solving paradigms declares its own) and
+  `OptimizationContext`, carrying `KPIResult`/`AnalyticsResult`/
+  `DecisionResult`/`TwinSnapshot`/`SimulationResult` evidence read,
+  never re-derived (§3.2, §8).
+- `OptimizationMetadata`/`OptimizationCategory` (closed six-member enum)
+  with import-time namespace/category conformance on every category
+  base (§29).
+- The full problem-definition family — `Objective`/`ObjectiveDirection`,
+  `Constraint`/`ConstraintOperator`, `DecisionVariable`/`VariableDomain`,
+  and `OptimizationProblem`/`ProblemStatus` as the package's versioned,
+  governed artifact with publish/supersede conflict enforcement
+  (`ProblemConflictError` raised at publication time) (§9, §25).
+- `OptimizationRun` — a `core.BaseEntity[str]` subclass following
+  `simulation.SimulationRun`'s precedent (identity-based equality
+  inherited unchanged, `with_state()` producing new instances) — with
+  `RunStatus` (`Completed`/`Failed` terminal) and `OptimizationExecutor`:
+  category-driven dispatch (never branching on concrete type), an
+  iterative branch for evolutionary models bounded by convergence or
+  `parameters["max_iterations"]`, the §11 LP-continuous-variables and
+  §14 objective-count pairing validation, per-run repository
+  persistence, and `Failed`-marking on model errors (§10).
+- `OptimizationState` (open attributes mapping) (§10).
+- The six interface-only category ABCs with zero concrete subclasses by
+  design (ADR-0010): `LinearProgrammingModel` (`_solve_lp`),
+  `MixedIntegerProgrammingModel` (`_solve_mip`),
+  `ConstraintProgrammingModel` (`_solve_cp`), `MultiObjectiveModel`
+  (`_solve_pareto`), `EvolutionaryMetaheuristicModel` (`_iterate`), and
+  `NetworkOptimizationModel` (`_solve_network`) (§11–§16).
+- `PlanComparator`/`SensitivityAnalyzer` — thin orchestration layers
+  delegating every statistical judgment to `analytics.describe`/
+  `distribution`/`confidence_interval`; `sweep()` produces one re-solve
+  per swept value, each a transient copy of the governed problem, never
+  an in-place edit (§19–§20).
+- `by_category`/`by_scope` discovery factories; `OptimizationRunRepository`
+  as a literal `type` alias over `core.BaseRepository[OptimizationRun, str]`;
+  the `OptimizationResult`/`ParetoResult` family; `REGISTRY`/`register`;
+  and the full exception hierarchy. No caching module exists, deliberately
+  (§26's documented non-need).
+- `examples/optimization/` — five runnable, `mypy --strict`/`ruff`-clean
+  example scripts per the implementation checklist: a MIP fleet/shift
+  allocation seeded from a `TwinSnapshot`, `PlanComparator` over two
+  candidate plans, a `SensitivityAnalyzer` constraint-bound sweep, a
+  candidate-scenario search composed over `simulation.ExperimentRunner`,
+  and a third-party solver-adapter plugin discovered via entry points.
+- `benchmark/scenarios/optimization/` and `benchmark/reports/optimization/`
+  — the implementation checklist's two recorded benchmarks:
+  `OptimizationRunRepository.get()`/`list()` latency (get ~0.08 µs, flat
+  across 10³–10⁵ runs — the O(1) proof) and sweep re-solve throughput
+  (~27k–37k sequential re-solves/s, with the contention-free-parallelism
+  correctness result recorded honestly against the GIL).
+
+### Notes
+
+- 100% statement coverage across all 20 `optimization` modules (99%
+  including branch coverage; the residual branches are interface-only
+  ABC method bodies and the documented repository-race guard); full
+  repository test suite (2986 tests), `ruff`, and `mypy --strict` pass
+  with zero findings.
+- The six design spec §35 package acceptance proofs
+  (no-fact-recomputation, no-statistics-reimplementation, immutability,
+  interface-purity, no-architectural-drift, no-solver-coupling) are each
+  independently verified by dedicated tests.
+- No architectural changes relative to the locked `v1.2.0` design — this
+  is a pure implementation-and-release milestone. Disclosed
+  spec-internal resolutions (iterative termination default, lazy
+  `by_category` resolution) are documented in the relevant module
+  docstrings.
 
 ## [1.8.0] - 2026-07-08
 
@@ -504,10 +801,6 @@ records that will guide future development.
 - This is an architecture milestone only.
 - No production Decision Intelligence implementation is included.
 - The next planned milestone is **v1.0.0 – Digital Twin Architecture**.
-
-### Added
-
-- Nothing yet.
 
 ## [0.8.0] - 2026-07-04
 

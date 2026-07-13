@@ -27,18 +27,21 @@ Implemented, runnable today — **new here? Start with `quickstart/`:**
 - [`decision/`](decision/README.md) — audited pipeline over real KPI/trend evidence, action prioritization/planning, real-time session, plugin strategy (4 scripts).
 - [`digital_twin/`](digital_twin/README.md) — cold-start + live twin synchronization, category/scope discovery, snapshot serialization, plugin twin type (4 scripts).
 - [`simulation/`](simulation/README.md) — snapshot-seeded Monte Carlo experiment, scenario comparison, sensitivity sweep, plugin simulation model (4 scripts).
+- [`optimization/`](optimization/README.md) — MIP fleet allocation seeded from a twin snapshot, plan comparison, sensitivity sweep, candidate-scenario search over `simulation`, plugin solver adapter (5 scripts).
+- [`agents/`](agents/README.md) — single agent task, policy-gated approval, multi-agent workflow, planning agent composing `simulation`/`optimization`, plugin agent + tool (5 scripts).
+- [`visualization/`](visualization/README.md) — single widget render, multi-source dashboard, exported report, simulation-playback view, plugin visualization + renderer (5 scripts).
 
-Placeholders, pending their corresponding subsystem's implementation:
+Placeholders:
 
-- `production/`, `visualization/`, `ai/`.
+- `production/` (end-to-end production-composition patterns), `ai/` (superseded by `agents/`).
 
 ## Dependencies
 
-`mineproductivity`, editable-installed from this repository (`pip install -e .`); `mineproductivity[analytics]` additionally for the `kpis/`, `decision/`, and `simulation/` examples.
+`mineproductivity`, editable-installed from this repository (`pip install -e .`); `mineproductivity[analytics]` additionally for the `kpis/`, `decision/`, `simulation/`, `optimization/`, and `agents/` examples.
 
 ## Future Work
 
-Author `production/`, `visualization/`, and `ai/` examples as their corresponding subsystems are implemented.
+Author `production/` end-to-end composition examples; the `ai/` placeholder is superseded by `agents/` and is slated for removal.
 
 ## References
 

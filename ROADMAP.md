@@ -3,7 +3,7 @@
 MineProductivity's overall architecture (Master Architecture Handbook v1.0) is
 locked and documentation-complete. The software implementing it is versioned
 independently via [Semantic Versioning](https://semver.org/); the current
-software release is `1.8.0` (see [`CHANGELOG.md`](CHANGELOG.md) for the full
+software release is `2.0.0` (see [`CHANGELOG.md`](CHANGELOG.md) for the full
 milestone history). This roadmap tracks implementation phases against the
 Reference Implementation Blueprint v1.0 and reflects the repository's actual,
 current state — not a plan for a future not-yet-executed sequence.
@@ -58,8 +58,8 @@ Started** (neither exists yet).
 
 ## Phase 4 — Analytical Layer
 
-**Status: Implemented for `analytics` and `simulation`; Architecture
-complete for `optimization`.**
+**Status: Implemented for `analytics`, `simulation`, and
+`optimization`.**
 
 - `analytics` — **Implemented** (v1.5.0 milestone, architecture approved at
   the v0.8.0 milestone). Statistical and analytical processing built on
@@ -86,17 +86,28 @@ complete for `optimization`.**
   and the `REGISTRY`/`register` plugin mechanism. `simulation` is
   feature-complete per the Reference Implementation Blueprint's design
   spec §6 module list (see `src/mineproductivity/simulation/README.md`).
-- `optimization` — **Architecture complete** (v1.2.0 milestone). Solved-plan
-  search over six interface-only paradigms (linear programming, mixed-integer
-  programming, constraint programming, multi-objective, evolutionary/
-  metaheuristic, network optimization), plan comparison and sensitivity
-  analysis (delegated to `analytics`). See
-  [`docs/architecture/10_Optimization_Design_Specification.md`](docs/architecture/10_Optimization_Design_Specification.md).
+- `optimization` — **Fully implemented** (architecture approved at the
+  v1.2.0 milestone; software release v1.9.0). The platform's
+  prescriptive search layer, built directly on `simulation` — solved-plan
+  search over six interface-only paradigms (linear programming,
+  mixed-integer programming, constraint programming, multi-objective,
+  evolutionary/metaheuristic, network optimization, zero concrete
+  subclasses by design), `OptimizationProblem`/`ProblemStatus` as a
+  versioned, governed artifact with publish/supersede conflict
+  enforcement, `OptimizationRun`/`RunStatus`/`OptimizationExecutor`
+  (category-driven dispatch with an iterative evolutionary branch),
+  `PlanComparator`/`SensitivityAnalyzer` (statistics delegated entirely
+  to `analytics`), `by_category`/`by_scope` discovery,
+  `OptimizationRunRepository` as a literal type alias over
+  `core.BaseRepository[OptimizationRun, str]`, the
+  `OptimizationResult`/`ParetoResult` family, and the `REGISTRY`/`register`
+  plugin mechanism. `optimization` is feature-complete per the Reference
+  Implementation Blueprint's design spec §6 module list (see
+  `src/mineproductivity/optimization/README.md`).
 
 ## Phase 5 — Decision & Twin Layer
 
-**Status: `decision` and `digital_twin` fully implemented; Architecture
-complete for `agents`.**
+**Status: `decision`, `digital_twin`, and `agents` fully implemented.**
 
 - `decision` — **Fully implemented** (Phases 07.1-07.4, architecture
   approved at the v0.9.0 milestone; software release v1.6.0).
@@ -135,21 +146,42 @@ complete for `agents`.**
   feature-complete per the Reference Implementation Blueprint's design
   spec §6 module list (see
   `src/mineproductivity/digital_twin/README.md`).
-- `agents` — **Architecture complete** (v1.3.0 milestone). Model-independent
-  agent orchestration layer — `Agent`/`Tool`/`AgentMemory` interfaces, task
-  lifecycle, policy engine, human approval workflows, multi-agent
-  delegation. See
-  [`docs/architecture/11_AI_Agents_Design_Specification.md`](docs/architecture/11_AI_Agents_Design_Specification.md).
+- `agents` — **Fully implemented** (architecture approved at the v1.3.0
+  milestone; software release v1.10.0). The platform's model-independent
+  agent-orchestration layer, built directly on `optimization` — the
+  interface-only `Agent`/`Tool`/`AgentMemory` extension points,
+  `Task`/`TaskStatus` (with the `AwaitingApproval` state) as a
+  `core.BaseEntity[str]`, `TaskExecutor` (policy gate → dispatch → retry
+  → persist → audit, plus `resume()` for approval resolution),
+  `PolicyEngine`/`AgentPolicy` governance with capability sets,
+  `WorkflowEngine` goal decomposition and multi-agent delegation (composing
+  `simulation`/`optimization` directly), `AgentAuditTrail`,
+  `by_category`/`by_scope` discovery, `TaskRepository` as a literal type
+  alias over `core.BaseRepository[Task, str]`, and the dual
+  `REGISTRY`/`TOOLS` registries. `agents` is feature-complete per the
+  Reference Implementation Blueprint's design spec §6 module list (see
+  `src/mineproductivity/agents/README.md`).
 
 ## Phase 6 — Experience Layer
 
-**Status: Architecture complete for `visualization`; not started for `cli`.**
+**Status: `visualization` fully implemented; not started for `cli`.**
 
-- `visualization` — **Architecture complete** (v1.4.0 milestone). The
-  platform's final package — dashboards, reports, and rendering-backend-
-  independent presentation of every lower package's already-structured
-  output. See
-  [`docs/architecture/12_Visualization_Design_Specification.md`](docs/architecture/12_Visualization_Design_Specification.md).
+- `visualization` — **Fully implemented** (architecture approved at the
+  v1.4.0 milestone; software release v1.11.0). The platform's final
+  package, built directly on `agents` — dashboards, reports, and
+  rendering-backend-independent presentation of every lower package's
+  already-structured output. The interface-only `Visualization`/`Renderer`
+  extension points, `PresentationModel`, `Dashboard` (a lifecycle-free
+  `core.BaseEntity`)/`Widget`/`Layout`/`Theme`, `DashboardBuilder`/
+  `ReportBuilder` (the series' first concrete `core.BaseBuilder`
+  subclasses), the single `RenderingPipeline` code path (live and
+  exported), `Report`/`ExportRequest`/`ExportResult`, `by_owner`/`by_theme`
+  discovery, `DashboardRepository` as a literal type alias over
+  `core.BaseRepository[Dashboard, str]`, and the dual `REGISTRY`/`RENDERERS`
+  registries. `visualization` is feature-complete per the Reference
+  Implementation Blueprint's design spec §6 module list (see
+  `src/mineproductivity/visualization/README.md`), and is the final
+  package in the platform's architecture — nothing depends on it.
 - `cli` — command-line interface. No architecture specification exists yet.
 
 ## Phase 7 — Quality & Certification
@@ -168,6 +200,14 @@ already exist under `scripts/quality/`).
   passing" has not yet been reached — see Versioning Policy below for how
   this differs from the software's own SemVer track, which has already
   passed `1.0.0` for unrelated reasons.
+- The software's own **`v2.0.0` enterprise-certification milestone** *has*
+  been reached: every domain package is implemented, released, and
+  documented, and the repository-wide acceptance-proof record is captured in
+  [`docs/certification/2.0-certification.md`](docs/certification/2.0-certification.md).
+  This certifies the *implemented platform*; it is distinct from the
+  Phase 7 `certification` **package** (a future conformance-suite artifact),
+  which remains a documented placeholder — see
+  [`docs/adr/ADR-0013-Placeholder-Package-Rationalization.md`](docs/adr/ADR-0013-Placeholder-Package-Rationalization.md).
 
 ## Future Architecture Proposals
 

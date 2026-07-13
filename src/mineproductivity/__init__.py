@@ -33,11 +33,18 @@ prescriptive layer built directly on ``analytics`` -- rule/policy-driven
 decision strategies, ranking, explanation, prioritization, action
 planning, alerting, real-time and batch decision execution, and an
 append-only decision audit trail -- per the locked Decision Intelligence
-Design Specification. Every other subsystem package is still a
-structural placeholder. See the root README.md and
-docs/architecture/README.md for the governing architecture, and
-ROADMAP.md for the implementation phasing.
+Design Specification. The ``mineproductivity.digital_twin``,
+``mineproductivity.simulation``, and ``mineproductivity.optimization``
+packages implement the stateful representation, projection, and
+prescriptive-search layers respectively, ``mineproductivity.agents``
+implements the model-independent agent-orchestration layer, and
+``mineproductivity.visualization`` implements the presentation layer --
+the final package in the architecture -- each per its own locked design
+specification. Every package in the locked dependency chain is now
+implemented. See the root README.md and docs/architecture/README.md for
+the governing architecture, and ROADMAP.md for the implementation
+phasing.
 """
 
-__version__ = "1.8.0"
+__version__ = "2.0.0"
 __all__ = ["__version__"]

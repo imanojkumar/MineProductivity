@@ -19,15 +19,26 @@ def main() -> int:
 
     print(f"mineproductivity {mineproductivity.__version__}")
 
+    import mineproductivity.agents
+    import mineproductivity.analytics
     import mineproductivity.connectors
     import mineproductivity.core
+    import mineproductivity.decision
+    import mineproductivity.digital_twin
     import mineproductivity.events
     import mineproductivity.kpis
     import mineproductivity.ontology
+    import mineproductivity.optimization
     import mineproductivity.plugins
     import mineproductivity.registry
+    import mineproductivity.simulation
+    import mineproductivity.visualization
 
-    print("all seven implemented subpackages import cleanly")
+    print(
+        "all 14 implemented subpackages import cleanly on the base install "
+        "(numpy/pandas/pyarrow/openpyxl are needed only to execute KPI backends, "
+        "Arrow codecs, or the Excel connector -- never merely to import)"
+    )
 
     from mineproductivity.kpis import REGISTRY
 

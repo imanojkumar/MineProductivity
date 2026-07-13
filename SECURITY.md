@@ -2,13 +2,15 @@
 
 ## Supported Versions
 
-MineProductivity is currently in the repository-skeleton / pre-alpha phase.
-No released version currently carries security support guarantees.
+MineProductivity follows [Semantic Versioning](https://semver.org/). Security
+fixes are provided for the latest released minor version. Older versions are
+supported on a best-effort basis until the next minor release supersedes them.
 
 | Version | Supported |
 |---------|-----------|
-| 0.1.x   | :white_check_mark: (best-effort, pre-alpha) |
-| < 0.1   | :x: |
+| Latest `2.x` | :white_check_mark: |
+| `1.11.x` | :white_check_mark: (best-effort until `2.x` adoption) |
+| < 1.11 | :x: |
 
 ## Reporting a Vulnerability
 
@@ -34,7 +36,19 @@ Please include:
 
 ## Scope
 
-As this repository currently contains no business logic (structural skeleton
-only), the primary security surface is the build/packaging toolchain and
-CI/CD configuration. This policy will expand in scope as implementation
-proceeds.
+MineProductivity is a pure-Python framework whose base install carries **zero
+third-party runtime dependencies**; optional extras (`events`, `connectors`,
+`analytics`, `notebooks`) pull in well-known scientific and I/O libraries only
+when their features are used. The primary security surface is therefore:
+
+- the framework's own code under `src/mineproductivity/` (data ingestion via
+  `connectors`, serialization, and plugin/entry-point discovery);
+- third-party plugins that implement the interface-only extension points
+  (solver adapters, reasoning backends, renderers, connector adapters) —
+  these run with the same trust as the host application and are outside this
+  repository's control;
+- the build/packaging toolchain and CI/CD configuration.
+
+Dependency and static-analysis scanning (`pip-audit`, CodeQL, dependency
+review) run in CI; see [`docs/governance/CI_CD_GUIDE.md`](docs/governance/CI_CD_GUIDE.md)
+for the pipeline and any documented, time-boxed exceptions.
