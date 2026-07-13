@@ -21,8 +21,8 @@ exclude_docs: |
   developer_guide/
   reference_blueprint/
   learning_suite/
-  assets/
-  images/
+  /assets/README.md
+  /images/README.md
   release_notes/
   architecture/locked_ssot_documents/
   **/why.txt
