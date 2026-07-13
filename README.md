@@ -114,7 +114,7 @@ Full documentation is published at **[imanojkumar.github.io/MineProductivity](ht
 
 ## Project status
 
-**Stable — `v2.0.0`.** The architecture is complete and locked, and the public APIs are stable by contract: they will not change incompatibly without a further MAJOR release. New value ships as plugins and applications, not as changes to the locked packages. See the [certification record](docs/certification/2.0-certification.md) and the [CHANGELOG](CHANGELOG.md).
+**Stable - `v2.0.0`.** The architecture is complete and locked, and the public APIs are stable by contract: they will not change incompatibly without a further MAJOR release. New value ships as plugins and applications, not as changes to the locked packages. See the [certification record](docs/certification/2.0-certification.md) and the [CHANGELOG](CHANGELOG.md).
 
 <details>
 <summary>Milestone history</summary>
