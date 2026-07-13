@@ -38,6 +38,14 @@ pip install mineproductivity
 - **🧱 Clean, layered architecture** - 14 packages whose inward-pointing dependency direction is *mechanically enforced* (both ways) by tests, not just documented.
 - **✅ Enterprise quality** - **2,986 tests**, `mypy --strict` clean across **314 files**, **99% branch coverage**, and public APIs **stable by contract** as of `v2.0.0`.
 
+## Who is this for?
+
+> - Mining companies
+> - Researchers
+> - Universities
+> - Consultants
+> - Software developers
+
 ## Installation
 
 ```bash
