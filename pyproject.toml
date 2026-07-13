@@ -85,8 +85,8 @@ docs = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/imanojkumar/MineProductivity"
-Documentation = "https://github.com/imanojkumar/MineProductivity/tree/main/docs"
+Homepage = "https://imanojkumar.github.io/MineProductivity/"
+Documentation = "https://imanojkumar.github.io/MineProductivity/getting-started/"
 Repository = "https://github.com/imanojkumar/MineProductivity"
 Changelog = "https://github.com/imanojkumar/MineProductivity/blob/main/CHANGELOG.md"
 Issues = "https://github.com/imanojkumar/MineProductivity/issues"
