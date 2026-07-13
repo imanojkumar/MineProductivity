@@ -11,7 +11,7 @@ How-to guidance, cookbook-style recipes, and conventions for contributors implem
 ## Responsibilities
 
 - Host onboarding material for new contributors.
-- Host the KPI Standard Library cookbook once the `kpis` package is implemented (Developer & Cookbook Guide — Part III).
+- Host the KPI Standard Library cookbook once the `kpis` package is implemented (Developer & Cookbook Guide - Part III).
 
 ## Contents
 
@@ -27,6 +27,6 @@ Populate as each Developer & Cookbook Guide part is translated into repository-n
 
 ## References
 
-- Developer & Cookbook Guide — Part I
-- Developer & Cookbook Guide — Part II
-- Developer & Cookbook Guide — Part III (Mine Productivity KPI Standard Library & Cookbook)
+- Developer & Cookbook Guide - Part I
+- Developer & Cookbook Guide - Part II
+- Developer & Cookbook Guide - Part III (Mine Productivity KPI Standard Library & Cookbook)

@@ -4,7 +4,7 @@ tree into absolute GitHub URLs.
 Much of the site reuses Markdown that lives outside ``docs/`` (package
 READMEs, example READMEs, root governance files) via the
 include-markdown plugin. Those files legitimately link to repository
-paths — source modules, example scripts, notebooks, ``LICENSE`` — that
+paths - source modules, example scripts, notebooks, ``LICENSE`` - that
 have no page in the built site. Rather than edit every source document,
 this hook resolves each relative link against its page location; if the
 target escapes ``docs/`` it is rewritten to an absolute
@@ -22,7 +22,7 @@ import re
 REPO = "https://github.com/imanojkumar/MineProductivity"
 BRANCH = "main"
 
-# Markdown inline links: ](url) — captures the URL up to the closing paren.
+# Markdown inline links: ](url) - captures the URL up to the closing paren.
 _LINK = re.compile(r"\]\(\s*(<?)([^)\s>]+)(>?)\s*\)")
 
 

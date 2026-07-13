@@ -1,23 +1,23 @@
-# KPI Engine — Implementation Checklist
+# KPI Engine - Implementation Checklist
 
 **Package:** `mineproductivity.kpis`
 **Governing specification:** [`docs/architecture/05_KPI_Engine_Design_Specification.md`](../architecture/05_KPI_Engine_Design_Specification.md)
 **Status:** Not started
 
-Binding implementation contract for `kpis` — the platform's most important package. Complete in order; every box must be checked or explicitly deferred with a linked issue and Chief Software Architect sign-off before merge.
+Binding implementation contract for `kpis` - the platform's most important package. Complete in order; every box must be checked or explicitly deferred with a linked issue and Chief Software Architect sign-off before merge.
 
 ## Pre-Implementation Gate
 
 - [ ] Design specification read in full by the implementer, including the full cross-reference to Developer & Cookbook Guide Part III.
 - [ ] `core`, `ontology`, `events` available and importable; `registry`, `validation`, `config` cross-cutting packages available.
-- [ ] This checklist reviewed against the design spec's §36/§37 — no drift.
-- [ ] Confirmed: `kpis` will not import `connectors` under any circumstance (design spec §7 — the single most load-bearing rule in this package).
+- [ ] This checklist reviewed against the design spec's §36/§37 - no drift.
+- [ ] Confirmed: `kpis` will not import `connectors` under any circumstance (design spec §7 - the single most load-bearing rule in this package).
 
 ## Package Structure
 
 - [ ] `src/mineproductivity/kpis/` created matching design spec §6 exactly: `metadata.py`, `base_kpi.py`, `categories/` (nine files), `result.py`, `engine.py`, `dependency_graph.py`, `aggregation.py`, `windowing.py`, `composite.py`, `inheritance.py`, `caching.py`, `backends/` (five files), `naming.py`, `lifecycle.py`, `validation.py`, `certification.py`, `exceptions.py`, `__init__.py`, `README.md`.
 - [ ] `kpis/README.md` written following the `core/README.md` template.
-- [ ] Confirmed `engine.py` contains zero KPI-code-specific branches (mechanical grep/AST check — design spec §37.1).
+- [ ] Confirmed `engine.py` contains zero KPI-code-specific branches (mechanical grep/AST check - design spec §37.1).
 
 ## Public API
 
@@ -26,16 +26,16 @@ Binding implementation contract for `kpis` — the platform's most important pac
 
 ## Interfaces / Object Model
 
-- [ ] `KPIMetadata` (§10.1) — all 29 Standard Library fields represented (typed fields for engine-executed ones, `attributes` carrying documentation-only fields per design spec §34), plus naming/lifecycle/applicability fields.
-- [ ] `Direction`, `Aggregation`, `DigitalMaturity`, `KPIStatus` enums (§10.2) — exact members per spec.
-- [ ] `BaseKPI` (§10.3) — `compute()` non-overridable orchestration, `_compute()` abstract, `_required_columns()` derived from metadata.
-- [ ] Nine category base classes (§10.4): `ProductionKPI`, `UtilizationKPI`, `MaintenanceKPI`, `HaulageKPI`, `DelayKPI`, `EnergyKPI`, `QualityKPI`, `CostKPI`, `SafetyKPI` — each with a namespace-prefix validation check.
+- [ ] `KPIMetadata` (§10.1) - all 29 Standard Library fields represented (typed fields for engine-executed ones, `attributes` carrying documentation-only fields per design spec §34), plus naming/lifecycle/applicability fields.
+- [ ] `Direction`, `Aggregation`, `DigitalMaturity`, `KPIStatus` enums (§10.2) - exact members per spec.
+- [ ] `BaseKPI` (§10.3) - `compute()` non-overridable orchestration, `_compute()` abstract, `_required_columns()` derived from metadata.
+- [ ] Nine category base classes (§10.4): `ProductionKPI`, `UtilizationKPI`, `MaintenanceKPI`, `HaulageKPI`, `DelayKPI`, `EnergyKPI`, `QualityKPI`, `CostKPI`, `SafetyKPI` - each with a namespace-prefix validation check.
 - [ ] `TonnesPerHour` reference exemplar (§10.5) implemented exactly, including its full `KPIMetadata`.
-- [ ] `KPIResult` (§10.6) — `to_frame()`, `plot()`, `pareto()` delegate to backend/visualization-metadata hooks.
-- [ ] `CompositeKPI` (§10.7) — `_combine()` abstract; `_compute()` raises `NotImplementedError` by design.
-- [ ] `specialize()` inheritance helper (§10.7) — proves `PROD.TPH.Ore`/`PROD.TPH.Waste`-style specialization.
-- [ ] `KPIEngine` (§10.8) — `execute()`, `rows_for()`; confirmed to hold no metric-specific logic.
-- [ ] `DependencyGraph` (§10.8) — `topological_order()`, `detect_cycle()` (non-raising).
+- [ ] `KPIResult` (§10.6) - `to_frame()`, `plot()`, `pareto()` delegate to backend/visualization-metadata hooks.
+- [ ] `CompositeKPI` (§10.7) - `_combine()` abstract; `_compute()` raises `NotImplementedError` by design.
+- [ ] `specialize()` inheritance helper (§10.7) - proves `PROD.TPH.Ore`/`PROD.TPH.Waste`-style specialization.
+- [ ] `KPIEngine` (§10.8) - `execute()`, `rows_for()`; confirmed to hold no metric-specific logic.
+- [ ] `DependencyGraph` (§10.8) - `topological_order()`, `detect_cycle()` (non-raising).
 - [ ] `ExecutionBackend` ABC + `PolarsBackend`, `DuckDBBackend`, `PandasBackend`, `NumPyBackend` (§10.9).
 - [ ] `Window`, `RollingWindow`, `CumulativeWindow` (§10.10).
 
@@ -47,11 +47,11 @@ Binding implementation contract for `kpis` — the platform's most important pac
 
 ## Validation
 
-- [ ] `KPIMetadata.validate()` — identifier parses as `NAMESPACE.Name` (§20), all mandatory fields populated.
-- [ ] `BaseKPI.compute()` — missing-column detection produces a warning-carrying `KPIResult`, never an exception.
+- [ ] `KPIMetadata.validate()` - identifier parses as `NAMESPACE.Name` (§20), all mandatory fields populated.
+- [ ] `BaseKPI.compute()` - missing-column detection produces a warning-carrying `KPIResult`, never an exception.
 - [ ] Canonical time-model invariant enforced for every `UtilizationKPI`: `calendar ⊇ scheduled ⊇ available ⊇ operating`; `UTIL.EU == UTIL.PA × UTIL.UA` proven by test.
 - [ ] Six-category delay taxonomy consumed correctly by every `DelayKPI` (cross-package test against `ontology.DelayCategory`).
-- [ ] RATIO-never-averaged rule enforced structurally by the engine, not by convention (design spec §19, §29) — dedicated regression test using the exact Cookbook Part I Ch. 6 worked numbers.
+- [ ] RATIO-never-averaged rule enforced structurally by the engine, not by convention (design spec §19, §29) - dedicated regression test using the exact Cookbook Part I Ch. 6 worked numbers.
 
 ## Versioning
 
@@ -110,10 +110,10 @@ Binding implementation contract for `kpis` — the platform's most important pac
 
 ## Examples
 
-- [ ] `examples/kpis/01_simple_execution.py` — `PROD.TPH` end-to-end (design spec §31).
-- [ ] `examples/kpis/02_composite_oee.py` — `UTIL.OEE` composite execution.
-- [ ] `examples/kpis/03_batch_summary.py` — multi-KPI single-scan execution.
-- [ ] `examples/kpis/04_discovery.py` — `REGISTRY` introspection, `describe()`.
+- [ ] `examples/kpis/01_simple_execution.py` - `PROD.TPH` end-to-end (design spec §31).
+- [ ] `examples/kpis/02_composite_oee.py` - `UTIL.OEE` composite execution.
+- [ ] `examples/kpis/03_batch_summary.py` - multi-KPI single-scan execution.
+- [ ] `examples/kpis/04_discovery.py` - `REGISTRY` introspection, `describe()`.
 - [ ] All examples pass `mypy --strict` + `ruff`.
 
 ## Benchmarks
@@ -136,7 +136,7 @@ Binding implementation contract for `kpis` — the platform's most important pac
 ## Release
 
 - [ ] `CHANGELOG.md` updated.
-- [ ] Root README dependency diagram cross-checked — confirm no forbidden import (`connectors`, `analytics`, `optimization`, `simulation`, `decision`, `digital_twin`, `agents`) was introduced.
+- [ ] Root README dependency diagram cross-checked - confirm no forbidden import (`connectors`, `analytics`, `optimization`, `simulation`, `decision`, `digital_twin`, `agents`) was introduced.
 - [ ] Version bump proposed and reviewed.
 - [ ] Design spec §37 re-verified as final merge gate.
 

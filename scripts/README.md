@@ -14,10 +14,10 @@ Standalone operational scripts. Does not include application/package code (see `
 
 ## Contents
 
-- `bootstrap/` — first-time environment setup scripts.
-- `development/` — day-to-day development helper scripts.
-- `release/` — release-cutting and versioning scripts.
-- `quality/` — linting, type-checking, and quality-gate scripts.
+- `bootstrap/` - first-time environment setup scripts.
+- `development/` - day-to-day development helper scripts.
+- `release/` - release-cutting and versioning scripts.
+- `quality/` - linting, type-checking, and quality-gate scripts.
 
 ## Dependencies
 

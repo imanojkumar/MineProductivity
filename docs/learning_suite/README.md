@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Companion documentation for the Learning & Benchmark Suite v1.0 — the locked SSOT describing the pedagogical notebook progression and benchmark methodology.
+Companion documentation for the Learning & Benchmark Suite v1.0 - the locked SSOT describing the pedagogical notebook progression and benchmark methodology.
 
 ## Scope
 

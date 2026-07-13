@@ -1,4 +1,4 @@
-# Examples — mineproductivity.connectors
+# Examples - mineproductivity.connectors
 
 ## Purpose
 
@@ -15,8 +15,8 @@ Example scripts and their direct output. No test assertions live here (see `test
 
 ## Contents
 
-- `01_csv_ingestion.py` — look up `CSVConnector` via `get_connector("csv")`, pull cycle and delay events from the golden fixtures in `tests/fixtures/connectors/`, validate, envelope, append to an `EventStore`, and query back.
-- `02_rest_with_retry.py` — `RestConnector` against a real, local `http.server.HTTPServer`: a stale token forces exactly one `AuthProvider.refresh()`, and a transient `503` forces a `RetryPolicy`-governed retry, both before any event is yielded.
+- `01_csv_ingestion.py` - look up `CSVConnector` via `get_connector("csv")`, pull cycle and delay events from the golden fixtures in `tests/fixtures/connectors/`, validate, envelope, append to an `EventStore`, and query back.
+- `02_rest_with_retry.py` - `RestConnector` against a real, local `http.server.HTTPServer`: a stale token forces exactly one `AuthProvider.refresh()`, and a transient `503` forces a `RetryPolicy`-governed retry, both before any event is yielded.
 
 ## Dependencies
 

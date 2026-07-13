@@ -1,4 +1,4 @@
-# Examples — mineproductivity.registry / mineproductivity.plugins
+# Examples - mineproductivity.registry / mineproductivity.plugins
 
 ## Purpose
 
@@ -15,12 +15,12 @@ Example scripts and their direct output. No test assertions live here (see `test
 
 ## Contents
 
-- `01_register_and_discover.py` — the full register → discover → lookup cycle: a domain package's `Registry` and `@register` decorator, duplicate-key rejection, and a real, on-disk plugin module discovered through `EntryPointDiscovery`'s exact code path.
-- `02_version_compatibility.py` — a compatible and an incompatible `PluginManifest` activated side by side via `PluginLifecycle`, proving the incompatible plugin's rejection never blocks the compatible one.
+- `01_register_and_discover.py` - the full register → discover → lookup cycle: a domain package's `Registry` and `@register` decorator, duplicate-key rejection, and a real, on-disk plugin module discovered through `EntryPointDiscovery`'s exact code path.
+- `02_version_compatibility.py` - a compatible and an incompatible `PluginManifest` activated side by side via `PluginLifecycle`, proving the incompatible plugin's rejection never blocks the compatible one.
 
 ## Dependencies
 
-Only `mineproductivity` itself (editable-installed from this repository). No third-party packages, no pre-installed fixture packages required — `01_register_and_discover.py` builds its own temporary, real, on-disk plugin module rather than depending on `tests/fixtures/plugins/` being installed first.
+Only `mineproductivity` itself (editable-installed from this repository). No third-party packages, no pre-installed fixture packages required - `01_register_and_discover.py` builds its own temporary, real, on-disk plugin module rather than depending on `tests/fixtures/plugins/` being installed first.
 
 ## Running the Examples
 

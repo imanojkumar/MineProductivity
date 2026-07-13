@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Status** | Proposed — deferred to post-v2.0 governance review |
+| **Status** | Proposed - deferred to post-v2.0 governance review |
 | **Date** | 2026-07-12 |
 | **Deciders** | Chief Software Architect, MineProductivity |
 | **Governs** | The nine structural placeholder packages under `src/mineproductivity/` |
@@ -17,7 +17,7 @@
 ## Context
 
 Nine packages under `src/mineproductivity/` remain 7-line structural
-placeholders left from the Phase-0 repository skeleton — each an
+placeholders left from the Phase-0 repository skeleton - each an
 `__init__.py` stub with a skeleton-era `README.md`, no locked Design
 Specification, no Implementation Checklist, and no code:
 
@@ -33,7 +33,7 @@ packages (`registry`, `plugins`, `connectors`) are all implemented, tested,
 and released as of v1.11.0. The nine placeholders are the only remaining
 skeleton artifacts. A production 2.0 that ships nine empty stubs with
 skeleton READMEs presents an inconsistent, unfinished surface to a
-first-time reader — but removing packages is itself an architectural change,
+first-time reader - but removing packages is itself an architectural change,
 and the Architecture Stability rule requires that such changes be
 deliberate, justified, and reviewed, not bundled opportunistically into a
 certification release.
@@ -41,23 +41,23 @@ certification release.
 ## Decision (proposed, not yet enacted)
 
 Defer any placeholder removal until after v2.0. When a future governance
-review takes this up, evaluate each placeholder against a single test —
+review takes this up, evaluate each placeholder against a single test -
 *does it have a concrete, chartered future purpose that justifies its
-continued presence as a named package?* — and sort them into three groups:
+continued presence as a named package?* - and sort them into three groups:
 
-**Group A — Retain and eventually implement (clear purpose):**
+**Group A - Retain and eventually implement (clear purpose):**
 
-- `cli` — a command-line interface is a natural post-architecture
+- `cli` - a command-line interface is a natural post-architecture
   application layer with an obvious user-facing purpose. `pyproject.toml`
   previously shipped a `[project.scripts]` entry point for it (removed in
   v0.7.1 because the target did not exist yet). Retain; implement behind its
   own Design Specification when scheduled.
-- `certification` — a conformance/certification suite has a defined role in
+- `certification` - a conformance/certification suite has a defined role in
   the Reference Implementation Blueprint (Phase 7). `scripts/quality/`
   provides interim standalone substitutes. Retain; implement when Phase 7 is
   scheduled.
 
-**Group B — Resolve a naming shadow:**
+**Group B - Resolve a naming shadow:**
 
 - `benchmark` (source package) shadows the top-level `benchmark/` directory,
   which already hosts real, run scenarios and reports. The source-package
@@ -66,9 +66,9 @@ continued presence as a named package?* — and sort them into three groups:
   harness package is later wanted, giving it a distinct name), so the two
   `benchmark` locations stop colliding conceptually.
 
-**Group C — Remove unless a concrete need is demonstrated:**
+**Group C - Remove unless a concrete need is demonstrated:**
 
-- `config`, `io`, `utils`, `exceptions`, `validation`, `datasets` — generic
+- `config`, `io`, `utils`, `exceptions`, `validation`, `datasets` - generic
   cross-cutting names with no locked specification and no demonstrated need.
   `core` already defines its own internal exception hierarchy directly and
   does not depend on a separate `exceptions` package; `validation` is covered
@@ -86,7 +86,7 @@ continued presence as a named package?* — and sort them into three groups:
   honestly as placeholders rather than implying they are usable.
 - **In all cases:** the v2.0 certification proceeds with the placeholders
   retained and honestly documented. Their fate is a deliberate, separate,
-  ADR-gated decision — never a silent deletion.
+  ADR-gated decision - never a silent deletion.
 
 ## Status Tracking
 

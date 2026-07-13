@@ -1,8 +1,8 @@
-# Examples — mineproductivity.simulation
+# Examples - mineproductivity.simulation
 
 ## Purpose
 
-Runnable, minimal, self-contained scripts demonstrating the Simulation package: a snapshot-seeded Monte Carlo experiment, scenario comparison, a sensitivity sweep, and third-party model plugins. Every concrete model in these scripts is example-local — the package itself ships zero concrete simulation models by design (interface-only methodologies, design spec §13–§16, ADR-0009).
+Runnable, minimal, self-contained scripts demonstrating the Simulation package: a snapshot-seeded Monte Carlo experiment, scenario comparison, a sensitivity sweep, and third-party model plugins. Every concrete model in these scripts is example-local - the package itself ships zero concrete simulation models by design (interface-only methodologies, design spec §13–§16, ADR-0009).
 
 ## Scope
 
@@ -12,14 +12,14 @@ Example scripts and their direct output. No test assertions live here (see `test
 
 - Show idiomatic usage of the Simulation public API.
 - Serve as executable documentation that stays correct because it is actually run.
-- Demonstrate the §3.2 discipline end-to-end: scenarios seed from `digital_twin.TwinSnapshot`s, and every statistical judgment is `analytics`' — `simulation` orchestrates and never re-derives either.
+- Demonstrate the §3.2 discipline end-to-end: scenarios seed from `digital_twin.TwinSnapshot`s, and every statistical judgment is `analytics`' - `simulation` orchestrates and never re-derives either.
 
 ## Contents
 
-- `01_monte_carlo_experiment.py` — the design spec §17 worked example, end-to-end: a 500-trial Monte Carlo experiment seeded from a real `TwinSnapshot`, concurrently dispatched with per-trial seeds, summarized via `ScenarioComparator` → `analytics.describe`.
-- `02_scenario_comparison.py` — two governed scenarios (baseline vs. surge), 200 trials each, one analytics-backed `StatisticalSummary` per scenario; the "which is better" judgment stays with the caller (a decision-layer question).
-- `03_sensitivity_sweep.py` — `SensitivityAnalyzer.sweep()` over a single parameter (one run per value, ordered to match), with `distribution`/`confidence_interval` delegation for the outcome treatment; proves the base `Scenario` is never edited in place.
-- `04_plugin_simulation_model.py` — a third-party-style `MonteCarloModel` registered via entry points (`EntryPointSpec(group="mineproductivity.simulation", target_registry="simulation")`, design spec §31), mirroring `examples/registry/01_register_and_discover.py`'s real-discovery pattern.
+- `01_monte_carlo_experiment.py` - the design spec §17 worked example, end-to-end: a 500-trial Monte Carlo experiment seeded from a real `TwinSnapshot`, concurrently dispatched with per-trial seeds, summarized via `ScenarioComparator` → `analytics.describe`.
+- `02_scenario_comparison.py` - two governed scenarios (baseline vs. surge), 200 trials each, one analytics-backed `StatisticalSummary` per scenario; the "which is better" judgment stays with the caller (a decision-layer question).
+- `03_sensitivity_sweep.py` - `SensitivityAnalyzer.sweep()` over a single parameter (one run per value, ordered to match), with `distribution`/`confidence_interval` delegation for the outcome treatment; proves the base `Scenario` is never edited in place.
+- `04_plugin_simulation_model.py` - a third-party-style `MonteCarloModel` registered via entry points (`EntryPointSpec(group="mineproductivity.simulation", target_registry="simulation")`, design spec §31), mirroring `examples/registry/01_register_and_discover.py`'s real-discovery pattern.
 
 ## Dependencies
 

@@ -1,4 +1,4 @@
-# Examples — mineproductivity.decision
+# Examples - mineproductivity.decision
 
 ## Purpose
 
@@ -12,19 +12,19 @@ Example scripts and their direct output. No test assertions live here (see `test
 
 - Show idiomatic usage of the Decision Intelligence public API.
 - Serve as executable documentation that stays correct because it is actually run.
-- Demonstrate the §3.2 discipline end-to-end: every fact a `DecisionPipeline` reasons over comes from `kpis.KPIEngine.execute()` or `analytics.BatchAnalyticsRunner` — nothing in `decision` recomputes a KPI or a statistic.
+- Demonstrate the §3.2 discipline end-to-end: every fact a `DecisionPipeline` reasons over comes from `kpis.KPIEngine.execute()` or `analytics.BatchAnalyticsRunner` - nothing in `decision` recomputes a KPI or a statistic.
 
 ## Contents
 
-- `_evidence.py` — shared, internal helper: parses the cycle/maintenance/production CSVs from the `tests/fixtures/kpis/` sample dataset (the same one `examples/kpis/` uses), builds a real `KPIEngine`, and carries five prior shifts' already-computed `UTIL.OEE` values for trend context. Not itself an example; the evidence-driven scripts below import it.
-- `01_pipeline_over_evidence.py` — the design spec §9 worked example, end-to-end: a fleet-availability `Policy` evaluated against the real shift's `UTIL.OEE` and its week-long `TREND.Linear` slope — rule evaluation (`RuleEngineStage`), recommendation (`ThresholdDecisionStrategy`), declarative `Threshold` confirmation, explanation (`ExplanationStage`), ranking (`WeightedScoreRanking`), and the `DecisionAuditTrail` record, all through `DecisionPipeline`/`BatchDecisionRunner`.
-- `02_action_planning.py` — `ActionPrioritizer` + `ActionPlanner`: ranking ("which recommendation is best," §16) kept distinct from prioritization ("which action happens first under limited capacity," §20), a dependency-respecting `ActionPlan` (§21), and the loud `Result.err` rejection of a cyclic dependency declaration.
-- `03_realtime_session.py` — `RealTimeDecisionSession` over an `events.EventBus`: each published cycle event refreshes that equipment's `PROD.TPH` through the real `KPIEngine` and re-runs the pipeline; `latest()` serves per-scope results without re-running; includes a real-time/batch parity check and per-event audit-trail traceability.
-- `04_plugin_strategy.py` — a third-party-style `DecisionStrategy` registered via entry points (`EntryPointSpec(group="mineproductivity.decision", target_registry="decision")`, design spec §32), mirroring `examples/registry/01_register_and_discover.py`'s real-discovery pattern.
+- `_evidence.py` - shared, internal helper: parses the cycle/maintenance/production CSVs from the `tests/fixtures/kpis/` sample dataset (the same one `examples/kpis/` uses), builds a real `KPIEngine`, and carries five prior shifts' already-computed `UTIL.OEE` values for trend context. Not itself an example; the evidence-driven scripts below import it.
+- `01_pipeline_over_evidence.py` - the design spec §9 worked example, end-to-end: a fleet-availability `Policy` evaluated against the real shift's `UTIL.OEE` and its week-long `TREND.Linear` slope - rule evaluation (`RuleEngineStage`), recommendation (`ThresholdDecisionStrategy`), declarative `Threshold` confirmation, explanation (`ExplanationStage`), ranking (`WeightedScoreRanking`), and the `DecisionAuditTrail` record, all through `DecisionPipeline`/`BatchDecisionRunner`.
+- `02_action_planning.py` - `ActionPrioritizer` + `ActionPlanner`: ranking ("which recommendation is best," §16) kept distinct from prioritization ("which action happens first under limited capacity," §20), a dependency-respecting `ActionPlan` (§21), and the loud `Result.err` rejection of a cyclic dependency declaration.
+- `03_realtime_session.py` - `RealTimeDecisionSession` over an `events.EventBus`: each published cycle event refreshes that equipment's `PROD.TPH` through the real `KPIEngine` and re-runs the pipeline; `latest()` serves per-scope results without re-running; includes a real-time/batch parity check and per-event audit-trail traceability.
+- `04_plugin_strategy.py` - a third-party-style `DecisionStrategy` registered via entry points (`EntryPointSpec(group="mineproductivity.decision", target_registry="decision")`, design spec §32), mirroring `examples/registry/01_register_and_discover.py`'s real-discovery pattern.
 
 ## Sample Dataset
 
-`tests/fixtures/kpis/` holds one realistic shift (`A-2026-06-25`, 06:00–18:00 UTC, `bingham-west`); `_evidence.py` loads the three event types `UTIL.OEE`'s dependency graph consumes. The five prior shifts' OEE values in `_evidence.OEE_HISTORY` are disclosed stand-ins for results a production deployment would read back from its own KPI store — the fixture dataset covers a single shift, so earlier points cannot be recomputed here.
+`tests/fixtures/kpis/` holds one realistic shift (`A-2026-06-25`, 06:00–18:00 UTC, `bingham-west`); `_evidence.py` loads the three event types `UTIL.OEE`'s dependency graph consumes. The five prior shifts' OEE values in `_evidence.OEE_HISTORY` are disclosed stand-ins for results a production deployment would read back from its own KPI store - the fixture dataset covers a single shift, so earlier points cannot be recomputed here.
 
 ## Dependencies
 

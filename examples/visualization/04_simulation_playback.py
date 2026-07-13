@@ -2,7 +2,7 @@
 four domain-specific visualization categories, presenting a sequence of
 ``simulation.SimulationResult`` frames as a played-back series.
 ``visualization`` reads the already-computed simulation outcomes; it
-never runs a simulation itself (spec 12 §3.2) — the frames are handed
+never runs a simulation itself (spec 12 §3.2) - the frames are handed
 in on the ``VisualizationContext``.
 
 The concrete visualization and renderer are example-local.

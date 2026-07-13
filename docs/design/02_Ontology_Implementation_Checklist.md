@@ -1,4 +1,4 @@
-# Ontology Framework — Implementation Checklist
+# Ontology Framework - Implementation Checklist
 
 **Package:** `mineproductivity.ontology`
 **Governing specification:** [`docs/architecture/02_Ontology_Framework_Design_Specification.md`](../architecture/02_Ontology_Framework_Design_Specification.md)
@@ -9,14 +9,14 @@ Binding implementation contract for `ontology`. Complete in order; every box mus
 ## Pre-Implementation Gate
 
 - [ ] Design specification read in full by the implementer.
-- [ ] `core` (v0.2.0) available and importable. `ontology` has no other package dependency (design spec §7) — confirm no accidental `events`/`kpis`/`connectors` import creeps in.
-- [ ] This checklist reviewed against the design spec's §36/§37 — no drift.
+- [ ] `core` (v0.2.0) available and importable. `ontology` has no other package dependency (design spec §7) - confirm no accidental `events`/`kpis`/`connectors` import creeps in.
+- [ ] This checklist reviewed against the design spec's §36/§37 - no drift.
 
 ## Package Structure
 
 - [ ] `src/mineproductivity/ontology/` created matching design spec §6 exactly, including all ten sub-ontology subpackages (`equipment/`, `material/`, `location/`, `organization/`, `production/`, `maintenance/`, `cost/`, `quality/`, `safety/`, `environmental/`) plus `reference/` and `graph_projection.py`.
 - [ ] `ontology/README.md` written following the `core/README.md` template.
-- [ ] No sub-ontology module imports another sub-ontology's concrete leaf types directly (relate via `Relationship`/id-string only — cross-check design spec §15).
+- [ ] No sub-ontology module imports another sub-ontology's concrete leaf types directly (relate via `Relationship`/id-string only - cross-check design spec §15).
 
 ## Public API
 
@@ -25,8 +25,8 @@ Binding implementation contract for `ontology`. Complete in order; every box mus
 
 ## Interfaces / Object Model
 
-- [ ] `BaseEntityType` (§10.1) + `EntityTypeMetadata` — `to_schema()` implemented and cached.
-- [ ] `Relationship` + `RelationshipKind` (§10.2) — all five kinds (`BELONGS_TO`, `PART_OF`, `OPERATED_BY`, `LOCATED_AT`, `SCOPED_TO`).
+- [ ] `BaseEntityType` (§10.1) + `EntityTypeMetadata` - `to_schema()` implemented and cached.
+- [ ] `Relationship` + `RelationshipKind` (§10.2) - all five kinds (`BELONGS_TO`, `PART_OF`, `OPERATED_BY`, `LOCATED_AT`, `SCOPED_TO`).
 - [ ] Equipment ontology (§10.3): `EquipmentType` abstract root + `RigidHaulTruck`, `ArticulatedHaulTruck`, `HydraulicShovel`, `WheelLoader`, `LHD`, `BlastholeDrill`, `Dozer`, `Grader`, `WaterTruck`, `Crusher`, `Conveyor`, `Mill`.
 - [ ] Material ontology (§10.4): `MaterialType` enum, `Commodity`.
 - [ ] Location ontology (§10.5): `Mine`, `Pit`, `Bench`, `Route`, `Zone`, `Level`, `Stope`, `Drive`.
@@ -37,8 +37,8 @@ Binding implementation contract for `ontology`. Complete in order; every box mus
 - [ ] Quality ontology (§10.8): `GradeAttribute`, `QualitySpecification`.
 - [ ] Safety ontology (§10.8): `HazardZone`, `SpeedLimitMap`, `SafetyEventType`.
 - [ ] Environmental ontology (§10.8): `EmissionFactor`, `MonitoringPoint`.
-- [ ] Reference data (§10.9): `DelayCategory` enum with `precedence` property — the six canonical MECE values, exact precedence order.
-- [ ] `KnowledgeGraphProjection` ABC + `GraphNode`/`GraphEdge` (§10.10) — interface only, no traversal engine.
+- [ ] Reference data (§10.9): `DelayCategory` enum with `precedence` property - the six canonical MECE values, exact precedence order.
+- [ ] `KnowledgeGraphProjection` ABC + `GraphNode`/`GraphEdge` (§10.10) - interface only, no traversal engine.
 - [ ] Every leaf type declares a globally-unique `code` (test: no two leaf types share a `code`, across all ten sub-ontologies).
 
 ## Lifecycle & State Machine
@@ -49,7 +49,7 @@ Binding implementation contract for `ontology`. Complete in order; every box mus
 ## Validation
 
 - [ ] Structural validation on every leaf type (field invariants, e.g. `Shift.start_utc < Shift.end_utc`).
-- [ ] `OntologyValidator` (§19) — contextual/referential checks (`Bench.pit_id` resolves, `Fleet.equipment_type_code` resolves).
+- [ ] `OntologyValidator` (§19) - contextual/referential checks (`Bench.pit_id` resolves, `Fleet.equipment_type_code` resolves).
 - [ ] Orphaned-reference behavior confirmed as a warning, never a crash, never a silent drop.
 
 ## Versioning
@@ -70,7 +70,7 @@ Binding implementation contract for `ontology`. Complete in order; every box mus
 ## Thread Safety & Concurrency
 
 - [ ] Registry population confirmed single-threaded/startup-only; no dynamic runtime registration path exists outside plugin discovery.
-- [ ] Concurrent read access to entity instances/types confirmed safe (inherited from immutability — smoke test sufficient, not a stress test).
+- [ ] Concurrent read access to entity instances/types confirmed safe (inherited from immutability - smoke test sufficient, not a stress test).
 
 ## Error Handling
 
@@ -100,9 +100,9 @@ Binding implementation contract for `ontology`. Complete in order; every box mus
 
 ## Examples
 
-- [ ] `examples/ontology/01_equipment_modelling.py` — `RigidHaulTruck`/`HydraulicShovel`, mirrors Cookbook Part I Ch. 8.
-- [ ] `examples/ontology/02_structural_modelling.py` — `Pit`/`Bench`/`Shift` + relationship traversal.
-- [ ] `examples/ontology/03_validation.py` — orphaned-reference warning demonstration.
+- [ ] `examples/ontology/01_equipment_modelling.py` - `RigidHaulTruck`/`HydraulicShovel`, mirrors Cookbook Part I Ch. 8.
+- [ ] `examples/ontology/02_structural_modelling.py` - `Pit`/`Bench`/`Shift` + relationship traversal.
+- [ ] `examples/ontology/03_validation.py` - orphaned-reference warning demonstration.
 - [ ] All examples pass `mypy --strict` + `ruff`.
 
 ## Benchmarks

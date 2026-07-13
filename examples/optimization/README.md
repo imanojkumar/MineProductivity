@@ -1,8 +1,8 @@
-# Examples — mineproductivity.optimization
+# Examples - mineproductivity.optimization
 
 ## Purpose
 
-Runnable, minimal, self-contained scripts demonstrating the Optimization package: a mixed-integer fleet allocation seeded from a `digital_twin.TwinSnapshot`, plan comparison, a sensitivity sweep, a candidate-scenario search composed over `simulation`, and a third-party solver-adapter plugin. Every concrete solver model in these scripts is example-local — the package itself ships zero concrete solver models by design (interface-only paradigms, design spec §11–§16, ADR-0010).
+Runnable, minimal, self-contained scripts demonstrating the Optimization package: a mixed-integer fleet allocation seeded from a `digital_twin.TwinSnapshot`, plan comparison, a sensitivity sweep, a candidate-scenario search composed over `simulation`, and a third-party solver-adapter plugin. Every concrete solver model in these scripts is example-local - the package itself ships zero concrete solver models by design (interface-only paradigms, design spec §11–§16, ADR-0010).
 
 ## Scope
 
@@ -16,11 +16,11 @@ Example scripts and their direct output. No test assertions live here (see `test
 
 ## Contents
 
-- `01_mip_fleet_allocation.py` — a mixed-integer fleet/shift allocation problem seeded from a real `TwinSnapshot`, solved end-to-end through `OptimizationExecutor` with a hand-computable optimum.
-- `02_plan_comparison.py` — two candidate plans, each solved across five ore-grade scenarios, one analytics-backed `StatisticalSummary` per plan via `PlanComparator`; the "which is better" judgment stays with the caller.
-- `03_sensitivity_sweep.py` — `SensitivityAnalyzer.sweep()` over a single constraint bound (one re-solve per value, ordered to match), with `distribution`/`confidence_interval` delegation for the outcome treatment; proves the base problem is never edited in place.
-- `04_candidate_scenario_search.py` — a search over candidate fleet sizes scored by `simulation.ExperimentRunner`, the per-candidate score distributions compared with `PlanComparator` (design spec §17); `optimization` never constructs a `simulation.SimulationRun` itself.
-- `05_plugin_solver_adapter.py` — a third-party-style category-ABC subclass registered via entry points (`EntryPointSpec(group="mineproductivity.optimization", target_registry="optimization")`, design spec §31), mirroring `examples/registry/01_register_and_discover.py`'s real-discovery pattern — the only place a real solver library would be imported.
+- `01_mip_fleet_allocation.py` - a mixed-integer fleet/shift allocation problem seeded from a real `TwinSnapshot`, solved end-to-end through `OptimizationExecutor` with a hand-computable optimum.
+- `02_plan_comparison.py` - two candidate plans, each solved across five ore-grade scenarios, one analytics-backed `StatisticalSummary` per plan via `PlanComparator`; the "which is better" judgment stays with the caller.
+- `03_sensitivity_sweep.py` - `SensitivityAnalyzer.sweep()` over a single constraint bound (one re-solve per value, ordered to match), with `distribution`/`confidence_interval` delegation for the outcome treatment; proves the base problem is never edited in place.
+- `04_candidate_scenario_search.py` - a search over candidate fleet sizes scored by `simulation.ExperimentRunner`, the per-candidate score distributions compared with `PlanComparator` (design spec §17); `optimization` never constructs a `simulation.SimulationRun` itself.
+- `05_plugin_solver_adapter.py` - a third-party-style category-ABC subclass registered via entry points (`EntryPointSpec(group="mineproductivity.optimization", target_registry="optimization")`, design spec §31), mirroring `examples/registry/01_register_and_discover.py`'s real-discovery pattern — the only place a real solver library would be imported.
 
 ## Dependencies
 

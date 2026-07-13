@@ -1,4 +1,4 @@
-# Examples — production
+# Examples - production
 
 ## Purpose
 
@@ -14,7 +14,7 @@ Example scripts and their direct documentation. No test code, no package impleme
 
 ## Contents
 
-- Placeholder — no examples exist yet; requires implemented subsystems to demonstrate.
+- Placeholder - no examples exist yet; requires implemented subsystems to demonstrate.
 
 ## Dependencies
 
@@ -26,5 +26,5 @@ Author production examples as the subsystems they demonstrate are implemented.
 
 ## References
 
-- Developer & Cookbook Guide — Part I
-- Developer & Cookbook Guide — Part II
+- Developer & Cookbook Guide - Part I
+- Developer & Cookbook Guide - Part II

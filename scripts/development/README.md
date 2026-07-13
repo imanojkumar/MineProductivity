@@ -1,4 +1,4 @@
-# Scripts — development
+# Scripts - development
 
 ## Purpose
 
@@ -14,7 +14,7 @@ Operational scripts only. No application/package code.
 
 ## Contents
 
-- Placeholder — no scripts exist yet.
+- Placeholder - no scripts exist yet.
 
 ## Dependencies
 

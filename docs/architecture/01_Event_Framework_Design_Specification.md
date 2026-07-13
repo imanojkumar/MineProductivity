@@ -1,15 +1,15 @@
-# Event Framework — Design Specification
+# Event Framework - Design Specification
 
 | | |
 |---|---|
 | **Document ID** | AH-DS-01 |
 | **Package** | `mineproductivity.events` |
-| **Status** | Draft — Design Complete, Pending Implementation |
+| **Status** | Draft - Design Complete, Pending Implementation |
 | **Version** | 1.0.0 |
-| **Conforms to** | Master Architecture Handbook v1.0; Reference Implementation Blueprint v1.0; Developer & Cookbook Guide Parts I–III; Learning & Benchmark Suite v1.0 |
+| **Conforms to** | Master Architecture Handbook v1.0; Reference Implementation Blueprint v1.0; Developer & Cookbook Guide Parts I-III; Learning & Benchmark Suite v1.0 |
 | **Builds on** | Repository Skeleton v0.1.0 (LOCKED); Core Foundation Library v0.2.0 (LOCKED) |
 | **Author** | Chief Software Architect, MineProductivity |
-| **Classification** | Public — Open Source Design Documentation |
+| **Classification** | Public - Open Source Design Documentation |
 
 ## Document Control
 
@@ -21,7 +21,7 @@ Every architectural fact in this document is cross-referenced against the locked
 
 ## 1. Purpose
 
-The Event Framework is the system of record for MineProductivity. It defines the immutable, append-only event model that every derived state in the platform — KPI values, Digital Twin state, analytics, decisions — is computed from. It exists to guarantee one property above all others: **any number the platform ever produces can be recomputed, byte-for-byte, from the events that produced it.**
+The Event Framework is the system of record for MineProductivity. It defines the immutable, append-only event model that every derived state in the platform - KPI values, Digital Twin state, analytics, decisions - is computed from. It exists to guarantee one property above all others: **any number the platform ever produces can be recomputed, byte-for-byte, from the events that produced it.**
 
 This is the concrete realization of the "event-first" principle stated in the root [README.md](../../README.md#why-mineproductivity): *"Events are the immutable source of truth; everything else is a derived, rebuildable projection."*
 
@@ -47,8 +47,8 @@ The `events` package is responsible for, and only for:
 
 1. Defining what an event **is** (the contract) and what makes it **valid**.
 2. Defining how events are **identified**, **versioned**, and **related** to ontology entities.
-3. Defining the **storage contract** (`EventStore`) that any backend must satisfy — without implementing a specific backend.
-4. Defining the **distribution contract** (`EventBus`) for real-time subscribers — without implementing a specific broker.
+3. Defining the **storage contract** (`EventStore`) that any backend must satisfy - without implementing a specific backend.
+4. Defining the **distribution contract** (`EventBus`) for real-time subscribers - without implementing a specific broker.
 5. Defining **replay and time-travel** semantics precisely enough that any conformant `EventStore` implementation produces identical historical reconstructions.
 6. Providing the **canonical event type catalogue** (§10) that Connectors populate and the KPI Engine consumes.
 
@@ -56,9 +56,9 @@ The `events` package is responsible for, and only for:
 
 The following are explicitly **not** part of this package and must not be implemented here:
 
-- **Connector logic** (reading a CSV, calling a vendor SDK, mapping vendor reason codes) — see [`04_Connector_Framework_Design_Specification.md`](04_Connector_Framework_Design_Specification.md). `events` defines what a connector must *produce*; it never produces events itself.
-- **KPI computation** — see [`05_KPI_Engine_Design_Specification.md`](05_KPI_Engine_Design_Specification.md). `events` is a dependency of `kpis`, never the reverse.
-- **Ontology entity definitions** (what a `RigidHaulTruck` or `Shift` is) — see [`02_Ontology_Framework_Design_Specification.md`](02_Ontology_Framework_Design_Specification.md). Events *reference* ontology entities by identifier; they do not define them.
+- **Connector logic** (reading a CSV, calling a vendor SDK, mapping vendor reason codes) - see [`04_Connector_Framework_Design_Specification.md`](04_Connector_Framework_Design_Specification.md). `events` defines what a connector must *produce*; it never produces events itself.
+- **KPI computation** - see [`05_KPI_Engine_Design_Specification.md`](05_KPI_Engine_Design_Specification.md). `events` is a dependency of `kpis`, never the reverse.
+- **Ontology entity definitions** (what a `RigidHaulTruck` or `Shift` is) - see [`02_Ontology_Framework_Design_Specification.md`](02_Ontology_Framework_Design_Specification.md). Events *reference* ontology entities by identifier; they do not define them.
 - **A concrete storage engine** (a specific database, file format library, or message broker client). `EventStore`/`EventBus` are interfaces; concrete adapters belong in `io` and `connectors`.
 - **Digital Twin live-state management, forking, or what-if simulation.**
 - **Any mining-domain business logic** beyond the shape of the canonical event types themselves.
@@ -71,7 +71,7 @@ The Event Framework sits directly above `ontology` in the platform's dependency 
 core  →  ontology  →  events  →  kpis  →  analytics  →  decision  →  digital_twin
 ```
 
-Architecturally, `events` implements **Event Sourcing**: the event log is the single system of record; every other piece of derived state (a KPI value, a Digital Twin snapshot, an analytics aggregate) is a pure function of the event log up to some point in time. This is why `EventStore.replay(as_of)` is not a debugging affordance — it is a first-class operational capability that the Digital Twin (a future package) will build directly upon.
+Architecturally, `events` implements **Event Sourcing**: the event log is the single system of record; every other piece of derived state (a KPI value, a Digital Twin snapshot, an analytics aggregate) is a pure function of the event log up to some point in time. This is why `EventStore.replay(as_of)` is not a debugging affordance - it is a first-class operational capability that the Digital Twin (a future package) will build directly upon.
 
 ```mermaid
 flowchart LR
@@ -137,7 +137,7 @@ src/mineproductivity/events/
 └── README.md
 ```
 
-Rationale for this layout: it mirrors `core`'s one-concept-per-module discipline (see [`core/README.md`](../../src/mineproductivity/core/README.md#contents)), and separates the *canonical event catalogue* (`canonical/`) — which will grow over time as new event types are added — from the *framework machinery* (envelope, store, bus, replay) that stays fixed regardless of how many event types exist.
+Rationale for this layout: it mirrors `core`'s one-concept-per-module discipline (see [`core/README.md`](../../src/mineproductivity/core/README.md#contents)), and separates the *canonical event catalogue* (`canonical/`) - which will grow over time as new event types are added - from the *framework machinery* (envelope, store, bus, replay) that stays fixed regardless of how many event types exist.
 
 ## 7. Dependency Direction
 
@@ -145,7 +145,7 @@ Rationale for this layout: it mirrors `core`'s one-concept-per-module discipline
 core  →  ontology  →  events
 ```
 
-- **`events` depends on:** `core` (`BaseValueObject`, `BaseIdentifier`, `BaseVersionedObject`, `BaseMetadata`, `Result`, `Maybe`, `MineProductivityError` hierarchy, `BaseRepository` as the shape `EventStore` specializes) and `ontology` (to reference — never define — entity identifiers such as `equipment_id`, `shift_id`). It may also depend on the cross-cutting packages `registry` (to register event types and codecs) and `validation`.
+- **`events` depends on:** `core` (`BaseValueObject`, `BaseIdentifier`, `BaseVersionedObject`, `BaseMetadata`, `Result`, `Maybe`, `MineProductivityError` hierarchy, `BaseRepository` as the shape `EventStore` specializes) and `ontology` (to reference - never define - entity identifiers such as `equipment_id`, `shift_id`). It may also depend on the cross-cutting packages `registry` (to register event types and codecs) and `validation`.
 - **`events` is depended on by:** `connectors` (produces events), `kpis` (consumes events), `analytics`, `decision`, `digital_twin` (all consume events transitively via `kpis` or directly via `EventStore`).
 - **Forbidden:** `events` must never import `connectors`, `kpis`, `analytics`, `optimization`, `simulation`, `decision`, `digital_twin`, or `agents`. `events` has no idea a fleet-management vendor exists.
 
@@ -176,9 +176,9 @@ from mineproductivity.events import (
 
 Not part of the public contract; subject to change without a major version bump.
 
-- `events.canonical._registry` — the internal mapping of `event_type_code -> type[BaseEvent]`, populated by the `registry` package's discovery mechanism (see [`03_Registry_Framework_Design_Specification.md`](03_Registry_Framework_Design_Specification.md)).
-- `events.serialization._codec_registry` — internal codec lookup by format name.
-- `events.store._InMemoryEventStore` — a reference, non-production `EventStore` used by `tests/unit/events/` and `examples/events/`, analogous to `core.InMemoryRepository`.
+- `events.canonical._registry` - the internal mapping of `event_type_code -> type[BaseEvent]`, populated by the `registry` package's discovery mechanism (see [`03_Registry_Framework_Design_Specification.md`](03_Registry_Framework_Design_Specification.md)).
+- `events.serialization._codec_registry` - internal codec lookup by format name.
+- `events.store._InMemoryEventStore` - a reference, non-production `EventStore` used by `tests/unit/events/` and `examples/events/`, analogous to `core.InMemoryRepository`.
 
 ## 10. Object Model
 
@@ -217,7 +217,7 @@ class EventMetadata(BaseMetadata):
     """Descriptive + provenance metadata attached to every envelope.
 
     In addition to BaseMetadata's name/description/tags/attributes, event
-    metadata is where confidence scoring and source provenance live —
+    metadata is where confidence scoring and source provenance live -
     deliberately kept OUT of BaseEvent's own fields so an event's business
     payload never mixes with its trust/provenance data.
     """
@@ -456,7 +456,7 @@ class Subscription(ABC):
 
 ## 11. Lifecycle
 
-An envelope moves through exactly five states from creation to queryability. This lifecycle is normative — no `EventStore` implementation may skip or reorder a stage.
+An envelope moves through exactly five states from creation to queryability. This lifecycle is normative - no `EventStore` implementation may skip or reorder a stage.
 
 ```mermaid
 stateDiagram-v2
@@ -471,7 +471,7 @@ stateDiagram-v2
     Published --> [*]: queryable, replayable, immutable forever
 ```
 
-Once `Appended`, an envelope is **immutable for the rest of its existence**. A correction never transitions an existing envelope backward through this lifecycle — it produces a brand-new envelope with the same `EventID` and an incremented `EventVersion`, which independently passes through the same five stages (§19.2).
+Once `Appended`, an envelope is **immutable for the rest of its existence**. A correction never transitions an existing envelope backward through this lifecycle - it produces a brand-new envelope with the same `EventID` and an incremented `EventVersion`, which independently passes through the same five stages (§19.2).
 
 ## 12. State Machine
 
@@ -488,7 +488,7 @@ stateDiagram-v2
     vN --> Retracted
 ```
 
-`Retracted` is not a deletion — it is a `BaseEvent` payload flagged via `EventMetadata.attributes["retracted"] = True`, still fully queryable for audit, but excluded from `EventQuery`'s default (`as_of_version_policy="latest"`) resolution.
+`Retracted` is not a deletion - it is a `BaseEvent` payload flagged via `EventMetadata.attributes["retracted"] = True`, still fully queryable for audit, but excluded from `EventQuery`'s default (`as_of_version_policy="latest"`) resolution.
 
 ## 13. Sequence Diagrams
 
@@ -616,8 +616,8 @@ Two consumption paths exist by design: a **pull path** (`query`/`replay`, used b
 
 1. **New canonical event types.** Subclass `BaseEvent`, declare a unique `event_type_code`, implement `duration_h()` and `validate()`, and register it via the `registry` package's `EventTypeRegistry` (see [`03_Registry_Framework_Design_Specification.md §10.3`](03_Registry_Framework_Design_Specification.md)). No change to `events/canonical/__init__.py`'s existing files is required or permitted.
 2. **New serialization codecs.** Implement `core.BaseSerializer[EventEnvelope]` and register under a format name (§21).
-3. **New `EventStore` backends.** Implement the `EventStore` ABC against a concrete storage technology (in `io` or a plugin package) — `events` never depends on the backend.
-4. **New `EventBus` transports.** Implement the `EventBus` ABC against Kafka, MQTT, or an in-process pub/sub — again, `events` never depends on the transport.
+3. **New `EventStore` backends.** Implement the `EventStore` ABC against a concrete storage technology (in `io` or a plugin package) - `events` never depends on the backend.
+4. **New `EventBus` transports.** Implement the `EventBus` ABC against Kafka, MQTT, or an in-process pub/sub - again, `events` never depends on the transport.
 
 ## 17. Plugin Strategy
 
@@ -641,7 +641,7 @@ Every `EventEnvelope` carries `EventMetadata` (§10.3). Per the platform's metad
 
 | Metadata field | Requirement |
 |---|---|
-| `event_type_code` | Unique, uppercase, stable forever (never reused after retirement — mirrors the KPI naming standard's rule against reusing retired identifiers). |
+| `event_type_code` | Unique, uppercase, stable forever (never reused after retirement - mirrors the KPI naming standard's rule against reusing retired identifiers). |
 | `required_fields` (via `EventSchema`) | Enumerated exhaustively; no implicit/optional business fields without a documented default. |
 | `confidence` scoring rule | Documented: what inputs lower confidence below 1.0 (missing optional fields, out-of-band values, etc.). |
 | Ontology references | Which `equipment_id`/`shift_id`-shaped fields this type carries, and which ontology entity types they must resolve against (§10.6's "Consumed by" column feeds directly from this). |
@@ -650,7 +650,7 @@ Every `EventEnvelope` carries `EventMetadata` (§10.3). Per the platform's metad
 
 ### 19.1 Two validation layers
 
-1. **Structural validation** (`BaseEvent.validate()`, inherited from `core.BaseValueObject`): per-field invariants checked at construction time (e.g. `CycleEvent.payload_t >= 0`). This can never be bypassed — it runs in `__post_init__`.
+1. **Structural validation** (`BaseEvent.validate()`, inherited from `core.BaseValueObject`): per-field invariants checked at construction time (e.g. `CycleEvent.payload_t >= 0`). This can never be bypassed - it runs in `__post_init__`.
 2. **Contextual validation** (`EventValidator`, a `core.BaseValidator[BaseEvent]`): cross-field and cross-entity checks that need context beyond one event (e.g. "does `equipment_id` resolve to a real ontology entity?"). Runs once, at ingest, never on every read (Cookbook Part I, Ch. 5).
 
 ```python
@@ -678,7 +678,7 @@ An orphaned `equipment_id` (one that does not resolve in the ontology) becomes a
 
 ### 19.3 The canonical six delay categories (normative)
 
-`DelayEvent.delay_category` MUST be exactly one of: `SCHEDULED`, `OPERATIONAL`, `EQUIPMENT`, `PROCESS`, `EXTERNAL`, `STANDBY` — mutually exclusive and collectively exhaustive, per the Developer & Cookbook Guide Part III "Canonical Semantics" ruling. Where a delay could plausibly belong to more than one category (e.g. refuelling during a breakdown), the documented precedence order applies: `EQUIPMENT` > `OPERATIONAL` > `STANDBY` > `PROCESS` > `SCHEDULED` > `EXTERNAL`. This taxonomy and its precedence order are owned as ontology reference data, not by `events` — see [`02_Ontology_Framework_Design_Specification.md §10.9`](02_Ontology_Framework_Design_Specification.md) for the authoritative `DelayCategory` definition `events.DelayEvent` consumes.
+`DelayEvent.delay_category` MUST be exactly one of: `SCHEDULED`, `OPERATIONAL`, `EQUIPMENT`, `PROCESS`, `EXTERNAL`, `STANDBY` - mutually exclusive and collectively exhaustive, per the Developer & Cookbook Guide Part III "Canonical Semantics" ruling. Where a delay could plausibly belong to more than one category (e.g. refuelling during a breakdown), the documented precedence order applies: `EQUIPMENT` > `OPERATIONAL` > `STANDBY` > `PROCESS` > `SCHEDULED` > `EXTERNAL`. This taxonomy and its precedence order are owned as ontology reference data, not by `events` - see [`02_Ontology_Framework_Design_Specification.md §10.9`](02_Ontology_Framework_Design_Specification.md) for the authoritative `DelayCategory` definition `events.DelayEvent` consumes.
 
 ## 20. Versioning
 
@@ -686,11 +686,11 @@ Two independent versioning concerns exist and must not be conflated:
 
 1. **Per-event versioning** (`EventVersion`, §10.2): the correction counter for one `EventID`. Unbounded, monotonic, never resets.
 2. **Schema/type versioning** (`EventSchema.version`): governs the *shape* of an event type over time, following Semantic Versioning exactly as the KPI Standard Library does (Cookbook Part III, "Lifecycle, versioning, governance, and deprecation"):
-   - **MAJOR** — a breaking change to an event type's required fields or semantics. Never mutates an existing `event_type_code`'s meaning in place; ships as a new type or a documented migration.
-   - **MINOR** — a backward-compatible addition (a new optional field).
-   - **PATCH** — documentation or validation-rule fix with no behavioral change.
+   - **MAJOR** - a breaking change to an event type's required fields or semantics. Never mutates an existing `event_type_code`'s meaning in place; ships as a new type or a documented migration.
+   - **MINOR** - a backward-compatible addition (a new optional field).
+   - **PATCH** - documentation or validation-rule fix with no behavioral change.
 
-**Idempotency rule (normative):** re-appending the same `(EventID, EventVersion)` pair to an `EventStore` MUST be a no-op that produces the same stored state and creates no duplicate — this is what makes the platform's deterministic-replay guarantee (used by the future Learning & Benchmark Suite's `ScenarioGenerator`) meaningful.
+**Idempotency rule (normative):** re-appending the same `(EventID, EventVersion)` pair to an `EventStore` MUST be a no-op that produces the same stored state and creates no duplicate - this is what makes the platform's deterministic-replay guarantee (used by the future Learning & Benchmark Suite's `ScenarioGenerator`) meaningful.
 
 ## 21. Serialization
 
@@ -698,22 +698,22 @@ Two independent versioning concerns exist and must not be conflated:
 
 | Format | Use case | Contract |
 |---|---|---|
-| JSON | API responses, small exports, human debugging | `JSONEventCodec(core.BaseSerializer[EventEnvelope])` — round-trips through `core.to_dict`/`DataclassSerializer` conventions. |
-| Apache Arrow | In-memory, zero-copy interchange with `analytics`/`kpis` vectorized engines (Polars/DuckDB, see [`05_KPI_Engine_Design_Specification.md`](05_KPI_Engine_Design_Specification.md)) | `ArrowEventCodec` — one `RecordBatch` per event type, columns matching `EventSchema.field_types`. |
-| Apache Parquet | At-rest, partitioned storage in the event lake | `ParquetEventCodec` — partitioned by `(site, event_type_code, date(event_time_utc))`, mirroring Cookbook Part I Ch.5's "partitioned by site and date." |
+| JSON | API responses, small exports, human debugging | `JSONEventCodec(core.BaseSerializer[EventEnvelope])` - round-trips through `core.to_dict`/`DataclassSerializer` conventions. |
+| Apache Arrow | In-memory, zero-copy interchange with `analytics`/`kpis` vectorized engines (Polars/DuckDB, see [`05_KPI_Engine_Design_Specification.md`](05_KPI_Engine_Design_Specification.md)) | `ArrowEventCodec` - one `RecordBatch` per event type, columns matching `EventSchema.field_types`. |
+| Apache Parquet | At-rest, partitioned storage in the event lake | `ParquetEventCodec` - partitioned by `(site, event_type_code, date(event_time_utc))`, mirroring Cookbook Part I Ch.5's "partitioned by site and date." |
 
-All three codecs implement the same `BaseSerializer[EventEnvelope]` shape from `core.serialization` — a consumer that only knows `BaseSerializer` can be handed any of the three without caring which.
+All three codecs implement the same `BaseSerializer[EventEnvelope]` shape from `core.serialization` - a consumer that only knows `BaseSerializer` can be handed any of the three without caring which.
 
 ## 22. Performance Considerations
 
-- **Streaming by default.** Every connector-facing and query-facing API returns an `Iterator`/generator, never a materialized `list` — a 200-row test fixture and a 50-million-row shift export use the identical code path (Cookbook Part I, Ch. 7).
-- **Column pruning at query time.** `EventQuery` should be satisfiable without deserializing fields the caller did not ask for, when the backing codec is columnar (Arrow/Parquet) — mirrors the KPI engine's "computing one KPI reads only the columns it declares" principle (Cookbook Part I, Ch. 4).
+- **Streaming by default.** Every connector-facing and query-facing API returns an `Iterator`/generator, never a materialized `list` - a 200-row test fixture and a 50-million-row shift export use the identical code path (Cookbook Part I, Ch. 7).
+- **Column pruning at query time.** `EventQuery` should be satisfiable without deserializing fields the caller did not ask for, when the backing codec is columnar (Arrow/Parquet) - mirrors the KPI engine's "computing one KPI reads only the columns it declares" principle (Cookbook Part I, Ch. 4).
 - **Pre-aggregation is an `analytics`/`kpis` concern, not an `events` concern.** `events` guarantees correct, complete replay from genesis; it does not itself maintain rollups.
 - **Snapshotting (§17.1) is the only sanctioned way to bound replay cost** for long-lived, frequently-replayed stores. A conformant implementation should snapshot on a configurable cadence (e.g. daily), never silently.
 
 ## 23. Memory Considerations
 
-- `EventEnvelope` and every `BaseEvent` subclass are frozen, `slots=True` dataclasses — no `__dict__` per instance, minimizing per-event overhead at the scale of tens of millions of events per fleet-month.
+- `EventEnvelope` and every `BaseEvent` subclass are frozen, `slots=True` dataclasses - no `__dict__` per instance, minimizing per-event overhead at the scale of tens of millions of events per fleet-month.
 - `EventStore.query()` and `.replay()` MUST NOT buffer unbounded results in memory; backends are expected to page/stream from the underlying storage.
 - `EventSnapshot` payloads are the one place where a full materialized state is expected to live in memory; implementations should document the expected snapshot size per site so operators can provision accordingly.
 
@@ -727,7 +727,7 @@ All three codecs implement the same `BaseSerializer[EventEnvelope]` shape from `
 
 - **Write concurrency:** `EventStore.append_batch()` is expected to provide at-least atomic-per-envelope durability; whether the whole batch is atomic is an implementation detail an `EventStore` MUST document. Concurrent appends of *different* `EventID`s never conflict. Concurrent appends of the *same* `(EventID, EventVersion)` must resolve idempotently (§20), never as a race that corrupts state.
 - **Read/write concurrency:** `query()`/`replay()` observe a consistent snapshot of the store as of the moment the call began (no torn reads across envelopes appended mid-query); an implementation may satisfy this via MVCC, a WAL, or an equivalent mechanism of its choosing.
-- **Publish ordering:** `EventBus.publish()` is called only after `append()` has confirmed durability (§13.1) — never before, so a subscriber can never observe an event that a concurrent crash could make un-queryable.
+- **Publish ordering:** `EventBus.publish()` is called only after `append()` has confirmed durability (§13.1) - never before, so a subscriber can never observe an event that a concurrent crash could make un-queryable.
 
 ## 26. Error Handling
 
@@ -759,7 +759,7 @@ class ReplayError(MineProductivityError):
 
 ## 27. Logging
 
-- Every `append()` rejection (validation failure, version conflict) MUST be logged at `WARNING` with the `EventID`, attempted `EventVersion`, and rejection reason — this is the primary operational signal for a mis-mapped connector.
+- Every `append()` rejection (validation failure, version conflict) MUST be logged at `WARNING` with the `EventID`, attempted `EventVersion`, and rejection reason - this is the primary operational signal for a mis-mapped connector.
 - Every successful late-arrival acceptance (§"Watermarks and late events" in the Learning & Benchmark Suite) MUST be logged at `INFO` with the affected `EventID` and how far past the watermark it arrived, since late arrivals can retroactively change already-reported KPI values.
 - `events` uses the logging configuration surface defined by `core.BaseConfiguration`-derived settings in the future `config` package; it does not configure logging handlers itself (no global state, per `core`'s "no global state" rule).
 
@@ -780,10 +780,10 @@ class LateEventPolicy(BaseConfiguration):
 
 Mirrors `core`'s test-first discipline (`tests/unit/events/`, one `test_*.py` per module) plus event-sourcing-specific categories:
 
-- **Unit tests** — every `BaseEvent` subclass's `validate()` and `duration_h()`; `EventVersion` monotonicity; `EventEnvelope`'s three-timestamp invariant.
-- **Property tests** — idempotency (`append(e); append(e)` twice is observably identical to once), and the replay/snapshot equivalence law from §17.1.
-- **Contract tests** — any `EventStore`/`EventBus` implementation is run against a shared, backend-agnostic contract test suite (the same pattern the Cookbook uses for `FMSConnector` in Ch. 7), so a new backend proves conformance without hand-writing its own semantics tests.
-- **Golden tests** — a fixed sequence of envelopes replayed to a fixed `as_of` must reproduce a pinned, version-controlled expected state, guarding against silent replay-semantics drift.
+- **Unit tests** - every `BaseEvent` subclass's `validate()` and `duration_h()`; `EventVersion` monotonicity; `EventEnvelope`'s three-timestamp invariant.
+- **Property tests** - idempotency (`append(e); append(e)` twice is observably identical to once), and the replay/snapshot equivalence law from §17.1.
+- **Contract tests** - any `EventStore`/`EventBus` implementation is run against a shared, backend-agnostic contract test suite (the same pattern the Cookbook uses for `FMSConnector` in Ch. 7), so a new backend proves conformance without hand-writing its own semantics tests.
+- **Golden tests** - a fixed sequence of envelopes replayed to a fixed `as_of` must reproduce a pinned, version-controlled expected state, guarding against silent replay-semantics drift.
 
 ## 30. Certification Requirements
 
@@ -791,17 +791,17 @@ Per the Learning & Benchmark Suite's certification asset categories (Part VII), 
 
 | Category | Requirement for `events` |
 |---|---|
-| A — Golden datasets | Replaying the canonical `cycle_events.csv`/`delay_events.csv` fixtures reproduces the published expected envelopes exactly. |
-| B — Integration | The full path CSV → `FMSConnector` → `EventValidator` → `EventStore` → query produces the golden outputs without a direct function call bypassing any stage. |
-| C — Edge cases | Zero-duration cycles, exactly-boundary confidence scores, and empty query windows are handled per this spec, not by a crash. |
-| D — Corrupted data | Negative payloads, out-of-range delay categories, and malformed timestamps are rejected (§26), not silently coerced. |
-| E — Missing data | Optional fields absent produce a lowered `ConfidenceScore`, never a fabricated value. |
-| F — Timezone | Shift-boundary assignment via `event_time_utc` is correct across a DST transition (per the Learning & Benchmark Suite's Pilbara Ridge DST example). |
-| G — Multi-mine | `EventID`s from five concurrently-active mine contexts never collide and query correctly scoped per mine. |
+| A - Golden datasets | Replaying the canonical `cycle_events.csv`/`delay_events.csv` fixtures reproduces the published expected envelopes exactly. |
+| B - Integration | The full path CSV → `FMSConnector` → `EventValidator` → `EventStore` → query produces the golden outputs without a direct function call bypassing any stage. |
+| C - Edge cases | Zero-duration cycles, exactly-boundary confidence scores, and empty query windows are handled per this spec, not by a crash. |
+| D - Corrupted data | Negative payloads, out-of-range delay categories, and malformed timestamps are rejected (§26), not silently coerced. |
+| E - Missing data | Optional fields absent produce a lowered `ConfidenceScore`, never a fabricated value. |
+| F - Timezone | Shift-boundary assignment via `event_time_utc` is correct across a DST transition (per the Learning & Benchmark Suite's Pilbara Ridge DST example). |
+| G - Multi-mine | `EventID`s from five concurrently-active mine contexts never collide and query correctly scoped per mine. |
 
 ## 31. Example Usage
 
-Illustrative only — matches the shape of the existing `examples/core/` scripts and will become `examples/events/01_first_event.py` once implemented:
+Illustrative only - matches the shape of the existing `examples/core/` scripts and will become `examples/events/01_first_event.py` once implemented:
 
 ```python
 from mineproductivity.events import CycleEvent, EventEnvelope, EventID, EventVersion, EventMetadata
@@ -835,27 +835,27 @@ if result.is_err:
 - ❌ **Using `processing_time_utc` to compute operating hours or assign shifts.** Always `event_time_utc` (§10.4).
 - ❌ **Materializing `EventStore.query()` into a `list` "just to see how many there are."** Use a count-aware query parameter or stream-and-count; a 50-million-row shift export must not require 50 million objects in memory at once.
 - ❌ **Inventing a new `delay_category` value "just this once."** The six categories are closed (§19.3); a genuinely new distinction requires an ontology/governance change, not a silent seventh value.
-- ❌ **Silently dropping an event that fails contextual validation.** It becomes a low-confidence, warning-carrying envelope or a logged rejection (§26/§19.2) — never a value that simply never got appended with no trace.
+- ❌ **Silently dropping an event that fails contextual validation.** It becomes a low-confidence, warning-carrying envelope or a logged rejection (§26/§19.2) - never a value that simply never got appended with no trace.
 - ❌ **A connector importing `kpis` "to double-check a computed value."** `connectors` and `events` never import `kpis` (§7); this is the same anti-corruption boundary the Cookbook enforces for the whole platform.
 
 ## 33. Future Extensions
 
-- **Additional canonical event types** as new mining sub-domains are specified (e.g. `BlastEvent`, `SurveyEvent`, `AssayEvent` — hinted at by the `GRADE`/`BLEND`/`CRUSH` KPI namespaces in Part III's Appendix A).
-- **Streaming ingestion contracts** (Kafka/MQTT `EventBus` adapters) — the interface is specified now (§10.9); concrete transport adapters are a `connectors`/`io` implementation task.
-- **Compression** at the codec level (e.g. Parquet's native columnar compression, or an Arrow IPC-with-LZ4 stream) — an implementation concern within the existing `BaseSerializer` contract, requiring no interface change.
+- **Additional canonical event types** as new mining sub-domains are specified (e.g. `BlastEvent`, `SurveyEvent`, `AssayEvent` - hinted at by the `GRADE`/`BLEND`/`CRUSH` KPI namespaces in Part III's Appendix A).
+- **Streaming ingestion contracts** (Kafka/MQTT `EventBus` adapters) - the interface is specified now (§10.9); concrete transport adapters are a `connectors`/`io` implementation task.
+- **Compression** at the codec level (e.g. Parquet's native columnar compression, or an Arrow IPC-with-LZ4 stream) - an implementation concern within the existing `BaseSerializer` contract, requiring no interface change.
 - **Cross-site event federation** for enterprise-wide replay, once multi-tenant `EventStore` requirements are specified.
 
 ## 34. Known Constraints
 
 - This specification assumes `event_time_utc` is available and trustworthy at the connector boundary; a source system with unreliable clocks is a data-quality problem `events` can flag (via confidence scoring) but cannot fully solve.
-- Deterministic replay (§20) assumes a snapshot strategy, if used, is itself deterministic; a non-deterministic snapshot implementation would violate §17.1's equivalence law even though nothing in the `EventStore` ABC could detect it — implementations are trusted, not verified, on this point at the interface level (certification testing, §30, is the verification mechanism).
+- Deterministic replay (§20) assumes a snapshot strategy, if used, is itself deterministic; a non-deterministic snapshot implementation would violate §17.1's equivalence law even though nothing in the `EventStore` ABC could detect it - implementations are trusted, not verified, on this point at the interface level (certification testing, §30, is the verification mechanism).
 - `events` targets Python 3.12+ per the platform-wide `pyproject.toml` baseline; no event type may use language features beyond that baseline.
 
 ## 35. Architecture Decisions
 
 | ID | Decision | Rationale |
 |---|---|---|
-| AD-EV-01 | Envelope/payload split (`EventEnvelope` wraps `BaseEvent`) rather than a single flat class. | Keeps identity/version/timing concerns (framework) separate from business fields (domain), so a new event type never needs to redeclare identity/timing plumbing — it only declares its own fields, mirroring `core.BaseEntity` vs. `core.BaseValueObject`'s separation of identity from value. |
+| AD-EV-01 | Envelope/payload split (`EventEnvelope` wraps `BaseEvent`) rather than a single flat class. | Keeps identity/version/timing concerns (framework) separate from business fields (domain), so a new event type never needs to redeclare identity/timing plumbing - it only declares its own fields, mirroring `core.BaseEntity` vs. `core.BaseValueObject`'s separation of identity from value. |
 | AD-EV-02 | `EventID` uses ULIDs, not UUID4. | ULIDs are lexicographically time-sortable, which lets a range-scan-based `EventStore` implementation retrieve events in approximate time order directly from the identifier, without a separate index. |
 | AD-EV-03 | Three-timestamp model (`event_time`/`processing_time`/`ingestion_time`) is mandatory on every envelope, not optional. | The Learning & Benchmark Suite identifies confusing these as "the single most common temporal error in mining analytics"; making all three mandatory fields (with a validated ordering invariant) makes the error a validation failure, not a possible silent bug. |
 | AD-EV-04 | Corrections are new versions, never in-place mutation, even for the underlying storage engine. | This is the load-bearing guarantee for reproducible replay and audit (Cookbook Part I, Ch. 5's "Common Mistake"); relaxing it anywhere breaks the platform's central "recompute, don't trust, a stored number" guarantee. |
@@ -880,8 +880,8 @@ The `events` package is accepted as v0.3.0-ready when, in addition to §36:
 
 1. **Reproducibility proof:** replaying a fixed, version-controlled event sequence twice (in two separate processes) produces byte-identical `ReplayHandle` state both times.
 2. **Idempotency proof:** appending the same `(EventID, EventVersion)` N times (N ≥ 3) leaves the store in the same observable state as appending it once.
-3. **Certification fixtures pass:** all categories A–G in §30 pass against the reference `_InMemoryEventStore`.
-4. **No architectural drift:** an automated check confirms `events` appears in the dependency graph exactly where §7 specifies — no new edges, no skipped layers.
+3. **Certification fixtures pass:** all categories A-G in §30 pass against the reference `_InMemoryEventStore`.
+4. **No architectural drift:** an automated check confirms `events` appears in the dependency graph exactly where §7 specifies - no new edges, no skipped layers.
 5. **Cross-reference audit:** every normative rule cited from the Developer & Cookbook Guide or Learning & Benchmark Suite in this document (§10.6, §19.3, §20, §28) has a corresponding test in `tests/unit/events/` or `tests/integration/`.
 
 ---

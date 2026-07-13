@@ -1,7 +1,7 @@
 """A single widget rendered end-to-end through ``RenderingPipeline``
 (design spec §11): a registered ``Visualization`` produces a
 backend-independent ``PresentationModel``, a registered ``Renderer``
-turns it into a ``RenderedOutput`` — the one and only rendering code
+turns it into a ``RenderedOutput`` - the one and only rendering code
 path. The "qualify, don't coerce" rule (§30) is shown too: missing
 evidence surfaces as a warning, never a raise.
 

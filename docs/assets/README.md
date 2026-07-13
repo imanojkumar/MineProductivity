@@ -14,7 +14,7 @@ Small, documentation-supporting files. Does not include production datasets (see
 
 ## Contents
 
-- Placeholder — populate as documentation requires supporting downloadable assets.
+- Placeholder - populate as documentation requires supporting downloadable assets.
 
 ## Dependencies
 
@@ -26,4 +26,4 @@ Add as documentation authors require concrete supporting files.
 
 ## References
 
-- Developer & Cookbook Guide — Parts I, II, III
+- Developer & Cookbook Guide - Parts I, II, III

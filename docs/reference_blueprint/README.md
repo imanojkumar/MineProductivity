@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Companion documentation for the Reference Implementation Blueprint v1.0 — the locked SSOT describing how the architecture is translated into a concrete, buildable Python package structure.
+Companion documentation for the Reference Implementation Blueprint v1.0 - the locked SSOT describing how the architecture is translated into a concrete, buildable Python package structure.
 
 ## Scope
 

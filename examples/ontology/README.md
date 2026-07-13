@@ -1,4 +1,4 @@
-# Examples — mineproductivity.ontology
+# Examples - mineproductivity.ontology
 
 ## Purpose
 
@@ -15,9 +15,9 @@ Example scripts and their direct output. No test assertions live here (see `test
 
 ## Contents
 
-- `01_equipment_modelling.py` — construct `RigidHaulTruck`/`HydraulicShovel`, inspect the shared `OperationalState` machine and declared `supported_kpis`, export a leaf type's shape as JSON Schema.
-- `02_structural_modelling.py` — build a `Mine` → `Pit` → `Bench` structure and a `Shift`, connect entities with explicit `Relationship` edges, and project the model through a `KnowledgeGraphProjection`.
-- `03_validation.py` — demonstrate `OntologyValidator`'s two reference-checking modes (`*_type_code` against the internal registry, `*_id` against an injected resolver) and its central rule: an unresolved reference is a warning, never a raised exception.
+- `01_equipment_modelling.py` - construct `RigidHaulTruck`/`HydraulicShovel`, inspect the shared `OperationalState` machine and declared `supported_kpis`, export a leaf type's shape as JSON Schema.
+- `02_structural_modelling.py` - build a `Mine` → `Pit` → `Bench` structure and a `Shift`, connect entities with explicit `Relationship` edges, and project the model through a `KnowledgeGraphProjection`.
+- `03_validation.py` - demonstrate `OntologyValidator`'s two reference-checking modes (`*_type_code` against the internal registry, `*_id` against an injected resolver) and its central rule: an unresolved reference is a warning, never a raised exception.
 
 ## Dependencies
 

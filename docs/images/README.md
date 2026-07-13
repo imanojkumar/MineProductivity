@@ -14,7 +14,7 @@ Image assets only (PNG, SVG, JPEG). Does not include documentation text.
 
 ## Contents
 
-- Placeholder — populate with diagrams as documentation is authored.
+- Placeholder - populate with diagrams as documentation is authored.
 
 ## Dependencies
 

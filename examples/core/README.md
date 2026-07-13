@@ -1,4 +1,4 @@
-# Examples — mineproductivity.core
+# Examples - mineproductivity.core
 
 ## Purpose
 
@@ -20,17 +20,17 @@ by a human evaluating the package, not executed by CI as a test suite.
 
 ## Contents
 
-- `01_entity_and_value_object.py` — `BaseEntity` identity semantics vs.
+- `01_entity_and_value_object.py` - `BaseEntity` identity semantics vs.
   `BaseValueObject` structural equality, immutability, and `replace()`.
-- `02_repository.py` — `BaseRepository`/`InMemoryRepository`,
+- `02_repository.py` - `BaseRepository`/`InMemoryRepository`,
   `BaseSpecification` filtering.
-- `03_factory_and_builder.py` — `BaseFactory` vs. `BaseBuilder`, and
+- `03_factory_and_builder.py` - `BaseFactory` vs. `BaseBuilder`, and
   `Result[T]`-returning variants that avoid exceptions.
-- `04_validation.py` — `BaseValidator`, `ValidationResult`,
+- `04_validation.py` - `BaseValidator`, `ValidationResult`,
   `CompositeValidator`.
-- `05_serialization.py` — `BaseSerializer`, `DataclassSerializer`,
+- `05_serialization.py` - `BaseSerializer`, `DataclassSerializer`,
   `to_dict`.
-- `06_result_and_maybe.py` — `Result[T]` and `Maybe[T]` combinators
+- `06_result_and_maybe.py` - `Result[T]` and `Maybe[T]` combinators
   (`map`, `and_then`, `unwrap_or`) as an alternative to exceptions/`None`.
 
 ## Dependencies
@@ -62,5 +62,5 @@ downstream package (e.g. `config`) demonstrates a realistic
 ## References
 
 - Reference Implementation Blueprint v1.0
-- Developer & Cookbook Guide — Part I
+- Developer & Cookbook Guide - Part I
 - [`src/mineproductivity/core/README.md`](../../src/mineproductivity/core/README.md)

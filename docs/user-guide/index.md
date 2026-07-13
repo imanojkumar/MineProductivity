@@ -18,13 +18,13 @@ MineProductivity is built from a small set of first principles. Understanding th
 
 Work flows up the locked dependency chain. Each layer consumes the layer below and never the reverse:
 
-- **Foundation** — `core` → `ontology` → `events` → `kpis`: primitives, the typed domain vocabulary, the event-sourced system of record, and the metadata-first KPI Engine.
-- **Intelligence** — `analytics` → `decision` → `digital_twin` → `simulation` → `optimization` → `agents` → `visualization`: statistical characterization, prescriptive recommendations, stateful representation, projection, prescriptive search, autonomous orchestration, and presentation.
-- **Cross-cutting** — `registry`, `plugins`, `connectors`: importable by any layer, dependent on none of the domain layers.
+- **Foundation** - `core` → `ontology` → `events` → `kpis`: primitives, the typed domain vocabulary, the event-sourced system of record, and the metadata-first KPI Engine.
+- **Intelligence** - `analytics` → `decision` → `digital_twin` → `simulation` → `optimization` → `agents` → `visualization`: statistical characterization, prescriptive recommendations, stateful representation, projection, prescriptive search, autonomous orchestration, and presentation.
+- **Cross-cutting** - `registry`, `plugins`, `connectors`: importable by any layer, dependent on none of the domain layers.
 
 ## Extension points
 
-The platform ships **zero** concrete implementations of its interface-only extension points — each is a deliberate plugin seam, enforced by tests:
+The platform ships **zero** concrete implementations of its interface-only extension points - each is a deliberate plugin seam, enforced by tests:
 
 - Solver adapters (`optimization`), reasoning backends and tools (`agents`), rendering backends (`visualization`)
 - Forecasting/anomaly models (`analytics`), root-cause/what-if engines (`decision`), twin-simulation and methodology models (`digital_twin`/`simulation`)

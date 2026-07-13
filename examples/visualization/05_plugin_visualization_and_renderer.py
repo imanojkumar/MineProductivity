@@ -8,7 +8,7 @@ via entry points into the package's two orthogonal registries (spec 12
     sitepack = "mineproductivity_sitepack.renderers"
 
 ``REGISTRY`` holds visualization *types*; ``RENDERERS`` holds renderer
-*types* — never merged. A charting library, templating engine, or
+*types* - never merged. A charting library, templating engine, or
 document-generation library lives only in the plugin's renderer, never
 in this repository (mechanically enforced).
 

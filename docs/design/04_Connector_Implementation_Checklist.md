@@ -1,4 +1,4 @@
-# Connector Framework — Implementation Checklist
+# Connector Framework - Implementation Checklist
 
 **Package:** `mineproductivity.connectors`
 **Governing specification:** [`docs/architecture/04_Connector_Framework_Design_Specification.md`](../architecture/04_Connector_Framework_Design_Specification.md)
@@ -10,7 +10,7 @@ Binding implementation contract for `connectors`. Complete in order; every box m
 
 - [ ] Design specification read in full by the implementer.
 - [ ] `core`, `ontology`, `events` available and importable; `io`, `config`, `registry` cross-cutting packages available.
-- [ ] This checklist reviewed against the design spec's §36/§37 — no drift.
+- [ ] This checklist reviewed against the design spec's §36/§37 - no drift.
 - [ ] Confirmed: no proprietary vendor SDK will be added as a dependency of this package (design spec §4, §34).
 
 ## Package Structure
@@ -26,14 +26,14 @@ Binding implementation contract for `connectors`. Complete in order; every box m
 
 ## Interfaces / Object Model
 
-- [ ] `FMSConnector` ABC (§10.1) — `get_cycle_data`/`get_delay_data` abstract; `get_maintenance_data`/`get_production_data`/`get_consumption_data`/`get_safety_data`/`health_check` with no-op/default implementations.
-- [ ] `Normalizer` ABC + `FieldMapper` + `ReasonCodeMap` (§10.2) — independently unit-testable without a live connection.
+- [ ] `FMSConnector` ABC (§10.1) - `get_cycle_data`/`get_delay_data` abstract; `get_maintenance_data`/`get_production_data`/`get_consumption_data`/`get_safety_data`/`health_check` with no-op/default implementations.
+- [ ] `Normalizer` ABC + `FieldMapper` + `ReasonCodeMap` (§10.2) - independently unit-testable without a live connection.
 - [ ] `AuthProvider` ABC + `Credentials` (§10.3).
-- [ ] `RetryPolicy` + `BackoffStrategy` (§10.3) — `FIXED`, `EXPONENTIAL`, `EXPONENTIAL_JITTER`.
+- [ ] `RetryPolicy` + `BackoffStrategy` (§10.3) - `FIXED`, `EXPONENTIAL`, `EXPONENTIAL_JITTER`.
 - [ ] `ConnectorHealth` + `HealthStatus` (§10.4).
-- [ ] `IngestionMode` enum (§10.5) — `BATCH`, `INCREMENTAL`, `STREAMING`.
+- [ ] `IngestionMode` enum (§10.5) - `BATCH`, `INCREMENTAL`, `STREAMING`.
 - [ ] Reference connectors (§10.6): `CSVConnector`, `ExcelConnector`, `RestConnector`, `GraphQLConnector`, `KafkaConnector`, `MqttConnector`.
-- [ ] OEM adapter shapes (§10.7): `MineStarConnector`, `DispatchConnector`, `WencoConnector`, `ModularConnector`, `HexagonConnector` — shape-only, documented as such in every docstring.
+- [ ] OEM adapter shapes (§10.7): `MineStarConnector`, `DispatchConnector`, `WencoConnector`, `ModularConnector`, `HexagonConnector` - shape-only, documented as such in every docstring.
 
 ## Lifecycle & State Machine
 
@@ -52,7 +52,7 @@ Binding implementation contract for `connectors`. Complete in order; every box m
 
 ## Serialization
 
-- [ ] Confirmed connectors consume source-native formats and produce `events`-owned `BaseEvent` types — no new serialization format introduced by this package.
+- [ ] Confirmed connectors consume source-native formats and produce `events`-owned `BaseEvent` types - no new serialization format introduced by this package.
 - [ ] `RetryPolicy`/`Credentials`/`ConnectorHealth` serialize via `core.serialization` for diagnostics.
 
 ## Performance & Memory
@@ -64,7 +64,7 @@ Binding implementation contract for `connectors`. Complete in order; every box m
 ## Thread Safety & Concurrency
 
 - [ ] Each `FMSConnector` implementation documents its own thread-safety guarantee explicitly in its docstring.
-- [ ] `AuthProvider.refresh()` confirmed safe under concurrent calls (no duplicate token acquisition, no `Credentials` corruption) — stress test required, this is a mandatory (not merely documented) guarantee per design spec §24.
+- [ ] `AuthProvider.refresh()` confirmed safe under concurrent calls (no duplicate token acquisition, no `Credentials` corruption) - stress test required, this is a mandatory (not merely documented) guarantee per design spec §24.
 - [ ] Multi-connector concurrent ingestion (e.g. CSV backfill + Kafka stream simultaneously) exercised in an integration test.
 
 ## Error Handling
@@ -88,7 +88,7 @@ Binding implementation contract for `connectors`. Complete in order; every box m
 - [ ] `tests/unit/connectors/` mirrors `src/mineproductivity/connectors/` 1:1.
 - [ ] Coverage ≥95%.
 - [ ] Recorded, anonymized fixtures committed under `tests/fixtures/connectors/` for each reference source type.
-- [ ] Retry/backoff tests use an injected fake clock — no real sleeping in the unit test suite.
+- [ ] Retry/backoff tests use an injected fake clock - no real sleeping in the unit test suite.
 - [ ] Semantic-recomputation rule (design spec §13.3) covered by a dedicated fixture scenario with a deliberately mismatched vendor denominator.
 
 ## Documentation
@@ -98,8 +98,8 @@ Binding implementation contract for `connectors`. Complete in order; every box m
 
 ## Examples
 
-- [ ] `examples/connectors/01_csv_ingestion.py` — end-to-end CSV → events, mirrors design spec §31.
-- [ ] `examples/connectors/02_rest_with_retry.py` — mocked HTTP server demonstrating auth-refresh and retry/backoff.
+- [ ] `examples/connectors/01_csv_ingestion.py` - end-to-end CSV → events, mirrors design spec §31.
+- [ ] `examples/connectors/02_rest_with_retry.py` - mocked HTTP server demonstrating auth-refresh and retry/backoff.
 - [ ] All examples pass `mypy --strict` + `ruff`.
 
 ## Benchmarks
@@ -121,7 +121,7 @@ Binding implementation contract for `connectors`. Complete in order; every box m
 ## Release
 
 - [ ] `CHANGELOG.md` updated.
-- [ ] Root README dependency diagram cross-checked — confirm no forbidden import (`kpis`, `analytics`, etc.) was introduced (mechanical AST-based check, mirroring `core`'s pattern).
+- [ ] Root README dependency diagram cross-checked - confirm no forbidden import (`kpis`, `analytics`, etc.) was introduced (mechanical AST-based check, mirroring `core`'s pattern).
 - [ ] Version bump proposed and reviewed.
 - [ ] Design spec §37 re-verified as final merge gate.
 

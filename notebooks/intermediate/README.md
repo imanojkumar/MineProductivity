@@ -1,8 +1,8 @@
-# Notebooks — intermediate
+# Notebooks - intermediate
 
 ## Purpose
 
-Notebooks assuming familiarity with core ontology/event/KPI concepts — multi-step workflows within a single subsystem.
+Notebooks assuming familiarity with core ontology/event/KPI concepts - multi-step workflows within a single subsystem.
 
 ## Scope
 
@@ -14,7 +14,7 @@ Notebook files (.ipynb) and their direct supporting narrative. No package implem
 
 ## Contents
 
-- Placeholder — no notebooks exist yet; requires implemented subsystems to demonstrate.
+- Placeholder - no notebooks exist yet; requires implemented subsystems to demonstrate.
 
 ## Dependencies
 

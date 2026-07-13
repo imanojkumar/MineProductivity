@@ -3,7 +3,7 @@
 ``Maintenance`` agent to recover night-shift haulage after a breakdown.
 ``WorkflowEngine`` decomposes a ``Goal`` into one task per named agent
 (recording the delegation chain in open state attributes), runs them in
-order, and audits each — no category-specific behavior lives in the
+order, and audits each - no category-specific behavior lives in the
 orchestrator (spec 11 §19).
 
 All three concrete agents are example-local.

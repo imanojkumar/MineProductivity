@@ -1,4 +1,4 @@
-# Examples — mineproductivity.kpis
+# Examples - mineproductivity.kpis
 
 ## Purpose
 
@@ -15,11 +15,11 @@ Example scripts and their direct output. No test assertions live here (see `test
 
 ## Contents
 
-- `_dataset.py` — shared, internal loader: parses the sample dataset in `tests/fixtures/kpis/` into canonical events, appends them to an in-memory `EventStore`, and builds a real `KPIEngine` wired to the full Standard Library `REGISTRY`. Not itself an example; every script below imports it.
-- `01_simple_execution.py` — `PROD.TPH` end-to-end (design spec §31): resolve the shift, scan the event store, compute, read the result's provenance, export to a DataFrame.
-- `02_composite_oee.py` — `UTIL.OEE` composite execution: the engine resolves `UTIL.PA` / `UTIL.UA` / `UTIL.Performance` first, then combines them; also shows `None` propagating through the composite when a dependency has no data.
-- `03_batch_summary.py` — `KPIEngine.summary()` computing nine KPIs across every category in a single call, sharing one event-store scan across KPIs that read the same event types.
-- `04_discovery.py` — `REGISTRY` introspection: listing every registered code, filtering by namespace and by composite-vs-leaf, and fully describing a KPI's governed metadata without reading its source.
+- `_dataset.py` - shared, internal loader: parses the sample dataset in `tests/fixtures/kpis/` into canonical events, appends them to an in-memory `EventStore`, and builds a real `KPIEngine` wired to the full Standard Library `REGISTRY`. Not itself an example; every script below imports it.
+- `01_simple_execution.py` - `PROD.TPH` end-to-end (design spec §31): resolve the shift, scan the event store, compute, read the result's provenance, export to a DataFrame.
+- `02_composite_oee.py` - `UTIL.OEE` composite execution: the engine resolves `UTIL.PA` / `UTIL.UA` / `UTIL.Performance` first, then combines them; also shows `None` propagating through the composite when a dependency has no data.
+- `03_batch_summary.py` - `KPIEngine.summary()` computing nine KPIs across every category in a single call, sharing one event-store scan across KPIs that read the same event types.
+- `04_discovery.py` - `REGISTRY` introspection: listing every registered code, filtering by namespace and by composite-vs-leaf, and fully describing a KPI's governed metadata without reading its source.
 
 ## Sample Dataset
 

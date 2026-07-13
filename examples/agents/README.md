@@ -1,4 +1,4 @@
-# Examples — mineproductivity.agents
+# Examples - mineproductivity.agents
 
 ## Purpose
 
@@ -16,11 +16,11 @@ Example scripts and their direct output. No test assertions live here (see `test
 
 ## Contents
 
-- `01_single_agent_task.py` — a governed `Task` dispatched through `TaskExecutor`, producing an audited `AgentResult` with a `decision.Explanation`.
-- `02_policy_gated_approval.py` — a capability gated behind approval (routes to `AwaitingApproval`, resumed by a caller-supplied approved `ApprovalRequest`), plus a denying policy's hard-stop `PermissionDeniedError`.
-- `03_multi_agent_workflow.py` — the design spec §19 worked example: a `ShiftSupervisor` agent coordinating a `Fleet` and a `Maintenance` agent via `WorkflowEngine.decompose`/`run`, with the delegation chain carried in state attributes.
-- `04_hypothesis_and_plan_search.py` — a `PLANNING` agent composing `simulation.ExperimentRunner` (hypothesis exploration) and `optimization.OptimizationExecutor`/`PlanComparator` (candidate-plan search) directly (design spec §13).
-- `05_plugin_agent_and_tool.py` — a third-party-style `Agent` and `Tool` registered via entry points into the two orthogonal registries (`REGISTRY` for agent types, `TOOLS` for tool types, design spec §22, §31), mirroring `examples/registry/01_register_and_discover.py`'s real-discovery pattern.
+- `01_single_agent_task.py` - a governed `Task` dispatched through `TaskExecutor`, producing an audited `AgentResult` with a `decision.Explanation`.
+- `02_policy_gated_approval.py` - a capability gated behind approval (routes to `AwaitingApproval`, resumed by a caller-supplied approved `ApprovalRequest`), plus a denying policy's hard-stop `PermissionDeniedError`.
+- `03_multi_agent_workflow.py` - the design spec §19 worked example: a `ShiftSupervisor` agent coordinating a `Fleet` and a `Maintenance` agent via `WorkflowEngine.decompose`/`run`, with the delegation chain carried in state attributes.
+- `04_hypothesis_and_plan_search.py` - a `PLANNING` agent composing `simulation.ExperimentRunner` (hypothesis exploration) and `optimization.OptimizationExecutor`/`PlanComparator` (candidate-plan search) directly (design spec §13).
+- `05_plugin_agent_and_tool.py` - a third-party-style `Agent` and `Tool` registered via entry points into the two orthogonal registries (`REGISTRY` for agent types, `TOOLS` for tool types, design spec §22, §31), mirroring `examples/registry/01_register_and_discover.py`'s real-discovery pattern.
 
 ## Dependencies
 

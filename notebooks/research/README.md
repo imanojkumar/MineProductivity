@@ -1,4 +1,4 @@
-# Notebooks — research
+# Notebooks - research
 
 ## Purpose
 
@@ -14,7 +14,7 @@ Notebook files (.ipynb) and their direct supporting narrative. No package implem
 
 ## Contents
 
-- Placeholder — no notebooks exist yet; requires implemented subsystems to demonstrate.
+- Placeholder - no notebooks exist yet; requires implemented subsystems to demonstrate.
 
 ## Dependencies
 

@@ -1,8 +1,8 @@
-# Notebooks — beginner
+# Notebooks - beginner
 
 ## Purpose
 
-Notebooks for first-time users with no prior MineProductivity knowledge — installation, core concepts, first KPI lookup (once implemented).
+Notebooks for first-time users with no prior MineProductivity knowledge - installation, core concepts, first KPI lookup (once implemented).
 
 ## Scope
 
@@ -14,7 +14,7 @@ Notebook files (.ipynb) and their direct supporting narrative. No package implem
 
 ## Contents
 
-- `01_first_kpi_lookup.ipynb` — loads the sample dataset shared with `examples/kpis/`, computes `PROD.TPH` via `KPIEngine`, inspects a `KPIResult`'s provenance, and discovers the rest of the Standard Library through `REGISTRY` — no source-code reading required.
+- `01_first_kpi_lookup.ipynb` - loads the sample dataset shared with `examples/kpis/`, computes `PROD.TPH` via `KPIEngine`, inspects a `KPIResult`'s provenance, and discovers the rest of the Standard Library through `REGISTRY` - no source-code reading required.
 
 ## Dependencies
 

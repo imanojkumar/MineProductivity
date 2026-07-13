@@ -1,4 +1,4 @@
-# Examples — mineproductivity.events
+# Examples - mineproductivity.events
 
 ## Purpose
 
@@ -15,9 +15,9 @@ Example scripts and their direct output. No test assertions live here (see `test
 
 ## Contents
 
-- `01_first_event.py` — construct a `CycleEvent`, wrap it in an `EventEnvelope`, validate it, and append it to an `EventStore`.
-- `02_replay.py` — append several events across a shift and reconstruct the store's state at an earlier point in time via `replay()`.
-- `03_correction.py` — append an event, then append a correction under the same `EventID` with an incremented `EventVersion`, and show both the current and historical views.
+- `01_first_event.py` - construct a `CycleEvent`, wrap it in an `EventEnvelope`, validate it, and append it to an `EventStore`.
+- `02_replay.py` - append several events across a shift and reconstruct the store's state at an earlier point in time via `replay()`.
+- `03_correction.py` - append an event, then append a correction under the same `EventID` with an incremented `EventVersion`, and show both the current and historical views.
 
 ## Dependencies
 

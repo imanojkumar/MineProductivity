@@ -1,6 +1,6 @@
 """A single agent task, end-to-end (design spec §12): a governed
-``Task`` dispatched through ``TaskExecutor`` — policy gate → dispatch →
-persist → audit — producing an audited ``AgentResult``.
+``Task`` dispatched through ``TaskExecutor`` - policy gate → dispatch →
+persist → audit - producing an audited ``AgentResult``.
 
 The concrete ``Agent`` below is example-local: the package ships zero
 concrete agents by design (``Agent``/``Tool``/``AgentMemory`` are
@@ -33,7 +33,7 @@ from mineproductivity.decision import Explanation
 
 @register
 class HaulReallocationAgent(Agent):
-    """Recommends a truck reallocation from the task's goal — a
+    """Recommends a truck reallocation from the task's goal - a
     stateless, scripted reference agent; a real one would consult a
     reasoning backend and tools."""
 

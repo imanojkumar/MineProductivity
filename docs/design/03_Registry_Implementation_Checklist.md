@@ -1,4 +1,4 @@
-# Registry Framework — Implementation Checklist
+# Registry Framework - Implementation Checklist
 
 **Packages:** `mineproductivity.registry` + `mineproductivity.plugins`
 **Governing specification:** [`docs/architecture/03_Registry_Framework_Design_Specification.md`](../architecture/03_Registry_Framework_Design_Specification.md)
@@ -10,7 +10,7 @@ Binding implementation contract covering both locked packages. Complete in order
 
 - [ ] Design specification read in full by the implementer.
 - [ ] `core` (v0.2.0) available and importable; confirm `registry`/`plugins` import no domain package (design spec §7).
-- [ ] This checklist reviewed against the design spec's §36/§37 — no drift.
+- [ ] This checklist reviewed against the design spec's §36/§37 - no drift.
 
 ## Package Structure
 
@@ -25,14 +25,14 @@ Binding implementation contract covering both locked packages. Complete in order
 
 ## Interfaces / Object Model
 
-- [ ] `Registry[TKey, TItem]` (§10.1) — `register`, `lookup`, `get`, `list` (with `BaseSpecification` filtering), `metadata_for`, `__contains__`, `__len__`, `__iter__`.
-- [ ] `EntryPointSpec` + `EntryPointDiscovery` (§10.2) — `discover()` returns `Result[Sequence[TKey]]`.
-- [ ] Domain registry type-alias pattern (§10.3) documented with a concrete worked example in `registry/README.md`'s Extension Guide (not implemented here — owned by `kpis`/`connectors`/`ontology`/`analytics`).
-- [ ] `VersionRange` + `VersionCompatibility` (§10.4) — `is_compatible`/`check_or_raise`.
-- [ ] `DiscoveryCache` (§10.5) — `get_or_discover`, explicit-only `invalidate`.
+- [ ] `Registry[TKey, TItem]` (§10.1) - `register`, `lookup`, `get`, `list` (with `BaseSpecification` filtering), `metadata_for`, `__contains__`, `__len__`, `__iter__`.
+- [ ] `EntryPointSpec` + `EntryPointDiscovery` (§10.2) - `discover()` returns `Result[Sequence[TKey]]`.
+- [ ] Domain registry type-alias pattern (§10.3) documented with a concrete worked example in `registry/README.md`'s Extension Guide (not implemented here - owned by `kpis`/`connectors`/`ontology`/`analytics`).
+- [ ] `VersionRange` + `VersionCompatibility` (§10.4) - `is_compatible`/`check_or_raise`.
+- [ ] `DiscoveryCache` (§10.5) - `get_or_discover`, explicit-only `invalidate`.
 - [ ] `PluginManifest` + `PluginDependency` (§10.6).
-- [ ] `PluginState` enum — `DISCOVERED`, `VALIDATED`, `ACTIVE`, `FAILED`, `DEACTIVATED`.
-- [ ] `PluginLifecycle` ABC — `activate`, `deactivate`, `state_of`.
+- [ ] `PluginState` enum - `DISCOVERED`, `VALIDATED`, `ACTIVE`, `FAILED`, `DEACTIVATED`.
+- [ ] `PluginLifecycle` ABC - `activate`, `deactivate`, `state_of`.
 
 ## Lifecycle & State Machine
 
@@ -42,13 +42,13 @@ Binding implementation contract covering both locked packages. Complete in order
 
 ## Validation
 
-- [ ] Duplicate-key rejection (`Registry.register()` returns `Result.err(DuplicateRegistrationError)`) — no silent overwrite path exists anywhere in the codebase.
+- [ ] Duplicate-key rejection (`Registry.register()` returns `Result.err(DuplicateRegistrationError)`) - no silent overwrite path exists anywhere in the codebase.
 - [ ] `VersionCompatibility.check_or_raise` tested across inclusive/exclusive boundary cases.
 - [ ] `PluginLifecycle.activate()` verifies every `PluginDependency` is itself active/activatable before activating the dependent.
 
 ## Versioning
 
-- [ ] Confirmed `registry` itself bakes in no domain-specific (KPI/connector) versioning semantics — only the generic container.
+- [ ] Confirmed `registry` itself bakes in no domain-specific (KPI/connector) versioning semantics - only the generic container.
 - [ ] `PluginManifest.plugin_version` SemVer discipline documented.
 
 ## Serialization
@@ -69,7 +69,7 @@ Binding implementation contract covering both locked packages. Complete in order
 ## Error Handling
 
 - [ ] Full exception hierarchy (§26): `RegistrationError`, `DuplicateRegistrationError`, `UnregisteredLookupError`, `VersionIncompatibleError`, `PluginActivationError`, `PluginDependencyError`.
-- [ ] Exception raised while importing one plugin's entry-point module is caught and converted to `Failed` state / logged warning — never propagates to abort discovery of remaining plugins (dedicated isolation test, see Lifecycle section).
+- [ ] Exception raised while importing one plugin's entry-point module is caught and converted to `Failed` state / logged warning - never propagates to abort discovery of remaining plugins (dedicated isolation test, see Lifecycle section).
 
 ## Logging
 
@@ -96,8 +96,8 @@ Binding implementation contract covering both locked packages. Complete in order
 
 ## Examples
 
-- [ ] `examples/registry/01_register_and_discover.py` — full register → discover → lookup cycle using a fixture plugin.
-- [ ] `examples/registry/02_version_compatibility.py` — demonstrates a compatible and an incompatible plugin side by side.
+- [ ] `examples/registry/01_register_and_discover.py` - full register → discover → lookup cycle using a fixture plugin.
+- [ ] `examples/registry/02_version_compatibility.py` - demonstrates a compatible and an incompatible plugin side by side.
 - [ ] All examples pass `mypy --strict` + `ruff`.
 
 ## Benchmarks
@@ -108,7 +108,7 @@ Binding implementation contract covering both locked packages. Complete in order
 ## Certification
 
 - [ ] Categories A (substituted golden-plugin-fixture), B (integration), C (edge cases), D (corrupted data) from design spec §30 pass.
-- [ ] Zero-installed-plugins case confirmed to produce an empty, valid registry — not an error.
+- [ ] Zero-installed-plugins case confirmed to produce an empty, valid registry - not an error.
 
 ## Type Hints, Mypy, Ruff, Coverage
 

@@ -1,16 +1,16 @@
-# Event Framework — Implementation Checklist
+# Event Framework - Implementation Checklist
 
 **Package:** `mineproductivity.events`
 **Governing specification:** [`docs/architecture/01_Event_Framework_Design_Specification.md`](../architecture/01_Event_Framework_Design_Specification.md)
 **Status:** Not started
 
-This checklist is the binding implementation contract for `events`. A pull request may not be merged into the package until every applicable box is checked (or explicitly deferred with a linked follow-up issue and Chief Software Architect sign-off). Check items off in order — later sections assume earlier ones are done.
+This checklist is the binding implementation contract for `events`. A pull request may not be merged into the package until every applicable box is checked (or explicitly deferred with a linked follow-up issue and Chief Software Architect sign-off). Check items off in order - later sections assume earlier ones are done.
 
 ## Pre-Implementation Gate
 
 - [ ] Design specification read in full by the implementer.
 - [ ] `core` (v0.2.0) and `ontology` (once implemented) are available and importable.
-- [ ] This checklist reviewed against the design spec's §36 (Definition of Done) and §37 (Package Acceptance Criteria) — no drift between the two documents.
+- [ ] This checklist reviewed against the design spec's §36 (Definition of Done) and §37 (Package Acceptance Criteria) - no drift between the two documents.
 
 ## Package Structure
 
@@ -26,30 +26,30 @@ This checklist is the binding implementation contract for `events`. A pull reque
 
 ## Interfaces / Object Model
 
-- [ ] `EventID` (§10.1) — ULID-backed `BaseIdentifier[str]`, `generate()` classmethod.
-- [ ] `EventVersion` (§10.2) — `BaseVersionedObject`, monotonic, never resets.
-- [ ] `EventMetadata` (§10.3) — `BaseMetadata` subclass with `confidence`, `source_system`, `late_arrival`.
-- [ ] `EventEnvelope` (§10.4) — three-timestamp invariant enforced in `validate()`.
-- [ ] `BaseEvent` (§10.5) — abstract, `equipment_id`/`shift_id`/`event_type_code` contract.
-- [ ] All six canonical event types (§10.6): `CycleEvent`, `DelayEvent`, `MaintenanceEvent`, `ProductionEvent`, `ConsumptionEvent`, `SafetyEvent` — full field lists per spec table, each with `validate()` and `duration_h()`.
-- [ ] `EventSchema` (§10.7) — `to_json_schema()` implemented.
-- [ ] `EventStore` ABC (§10.8) — `append`, `append_batch`, `get`, `find`, `query`, `replay`, `snapshot`.
-- [ ] `EventQuery` (§10.8) — reuses `core.BaseSpecification` for `filters`.
+- [ ] `EventID` (§10.1) - ULID-backed `BaseIdentifier[str]`, `generate()` classmethod.
+- [ ] `EventVersion` (§10.2) - `BaseVersionedObject`, monotonic, never resets.
+- [ ] `EventMetadata` (§10.3) - `BaseMetadata` subclass with `confidence`, `source_system`, `late_arrival`.
+- [ ] `EventEnvelope` (§10.4) - three-timestamp invariant enforced in `validate()`.
+- [ ] `BaseEvent` (§10.5) - abstract, `equipment_id`/`shift_id`/`event_type_code` contract.
+- [ ] All six canonical event types (§10.6): `CycleEvent`, `DelayEvent`, `MaintenanceEvent`, `ProductionEvent`, `ConsumptionEvent`, `SafetyEvent` - full field lists per spec table, each with `validate()` and `duration_h()`.
+- [ ] `EventSchema` (§10.7) - `to_json_schema()` implemented.
+- [ ] `EventStore` ABC (§10.8) - `append`, `append_batch`, `get`, `find`, `query`, `replay`, `snapshot`.
+- [ ] `EventQuery` (§10.8) - reuses `core.BaseSpecification` for `filters`.
 - [ ] `EventBus` ABC and `Subscription` (§10.9).
 - [ ] Reference `_InMemoryEventStore` and `_InMemoryEventBus` implemented for tests/examples (not exported publicly).
 
 ## Lifecycle & State Machine
 
 - [ ] Envelope lifecycle (§11) implemented exactly: Produced → Validated → (Rejected | ConfidenceScored) → Enveloped → Appended → Published.
-- [ ] `EventVersion` correction state machine (§12) — `Retracted` implemented via metadata flag, never a delete.
+- [ ] `EventVersion` correction state machine (§12) - `Retracted` implemented via metadata flag, never a delete.
 - [ ] Idempotency proven: re-appending the same `(EventID, EventVersion)` is a no-op (unit test required).
 
 ## Validation
 
-- [ ] Structural validation (`BaseEvent.validate()`) — every canonical type's field invariants (§19.1, per-type table).
-- [ ] Contextual validation (`EventValidator`, §19.1) — orphaned ontology reference produces a confidence penalty, never a silent drop.
-- [ ] `ConfidenceScore` (§19.2) — bounds-checked `[0.0, 1.0]`.
-- [ ] The six `DelayCategory` values and precedence order (§19.3) enforced — cross-check against Ontology package once available.
+- [ ] Structural validation (`BaseEvent.validate()`) - every canonical type's field invariants (§19.1, per-type table).
+- [ ] Contextual validation (`EventValidator`, §19.1) - orphaned ontology reference produces a confidence penalty, never a silent drop.
+- [ ] `ConfidenceScore` (§19.2) - bounds-checked `[0.0, 1.0]`.
+- [ ] The six `DelayCategory` values and precedence order (§19.3) enforced - cross-check against Ontology package once available.
 
 ## Versioning
 
@@ -58,14 +58,14 @@ This checklist is the binding implementation contract for `events`. A pull reque
 
 ## Serialization
 
-- [ ] `JSONEventCodec` — round-trips via `core.to_dict`/`DataclassSerializer` conventions.
-- [ ] `ArrowEventCodec` — one `RecordBatch` per event type; columns match `EventSchema.field_types`.
-- [ ] `ParquetEventCodec` — partitioned by `(site, event_type_code, date(event_time_utc))`.
+- [ ] `JSONEventCodec` - round-trips via `core.to_dict`/`DataclassSerializer` conventions.
+- [ ] `ArrowEventCodec` - one `RecordBatch` per event type; columns match `EventSchema.field_types`.
+- [ ] `ParquetEventCodec` - partitioned by `(site, event_type_code, date(event_time_utc))`.
 - [ ] All three codecs implement `core.BaseSerializer[EventEnvelope]` uniformly (parity test: same envelope round-trips identically through all three, modulo format-specific precision).
 
 ## Performance & Memory
 
-- [ ] Every connector-facing and query-facing API returns an `Iterator`/generator — verified by a test asserting no full materialization for a large synthetic fixture.
+- [ ] Every connector-facing and query-facing API returns an `Iterator`/generator - verified by a test asserting no full materialization for a large synthetic fixture.
 - [ ] Column-pruned query path exercised against the Arrow/Parquet codecs.
 - [ ] Snapshot equivalence law (design spec §17.1) proven by property test: `replay(as_of) == fold(query(since=snapshot.as_of, until=as_of), initial=snapshot.state)`.
 
@@ -78,7 +78,7 @@ This checklist is the binding implementation contract for `events`. A pull reque
 ## Error Handling
 
 - [ ] Full exception hierarchy implemented (§26): `EventValidationError`, `EventVersionConflictError`, `DuplicateEventError`, `EventNotFoundError`, `ReplayError`, all rooted in `core.MineProductivityError` via `ValidationError`/`NotFoundError`.
-- [ ] Every rejection path returns `Result.err`, never raises past a public API boundary except where explicitly documented (`get()` raising `EventNotFoundError` is the one raising exception per spec — confirm `find()` is the non-raising counterpart).
+- [ ] Every rejection path returns `Result.err`, never raises past a public API boundary except where explicitly documented (`get()` raising `EventNotFoundError` is the one raising exception per spec - confirm `find()` is the non-raising counterpart).
 
 ## Logging
 
@@ -104,9 +104,9 @@ This checklist is the binding implementation contract for `events`. A pull reque
 
 ## Examples
 
-- [ ] `examples/events/01_first_event.py` — construct, validate, append, query (mirrors design spec §31).
-- [ ] `examples/events/02_replay.py` — demonstrates `replay(as_of)` time travel.
-- [ ] `examples/events/03_correction.py` — demonstrates a version-2 correction and `as_of_version`.
+- [ ] `examples/events/01_first_event.py` - construct, validate, append, query (mirrors design spec §31).
+- [ ] `examples/events/02_replay.py` - demonstrates `replay(as_of)` time travel.
+- [ ] `examples/events/03_correction.py` - demonstrates a version-2 correction and `as_of_version`.
 - [ ] All examples run cleanly end-to-end and are checked by `mypy --strict` + `ruff`.
 
 ## Benchmarks
@@ -128,7 +128,7 @@ This checklist is the binding implementation contract for `events`. A pull reque
 ## Release
 
 - [ ] `CHANGELOG.md` updated with the `events` package's addition.
-- [ ] Root README's dependency diagram cross-checked — no drift from design spec §7.
+- [ ] Root README's dependency diagram cross-checked - no drift from design spec §7.
 - [ ] Package version bump proposed and reviewed (do not self-merge a version bump).
 - [ ] Design spec §37 (Package Acceptance Criteria) re-verified as a final gate before merge.
 

@@ -1,35 +1,35 @@
-# KPI Engine — Design Specification
+# KPI Engine - Design Specification
 
 | | |
 |---|---|
 | **Document ID** | AH-DS-05 |
 | **Package** | `mineproductivity.kpis` |
-| **Status** | Draft — Design Complete, Pending Implementation |
+| **Status** | Draft - Design Complete, Pending Implementation |
 | **Version** | 1.0.0 |
-| **Conforms to** | Master Architecture Handbook v1.0; Reference Implementation Blueprint v1.0; Developer & Cookbook Guide Parts I–III (especially Part III, the KPI Standard Library & Cookbook); Learning & Benchmark Suite v1.0 |
+| **Conforms to** | Master Architecture Handbook v1.0; Reference Implementation Blueprint v1.0; Developer & Cookbook Guide Parts I-III (especially Part III, the KPI Standard Library & Cookbook); Learning & Benchmark Suite v1.0 |
 | **Builds on** | Repository Skeleton v0.1.0 (LOCKED); Core Foundation Library v0.2.0 (LOCKED); Event Framework spec 01; Ontology Framework spec 02; Registry Framework spec 03 |
 | **Author** | Chief Software Architect, MineProductivity |
-| **Classification** | Public — Open Source Design Documentation |
+| **Classification** | Public - Open Source Design Documentation |
 
 ## Document Control
 
-Design specification only — no implementation. This is the platform's most important package: every other package exists to feed it inputs (`ontology`, `events`, `connectors`) or consume its outputs (`analytics`, `decision`, `digital_twin`, `visualization`). Its normative content is drawn directly from the Developer & Cookbook Guide Part III's KPI Standard Library — the 29-field mandatory KPI template (§18), the canonical semantics rulings (§19), and the KPI naming standard (§20) are restated here as binding engine-design constraints, not reinterpreted.
+Design specification only - no implementation. This is the platform's most important package: every other package exists to feed it inputs (`ontology`, `events`, `connectors`) or consume its outputs (`analytics`, `decision`, `digital_twin`, `visualization`). Its normative content is drawn directly from the Developer & Cookbook Guide Part III's KPI Standard Library - the 29-field mandatory KPI template (§18), the canonical semantics rulings (§19), and the KPI naming standard (§20) are restated here as binding engine-design constraints, not reinterpreted.
 
 ---
 
 ## 1. Purpose
 
-The KPI Engine is the metric backbone of MineProductivity: it makes every performance indicator a **discoverable, versioned, self-describing object** rather than a formula buried in a script or spreadsheet cell. It exists to guarantee the platform's central promise — *"two engineers, two sites, or two AI agents each compute 'availability' [and] must get the same number from the same events"* (Developer & Cookbook Guide Part III, Introduction) — by encoding a KPI's formula, units, aggregation rule, and applicability directly on the KPI object itself, and by keeping the execution engine free of any metric-specific logic (**KPI-as-object**, root README's engineering philosophy).
+The KPI Engine is the metric backbone of MineProductivity: it makes every performance indicator a **discoverable, versioned, self-describing object** rather than a formula buried in a script or spreadsheet cell. It exists to guarantee the platform's central promise - *"two engineers, two sites, or two AI agents each compute 'availability' [and] must get the same number from the same events"* (Developer & Cookbook Guide Part III, Introduction) - by encoding a KPI's formula, units, aggregation rule, and applicability directly on the KPI object itself, and by keeping the execution engine free of any metric-specific logic (**KPI-as-object**, root README's engineering philosophy).
 
 ## 2. Scope
 
 **In scope:**
 
 - The `BaseKPI` object model and its category hierarchy (`ProductionKPI`, `UtilizationKPI`, `MaintenanceKPI`, `HaulageKPI`, `DelayKPI`, `EnergyKPI`, `QualityKPI`, `CostKPI`, `SafetyKPI`).
-- `KPIMetadata` — the complete 29-field mandatory schema from the Standard Library.
+- `KPIMetadata` - the complete 29-field mandatory schema from the Standard Library.
 - The dependency graph: declared KPI-to-KPI dependencies, resolved and executed as a DAG.
 - Lazy evaluation and caching of intermediate/final KPI results.
-- The vectorized execution backends: Polars, DuckDB, pandas, and NumPy — as pluggable execution strategies behind one engine interface.
+- The vectorized execution backends: Polars, DuckDB, pandas, and NumPy - as pluggable execution strategies behind one engine interface.
 - Aggregation semantics: additive, ratio, average/weighted-average, rolling, cumulative, derived.
 - Window functions and temporal KPIs (shift/day/week/month/rolling windows).
 - Composite KPIs (e.g. OEE) and recursive/inherited KPIs (e.g. `PROD.TPH.Ore` inheriting `PROD.TPH`).
@@ -41,19 +41,19 @@ The KPI Engine is the metric backbone of MineProductivity: it makes every perfor
 
 ## 3. Responsibilities
 
-1. Define **one** object shape (`BaseKPI` + `KPIMetadata`) that every metric in the platform — from `PROD.TPH` to a site-specific plugin KPI — implements identically.
-2. Hold **zero metric-specific logic** in the engine itself; the engine resolves dependencies, assembles inputs, and calls `_compute` — nothing more (Cookbook Part I, Ch. 4: *"The engine holds no metric logic — it merely executes the KPI object"*).
+1. Define **one** object shape (`BaseKPI` + `KPIMetadata`) that every metric in the platform - from `PROD.TPH` to a site-specific plugin KPI - implements identically.
+2. Hold **zero metric-specific logic** in the engine itself; the engine resolves dependencies, assembles inputs, and calls `_compute` - nothing more (Cookbook Part I, Ch. 4: *"The engine holds no metric logic - it merely executes the KPI object"*).
 3. Enforce the **canonical semantics rulings** (time model, availability/utilisation/OEE definitions, delay taxonomy) as engine-level invariants, not per-KPI conventions that could drift.
-4. Guarantee **correct-by-construction aggregation** — a `RATIO` KPI can never be silently averaged instead of re-derived from summed numerator/denominator, because the engine reads `Aggregation` from metadata and enforces it (Cookbook Part I, Ch. 6).
+4. Guarantee **correct-by-construction aggregation** - a `RATIO` KPI can never be silently averaged instead of re-derived from summed numerator/denominator, because the engine reads `Aggregation` from metadata and enforces it (Cookbook Part I, Ch. 6).
 5. Make every KPI **discoverable and self-documenting** via the `KPIRegistry` (a Registry Framework specialization) and `describe()`/`to_schema()`-style introspection.
 
 ## 4. Out of Scope
 
-- **Event and ontology definitions** — `events`, `ontology`; `kpis` consumes, never defines, these.
-- **Connector logic** — `connectors`; `kpis` never imports it (§7).
-- **Analytics, forecasting, benchmarking implementations** — a future `analytics` package *consumes* `kpis`' `KPIResult` objects (e.g. the `benchmark()` function shown in Cookbook Part I, Ch. 6) but `kpis` does not implement benchmarking itself, only exposes the metadata (`target`, `direction`) benchmarking needs.
-- **Digital Twin live-state, decision recommendations, or AI agent reasoning** — all future packages built *on top of* `kpis`.
-- **Visualization rendering** — `kpis` exposes visualization *metadata* (chart type hints, "never a pie chart"-style guidance) via `KPIMetadata`; a future `visualization` package renders actual charts.
+- **Event and ontology definitions** - `events`, `ontology`; `kpis` consumes, never defines, these.
+- **Connector logic** - `connectors`; `kpis` never imports it (§7).
+- **Analytics, forecasting, benchmarking implementations** - a future `analytics` package *consumes* `kpis`' `KPIResult` objects (e.g. the `benchmark()` function shown in Cookbook Part I, Ch. 6) but `kpis` does not implement benchmarking itself, only exposes the metadata (`target`, `direction`) benchmarking needs.
+- **Digital Twin live-state, decision recommendations, or AI agent reasoning** - all future packages built *on top of* `kpis`.
+- **Visualization rendering** - `kpis` exposes visualization *metadata* (chart type hints, "never a pie chart"-style guidance) via `KPIMetadata`; a future `visualization` package renders actual charts.
 
 ## 5. Architecture
 
@@ -143,7 +143,7 @@ src/mineproductivity/kpis/
 core → ontology → events → kpis
 ```
 
-- **`kpis` depends on:** `core`, `ontology`, `events`, and the cross-cutting `registry`, `validation`, `config` packages. `kpis` MAY depend on optional, declared third-party vectorization libraries (Polars, DuckDB, pandas, NumPy) behind the `backends/` abstraction (§10.9) — these are the one deliberate exception to the platform's "essential packaging requirements only" default, installed as an optional extra (mirroring the Developer Documentation's `pip install "mineproductivity[analytics]"` pattern) rather than a hard core dependency.
+- **`kpis` depends on:** `core`, `ontology`, `events`, and the cross-cutting `registry`, `validation`, `config` packages. `kpis` MAY depend on optional, declared third-party vectorization libraries (Polars, DuckDB, pandas, NumPy) behind the `backends/` abstraction (§10.9) - these are the one deliberate exception to the platform's "essential packaging requirements only" default, installed as an optional extra (mirroring the Developer Documentation's `pip install "mineproductivity[analytics]"` pattern) rather than a hard core dependency.
 - **`kpis` is depended on by:** `analytics`, `optimization`, `simulation`, `decision`, `digital_twin`, `agents`, `visualization`, `benchmark`, `certification`.
 - **Forbidden:** `kpis` MUST NOT import `connectors` (Cookbook Part I, Ch. 3: *"kpis/ cannot import a fleet-management SDK, [so] a KPI can never accidentally depend on one vendor's data shape"*), nor `analytics`, `optimization`, `simulation`, `decision`, `digital_twin`, `agents`, or `visualization`.
 
@@ -173,15 +173,15 @@ from mineproductivity.kpis import (
 
 ## 9. Internal API
 
-- `kpis.backends._active_backend` — the process-selected `ExecutionBackend` (default: pandas, per the Developer Documentation's "pandas... will feel immediately familiar" positioning; overridable per §28).
-- `kpis.dependency_graph._topo_cache` — memoized topological order per KPI code, invalidated only when the registry changes (mirrors `registry.DiscoveryCache`'s explicit-invalidation-only rule).
-- `kpis.certification._reference_fixtures` — the internal binding to the Learning & Benchmark Suite's golden-dataset fixtures used by `tests/certification/` (not part of the public contract).
+- `kpis.backends._active_backend` - the process-selected `ExecutionBackend` (default: pandas, per the Developer Documentation's "pandas... will feel immediately familiar" positioning; overridable per §28).
+- `kpis.dependency_graph._topo_cache` - memoized topological order per KPI code, invalidated only when the registry changes (mirrors `registry.DiscoveryCache`'s explicit-invalidation-only rule).
+- `kpis.certification._reference_fixtures` - the internal binding to the Learning & Benchmark Suite's golden-dataset fixtures used by `tests/certification/` (not part of the public contract).
 
 ## 10. Object Model
 
-### 10.1 `KPIMetadata` — the 29-field mandatory schema
+### 10.1 `KPIMetadata` - the 29-field mandatory schema
 
-Every field below is **mandatory** for a KPI to be accepted into the registry — mirroring the Standard Library's own rule: *"No field is optional. A blank field is a specification gap."* Fields map directly onto Appendix B's 29-field template; several are grouped where they share one dataclass field for structural economy (e.g. field 16–17, "Worked Example"/"Sample Dataset," are documentation-level fields carried in `attributes` rather than typed engine fields, since the engine does not execute documentation).
+Every field below is **mandatory** for a KPI to be accepted into the registry - mirroring the Standard Library's own rule: *"No field is optional. A blank field is a specification gap."* Fields map directly onto Appendix B's 29-field template; several are grouped where they share one dataclass field for structural economy (e.g. field 16-17, "Worked Example"/"Sample Dataset," are documentation-level fields carried in `attributes` rather than typed engine fields, since the engine does not execute documentation).
 
 ```python
 @dataclass(frozen=True, slots=True)
@@ -361,7 +361,7 @@ class SafetyKPI(BaseKPI, ABC):
     """SAFE/AUTO namespace: exposure-normalized leading indicators."""
 ```
 
-Each category base contributes no behavior beyond documentation and a namespace convention check in `validate()` (e.g. `ProductionKPI` asserts `meta.code.startswith("PROD.")`) — all real behavior lives in `BaseKPI` and is inherited uniformly, per Cookbook Part I Ch. 6's design.
+Each category base contributes no behavior beyond documentation and a namespace convention check in `validate()` (e.g. `ProductionKPI` asserts `meta.code.startswith("PROD.")`) - all real behavior lives in `BaseKPI` and is inherited uniformly, per Cookbook Part I Ch. 6's design.
 
 ### 10.5 The reference exemplar: `TonnesPerHour`
 
@@ -474,7 +474,7 @@ class DependencyGraph:
         first execution."""
 ```
 
-### 10.9 `ExecutionBackend` — vectorized computation strategies
+### 10.9 `ExecutionBackend` - vectorized computation strategies
 
 ```python
 class ExecutionBackend(ABC):
@@ -509,7 +509,7 @@ class NumPyBackend(ExecutionBackend):
     mineproductivity` with no [analytics] extra)."""
 ```
 
-Backend selection is a `config`-sourced setting (§28), never hard-coded; `BaseKPI._compute` implementations are written against the plain `Sequence[Mapping[str, Any]]` "rows" shape precisely so they are **backend-independent** — the same `TonnesPerHour._compute` runs correctly whether `KPIEngine.rows_for` assembled its input via Polars, DuckDB, pandas, or NumPy underneath.
+Backend selection is a `config`-sourced setting (§28), never hard-coded; `BaseKPI._compute` implementations are written against the plain `Sequence[Mapping[str, Any]]` "rows" shape precisely so they are **backend-independent** - the same `TonnesPerHour._compute` runs correctly whether `KPIEngine.rows_for` assembled its input via Polars, DuckDB, pandas, or NumPy underneath.
 
 ### 10.10 `Window`, `RollingWindow`, `CumulativeWindow`
 
@@ -726,11 +726,11 @@ KPIResult returned to caller                             (analytics / digital_tw
 1. **New leaf KPIs.** Subclass the appropriate category base, complete `KPIMetadata`'s 29 fields, implement `_compute`, decorate with `@register` (§17). No existing KPI class is ever edited to add a new one.
 2. **New KPI categories/namespaces.** Add a new category base class (§10.4) for a namespace not yet covered (e.g. a future `GRADE`/`BLEND`/`CRUSH`/`PROC` category per Part III Appendix A's namespace list, §33).
 3. **New `ExecutionBackend`s.** Implement the ABC in §10.9 for an additional vectorization engine without touching any `BaseKPI` subclass.
-4. **New `Aggregation` semantics.** Adding a new aggregation kind is a closed-enum change requiring governance (mirrors the `DelayCategory` closed-enum rule in the Ontology Framework spec §16) — not something a plugin author does casually.
+4. **New `Aggregation` semantics.** Adding a new aggregation kind is a closed-enum change requiring governance (mirrors the `DelayCategory` closed-enum rule in the Ontology Framework spec §16) - not something a plugin author does casually.
 
 ## 17. Plugin Strategy
 
-Identical mechanism to every other extension point (Registry Framework spec), specialized for KPIs — this is the exact pattern the Cookbook demonstrates in Ch. 6 and Ch. 9:
+Identical mechanism to every other extension point (Registry Framework spec), specialized for KPIs - this is the exact pattern the Cookbook demonstrates in Ch. 6 and Ch. 9:
 
 ```python
 from mineproductivity.kpis import register, KPIMetadata, CostKPI, Direction, Aggregation, DigitalMaturity
@@ -750,50 +750,50 @@ class FuelPerTonne(CostKPI):
 haulmetrics = "mineproductivity_haulmetrics.kpis"
 ```
 
-**Governance rule (normative):** *"A KPI code is a public contract. Once [a code] is published, changing what it means is a breaking change requiring a major version bump"* (Cookbook Part I, Ch. 9) — enforced at registration time by `KPIVersionConflictError` (§26) when a plugin attempts to re-register an existing code with materially different metadata under the same MAJOR version.
+**Governance rule (normative):** *"A KPI code is a public contract. Once [a code] is published, changing what it means is a breaking change requiring a major version bump"* (Cookbook Part I, Ch. 9) - enforced at registration time by `KPIVersionConflictError` (§26) when a plugin attempts to re-register an existing code with materially different metadata under the same MAJOR version.
 
 ## 18. Metadata
 
-§10.1 *is* this section's core content — the entire `KPIMetadata` dataclass exists because metadata-first is, per Part III, *"the design decision that makes everything else possible. Separating what a KPI is (metadata) from how it is computed... means the catalogue can be searched, validated, versioned, and governed without executing a single calculation."* Two additional metadata-driven capabilities:
+§10.1 *is* this section's core content - the entire `KPIMetadata` dataclass exists because metadata-first is, per Part III, *"the design decision that makes everything else possible. Separating what a KPI is (metadata) from how it is computed... means the catalogue can be searched, validated, versioned, and governed without executing a single calculation."* Two additional metadata-driven capabilities:
 
-- **`mine.available_kpis()`** (Cookbook Part I, Ch. 4) filters `REGISTRY` by `min_maturity` and `commodity_applicability`/`method_applicability` matching the current site profile — implemented entirely via metadata inspection, no per-KPI branching.
+- **`mine.available_kpis()`** (Cookbook Part I, Ch. 4) filters `REGISTRY` by `min_maturity` and `commodity_applicability`/`method_applicability` matching the current site profile - implemented entirely via metadata inspection, no per-KPI branching.
 - **`mine.describe(code)`** returns `KPIMetadata` directly, giving callers (including AI agents, per Part III's "AI Contributor Note... a KPI not in the registry does not exist to the system") the full 29-field contract without reading source.
 
 ## 19. Validation
 
 Three layers:
 
-1. **Metadata completeness** (`KPIMetadata.validate()`, §10.1) — every mandatory field populated, `code` parses as `NAMESPACE.Name` (§20).
-2. **Input validation** (`BaseKPI.compute()`, §10.3) — required columns present; missing columns become a `KPIResult` warning, never an exception (Cookbook Part I, Ch. 6: *"qualify, don't coerce"*).
-3. **Canonical semantics validation** — the engine enforces, as invariants no KPI can override:
+1. **Metadata completeness** (`KPIMetadata.validate()`, §10.1) - every mandatory field populated, `code` parses as `NAMESPACE.Name` (§20).
+2. **Input validation** (`BaseKPI.compute()`, §10.3) - required columns present; missing columns become a `KPIResult` warning, never an exception (Cookbook Part I, Ch. 6: *"qualify, don't coerce"*).
+3. **Canonical semantics validation** - the engine enforces, as invariants no KPI can override:
    - The **time model**: `calendar ⊇ scheduled ⊇ available ⊇ operating`; `UTIL.PA = available/scheduled`, `UTIL.UA = operating/available`, `UTIL.EU = operating/scheduled = PA × UA` (Part III, Canonical Semantics). Any `UtilizationKPI` declaring a denominator outside this ladder fails registration validation.
-   - The **six-category delay taxonomy** (owned by `ontology`, consumed here) — a `DelayKPI` reading `delay_category` MUST treat the six values as mutually exclusive and collectively exhaustive; the precedence order (Ontology Framework spec §10.9) is applied once, at the event layer, never re-decided per KPI.
-   - The **RATIO-never-averaged rule** (§10.8's Aggregation enforcement, §13.3): the engine, not each `_compute`, decides how multi-period/multi-group results combine, based on `meta.aggregation` — a `_compute` implementation cannot accidentally violate this because it never sees pre-aggregated sub-period results for a `RATIO` KPI, only raw rows.
+   - The **six-category delay taxonomy** (owned by `ontology`, consumed here) - a `DelayKPI` reading `delay_category` MUST treat the six values as mutually exclusive and collectively exhaustive; the precedence order (Ontology Framework spec §10.9) is applied once, at the event layer, never re-decided per KPI.
+   - The **RATIO-never-averaged rule** (§10.8's Aggregation enforcement, §13.3): the engine, not each `_compute`, decides how multi-period/multi-group results combine, based on `meta.aggregation` - a `_compute` implementation cannot accidentally violate this because it never sees pre-aggregated sub-period results for a `RATIO` KPI, only raw rows.
 
 ## 20. Versioning
 
 Exactly the Standard Library's rules (Part III, "Lifecycle, versioning, governance, and deprecation" and "The KPI Naming Standard"), enforced as engine behavior:
 
-- **Identifier format:** `NAMESPACE.Name` — controlled uppercase namespace (`PROD`, `UTIL`, `MAINT`, `HAUL`, `DISP`, `QUAL`, `COST`, `ENERGY`, `CARBON`, `WATER`, `SAFE`, `AUTO`, and the Appendix A extension namespaces `GRADE`, `BLEND`, `CRUSH`, `PROC`, `STOCK`, `RAIL`, `PORT`, `TWIN`, `DI`, `AI`), PascalCase name, optional dotted specialization (`PROD.TPH.Ore`).
+- **Identifier format:** `NAMESPACE.Name` - controlled uppercase namespace (`PROD`, `UTIL`, `MAINT`, `HAUL`, `DISP`, `QUAL`, `COST`, `ENERGY`, `CARBON`, `WATER`, `SAFE`, `AUTO`, and the Appendix A extension namespaces `GRADE`, `BLEND`, `CRUSH`, `PROC`, `STOCK`, `RAIL`, `PORT`, `TWIN`, `DI`, `AI`), PascalCase name, optional dotted specialization (`PROD.TPH.Ore`).
 - **`parse_identifier(code) -> KPIIdentifier`** validates this format at registration time; an unrecognized namespace is rejected unless governance has extended the controlled list (§33).
 - **SemVer on `KPIMetadata.version`:** MAJOR = breaking formula/units/semantics change (new identifier version, old one deprecated, never repointed); MINOR = new non-breaking dimension/capability; PATCH = documentation/defect fix with no result change.
-- **Aliases never resolve to a different KPI than their target was defined against**, and a retired identifier is never reused for a new meaning (Part III, Naming Standard's Warning) — enforced by `KPIRegistry` refusing to register a `code` matching any historically-`Retired` identifier.
+- **Aliases never resolve to a different KPI than their target was defined against**, and a retired identifier is never reused for a new meaning (Part III, Naming Standard's Warning) - enforced by `KPIRegistry` refusing to register a `code` matching any historically-`Retired` identifier.
 
 ## 21. Serialization
 
-- `KPIMetadata` and `KPIResult` are `core.BaseValueObject`s and serialize via `core.serialization` (`DataclassSerializer`/`to_dict`) for API/documentation export — this is the mechanism behind the Developer Documentation's *"the schema is generated from the KPI registry, so the API never drifts from the model"* REST API surface (a future `api`-adjacent capability, not implemented here).
+- `KPIMetadata` and `KPIResult` are `core.BaseValueObject`s and serialize via `core.serialization` (`DataclassSerializer`/`to_dict`) for API/documentation export - this is the mechanism behind the Developer Documentation's *"the schema is generated from the KPI registry, so the API never drifts from the model"* REST API surface (a future `api`-adjacent capability, not implemented here).
 - `KPIResult.to_frame()` (§10.6) is the vectorized-interchange path, delegating to the active `ExecutionBackend`, distinct from `core.serialization`'s JSON-oriented path.
 
 ## 22. Performance Considerations
 
-- **Column pruning, always** (§10.8, §15): `rows_for()` requests only the columns the target KPI *and its full dependency chain* declare needing — asking for `PROD.TPH` never loads delay or quality columns (Cookbook Part I, Ch. 4's Performance Note).
-- **Batched multi-KPI requests** (`mine.summary(...)`) scan the event store once and share the assembled table across multiple KPIs' `_compute` calls, rather than one scan per KPI — the documented difference between "one pass and a dozen" on large shifts.
+- **Column pruning, always** (§10.8, §15): `rows_for()` requests only the columns the target KPI *and its full dependency chain* declare needing - asking for `PROD.TPH` never loads delay or quality columns (Cookbook Part I, Ch. 4's Performance Note).
+- **Batched multi-KPI requests** (`mine.summary(...)`) scan the event store once and share the assembled table across multiple KPIs' `_compute` calls, rather than one scan per KPI - the documented difference between "one pass and a dozen" on large shifts.
 - **Pre-aggregation at ingest** for O(1)-at-query-time ratio KPIs (Part III's Performance Considerations field, applied uniformly): `ExecutionBackend` implementations are expected to support summing at `(scope, period)` granularity so `PROD.TPH` at query time is a division, not a re-scan of raw cycles, for high-volume fleets.
-- **`ResultCache`** (§10.8) memoizes `KPIResult` per `(code, window, scope, event-store-version-fingerprint)` — invalidated automatically when new events land in the relevant scope (never silently stale).
+- **`ResultCache`** (§10.8) memoizes `KPIResult` per `(code, window, scope, event-store-version-fingerprint)` - invalidated automatically when new events land in the relevant scope (never silently stale).
 
 ## 23. Memory Considerations
 
-- `BaseKPI._compute` operates over `Sequence[Mapping[str, Any]]` "rows," which for very large fleets should be backed by a columnar `ExecutionBackend` table under the hood (§10.9), not a literal Python list-of-dicts at scale — the `Sequence[Mapping]` shape is the **interface** `_compute` sees, not necessarily the **storage** `KPIEngine` holds internally.
+- `BaseKPI._compute` operates over `Sequence[Mapping[str, Any]]` "rows," which for very large fleets should be backed by a columnar `ExecutionBackend` table under the hood (§10.9), not a literal Python list-of-dicts at scale - the `Sequence[Mapping]` shape is the **interface** `_compute` sees, not necessarily the **storage** `KPIEngine` holds internally.
 - `KPIResult` instances are small, frozen value objects; `ResultCache` retention policy (size/TTL bounds) is a `config`-sourced setting (§28), not unbounded by default.
 
 ## 24. Thread Safety
@@ -805,7 +805,7 @@ Exactly the Standard Library's rules (Part III, "Lifecycle, versioning, governan
 ## 25. Concurrency
 
 - **Independent KPI executions** (different `code`, `window`, or `scope`) may proceed fully in parallel; `DependencyGraph` resolution is pure and side-effect-free, so concurrent resolution of overlapping dependency chains (e.g. two callers both requesting KPIs that depend on `UTIL.PA`) is safe, with `ResultCache` naturally deduplicating the redundant work when both land on the same cache key.
-- **Backend-level parallelism** (e.g. Polars' or DuckDB's own multi-threaded query execution) is transparent to `kpis` — `ExecutionBackend` implementations are free to parallelize internally; the `kpis` package's own concurrency contract only governs its own orchestration layer (`KPIEngine`, `ResultCache`, `DependencyGraph`).
+- **Backend-level parallelism** (e.g. Polars' or DuckDB's own multi-threaded query execution) is transparent to `kpis` - `ExecutionBackend` implementations are free to parallelize internally; the `kpis` package's own concurrency contract only governs its own orchestration layer (`KPIEngine`, `ResultCache`, `DependencyGraph`).
 
 ## 26. Error Handling
 
@@ -838,36 +838,36 @@ class KPIVersionConflictError(RegistrationError):
 
 ## 27. Logging
 
-- Every `KPIResult` with a non-empty `warnings` tuple logs at `WARNING`, including `code`, `scope`, and the warning text — this is the primary signal for "why is this dashboard cell blank."
+- Every `KPIResult` with a non-empty `warnings` tuple logs at `WARNING`, including `code`, `scope`, and the warning text - this is the primary signal for "why is this dashboard cell blank."
 - Registry rejections (`KPIVersionConflictError`, duplicate registration) log at `WARNING` with both the existing and attempted registration's KPI code and source module, mirroring the Registry Framework spec's §27.
 - `DependencyGraph` cycle detection failures log at `ERROR` at registration time, since a circular KPI dependency is a governance failure that should block plugin activation, not merely warn.
 
 ## 28. Configuration
 
 - **Backend selection** (`config`-sourced, §10.9): `KPIEngineConfiguration.backend: Literal["polars","duckdb","pandas","numpy"]`, default `"pandas"`.
-- **Cache policy**: `ResultCacheConfiguration` (max size, TTL) — a `core.BaseConfiguration` subclass.
-- **Time-model conventions** (Cookbook Part I, Ch. 3's Warning: *"Two sites are only comparable when their time-model conventions match... e.g. whether queueing counts as operating time"*) are site-level configuration consumed by `UtilizationKPI` implementations, never hard-coded — this is the direct engine-level implication of that Cookbook warning.
+- **Cache policy**: `ResultCacheConfiguration` (max size, TTL) - a `core.BaseConfiguration` subclass.
+- **Time-model conventions** (Cookbook Part I, Ch. 3's Warning: *"Two sites are only comparable when their time-model conventions match... e.g. whether queueing counts as operating time"*) are site-level configuration consumed by `UtilizationKPI` implementations, never hard-coded - this is the direct engine-level implication of that Cookbook warning.
 
 ## 29. Testing Strategy
 
-- **Unit tests per KPI** — every registered KPI's `_compute` (or `_combine` for composites) against the Standard Library's own worked examples and canonical values (e.g. `TonnesPerHour` against the 1212.1 t/h worked example) — mirrors Part III's own `test_tph_canonical` pattern exactly.
-- **Golden tests** — every flagship KPI from Part III (PROD.TPH, PROD.TruckCycleTime, PROD.Payload, and the flagship entry from each other category) reproduces its published expected value against the Learning & Benchmark Suite's canonical dataset.
-- **Aggregation property tests** — for every `RATIO`-aggregation KPI, assert `compute(combined_rows) != mean(compute(rows_a), compute(rows_b))` in the general case, and `== ` the correctly re-derived value, guarding against the "averaging shift TPHs" regression class permanently.
-- **Dependency graph tests** — topological ordering correctness, cycle detection, and that composite KPIs receive exactly their declared dependencies' results.
-- **Backend parity tests** — the same `BaseKPI._compute` invocation via each of the four `ExecutionBackend`s (§10.9) must produce identical `KPIResult.value` (within floating-point tolerance) for the same input rows — this is the mechanical proof that `_compute` implementations are truly backend-independent.
-- **Certification tests** — see §30.
+- **Unit tests per KPI** - every registered KPI's `_compute` (or `_combine` for composites) against the Standard Library's own worked examples and canonical values (e.g. `TonnesPerHour` against the 1212.1 t/h worked example) - mirrors Part III's own `test_tph_canonical` pattern exactly.
+- **Golden tests** - every flagship KPI from Part III (PROD.TPH, PROD.TruckCycleTime, PROD.Payload, and the flagship entry from each other category) reproduces its published expected value against the Learning & Benchmark Suite's canonical dataset.
+- **Aggregation property tests** - for every `RATIO`-aggregation KPI, assert `compute(combined_rows) != mean(compute(rows_a), compute(rows_b))` in the general case, and `== ` the correctly re-derived value, guarding against the "averaging shift TPHs" regression class permanently.
+- **Dependency graph tests** - topological ordering correctness, cycle detection, and that composite KPIs receive exactly their declared dependencies' results.
+- **Backend parity tests** - the same `BaseKPI._compute` invocation via each of the four `ExecutionBackend`s (§10.9) must produce identical `KPIResult.value` (within floating-point tolerance) for the same input rows - this is the mechanical proof that `_compute` implementations are truly backend-independent.
+- **Certification tests** - see §30.
 
 ## 30. Certification Requirements
 
 | Category | Requirement for `kpis` |
 |---|---|
-| A — Golden datasets | Every flagship KPI documented in Part III reproduces its published worked-example value from the Learning & Benchmark Suite's canonical dataset, to the documented tolerance. |
-| B — Integration | The full path CSV → Connector → EventStore → KPIEngine → KPIResult (Cookbook Part I, Ch. 10's "Putting Everything Together" pipeline) reproduces golden outputs. |
-| C — Edge cases | Zero operating hours, empty windows, and a KPI whose dependency chain includes a `None`-valued upstream result (must propagate as `None` with a warning, never a crash or a fabricated zero). |
-| D — Corrupted data | Negative payloads or out-of-range delay categories reaching the engine (should already be rejected upstream by `events`, but the engine's own input validation, §19, is the second line of defense) are rejected, not silently computed over. |
-| E — Missing data | A required column entirely absent from the assembled rows produces the documented `"missing required columns: [...]"` warning, never a `KeyError`. |
-| G — Multi-mine | KPI results for five concurrently-scoped mine contexts (Learning & Benchmark Suite's five reference mines) never cross-contaminate scope. |
-| H — Multi-commodity | `commodity_applicability`-filtered KPIs correctly appear/disappear from `mine.available_kpis()` per site commodity. |
+| A - Golden datasets | Every flagship KPI documented in Part III reproduces its published worked-example value from the Learning & Benchmark Suite's canonical dataset, to the documented tolerance. |
+| B - Integration | The full path CSV → Connector → EventStore → KPIEngine → KPIResult (Cookbook Part I, Ch. 10's "Putting Everything Together" pipeline) reproduces golden outputs. |
+| C - Edge cases | Zero operating hours, empty windows, and a KPI whose dependency chain includes a `None`-valued upstream result (must propagate as `None` with a warning, never a crash or a fabricated zero). |
+| D - Corrupted data | Negative payloads or out-of-range delay categories reaching the engine (should already be rejected upstream by `events`, but the engine's own input validation, §19, is the second line of defense) are rejected, not silently computed over. |
+| E - Missing data | A required column entirely absent from the assembled rows produces the documented `"missing required columns: [...]"` warning, never a `KeyError`. |
+| G - Multi-mine | KPI results for five concurrently-scoped mine contexts (Learning & Benchmark Suite's five reference mines) never cross-contaminate scope. |
+| H - Multi-commodity | `commodity_applicability`-filtered KPIs correctly appear/disappear from `mine.available_kpis()` per site commodity. |
 
 ## 31. Example Usage
 
@@ -886,7 +886,7 @@ if result.is_ok:
 
 # Discovery
 for kpi_cls in REGISTRY.list():
-    print(kpi_cls.meta.code, "—", kpi_cls.meta.official_name)
+    print(kpi_cls.meta.code, "-", kpi_cls.meta.official_name)
 
 # Composite
 oee = engine.execute("UTIL.OEE", window="shift", scope={"shift": "A-2026-06-25"}).unwrap()
@@ -895,33 +895,33 @@ print(f"OEE: {oee.value:.1%}")
 
 ## 32. Anti-Patterns
 
-- ❌ **Putting any metric-specific logic in `KPIEngine` itself.** The engine resolves, assembles, and calls `_compute` — nothing else, ever. A conditional like `if code == "PROD.TPH": ...` inside the engine is an architecture violation, full stop.
-- ❌ **Averaging per-period `RATIO` results** instead of letting the engine re-derive from summed numerator/denominator (§10.8, §19, §29) — the single most-cited mistake across the entire Standard Library.
+- ❌ **Putting any metric-specific logic in `KPIEngine` itself.** The engine resolves, assembles, and calls `_compute` - nothing else, ever. A conditional like `if code == "PROD.TPH": ...` inside the engine is an architecture violation, full stop.
+- ❌ **Averaging per-period `RATIO` results** instead of letting the engine re-derive from summed numerator/denominator (§10.8, §19, §29) - the single most-cited mistake across the entire Standard Library.
 - ❌ **A `_compute` implementation raising an exception for a legitimately uncomputable input** (zero denominator) instead of returning `None`.
-- ❌ **A KPI importing `connectors`** "to read a vendor field directly" — breaks the dependency direction (§7) and reintroduces exactly the vendor coupling the whole platform exists to prevent.
+- ❌ **A KPI importing `connectors`** "to read a vendor field directly" - breaks the dependency direction (§7) and reintroduces exactly the vendor coupling the whole platform exists to prevent.
 - ❌ **Silently repointing an existing KPI code to a new formula** without a MAJOR version bump and a deprecation record (§17, §20, `KPIVersionConflictError`).
 - ❌ **Computing a KPI "quickly" outside the registry** for a one-off report. Part III's Best Practice: *"Unregistered numbers cannot be versioned, validated, or reproduced... If it is worth reporting, it is worth registering."*
 - ❌ **Hard-coding a specific `ExecutionBackend`** inside a `_compute` implementation (e.g. calling a Polars-specific method directly). `_compute` operates on the backend-neutral `Sequence[Mapping[str, Any]]` shape only.
 
 ## 33. Future Extensions
 
-- **Full write-up of the remaining ~90 registered-but-not-yet-fully-documented KPIs** in Part III's Appendix A (100 KPIs across 25 namespaces cataloged; a flagship subset fully worked in this First Edition) — each follows the identical `BaseKPI`/`KPIMetadata` shape specified here; no engine change is required as the catalogue grows.
-- **Additional namespaces** (`GRADE`, `BLEND`, `CRUSH`, `PROC`, `STOCK`, `RAIL`, `PORT`, and the derived `TWIN`/`DI`/`AI` namespaces) as their owning capabilities (`digital_twin`, `decision`, `agents`) mature — each is a new category base class (§16.2), not an engine change.
-- **A GPU-accelerated `ExecutionBackend`** for very large multi-site aggregations, behind the same `ExecutionBackend` ABC (§10.9) — the Developer Documentation notes optional GPU use for the `analytics` extra's forecasting/anomaly-detection models; a GPU KPI backend would follow the identical opt-in-extra pattern.
+- **Full write-up of the remaining ~90 registered-but-not-yet-fully-documented KPIs** in Part III's Appendix A (100 KPIs across 25 namespaces cataloged; a flagship subset fully worked in this First Edition) - each follows the identical `BaseKPI`/`KPIMetadata` shape specified here; no engine change is required as the catalogue grows.
+- **Additional namespaces** (`GRADE`, `BLEND`, `CRUSH`, `PROC`, `STOCK`, `RAIL`, `PORT`, and the derived `TWIN`/`DI`/`AI` namespaces) as their owning capabilities (`digital_twin`, `decision`, `agents`) mature - each is a new category base class (§16.2), not an engine change.
+- **A GPU-accelerated `ExecutionBackend`** for very large multi-site aggregations, behind the same `ExecutionBackend` ABC (§10.9) - the Developer Documentation notes optional GPU use for the `analytics` extra's forecasting/anomaly-detection models; a GPU KPI backend would follow the identical opt-in-extra pattern.
 - **A formal KPI certification badge**, once the Learning & Benchmark Suite's certification thresholds are published (currently an open item per that document, §30 of the Event Framework spec's parallel note).
 
 ## 34. Known Constraints
 
 - This specification's 29-field `KPIMetadata` schema types the *engine-executed* subset of the Standard Library's template as dataclass fields (§10.1); the remaining documentation-only fields (worked example, sample dataset, calculation-logic prose, performance-considerations prose) are carried in `BaseMetadata.attributes` rather than as first-class typed fields, since the engine has no behavior to attach to prose. A future revision could promote these to typed fields if tooling needs to query them structurally.
-- `ExecutionBackend` implementations for Polars, DuckDB, and pandas depend on third-party libraries not part of the platform's minimal core dependency set (`pyproject.toml`'s `dependencies = []`) — they are installed via the `[analytics]` extra, consistent with the Developer Documentation's install guidance; `kpis` itself, at minimum with the `NumPyBackend` or a pure-Python fallback, must remain usable with zero extras installed for the "lean core" promise to hold.
+- `ExecutionBackend` implementations for Polars, DuckDB, and pandas depend on third-party libraries not part of the platform's minimal core dependency set (`pyproject.toml`'s `dependencies = []`) - they are installed via the `[analytics]` extra, consistent with the Developer Documentation's install guidance; `kpis` itself, at minimum with the `NumPyBackend` or a pure-Python fallback, must remain usable with zero extras installed for the "lean core" promise to hold.
 - The canonical semantics rulings (§19) are treated as immutable engine invariants for v1.0; the Developer & Cookbook Guide Part III explicitly reserves changing them to a formal governance process, which this specification cannot itself authorize.
 
 ## 35. Architecture Decisions
 
 | ID | Decision | Rationale |
 |---|---|---|
-| AD-KP-01 | `KPIEngine` is pure orchestration; it is architecturally forbidden from containing metric-specific branches. | This is the entire meaning of "KPI-as-object" — if the engine ever needs to know what a specific KPI *is*, the abstraction has failed. Cookbook Part I, Ch. 4 states this as the reason adding a metric "never touches this path." |
-| AD-KP-02 | Aggregation semantics (`Aggregation` enum) live on `KPIMetadata`, and the *engine* — not each `_compute` — decides how to combine sub-period/sub-group results. | Makes the "averaging a ratio" class of bug structurally impossible rather than merely documented against, directly per Cookbook Part I Ch. 6's worked example. |
+| AD-KP-01 | `KPIEngine` is pure orchestration; it is architecturally forbidden from containing metric-specific branches. | This is the entire meaning of "KPI-as-object" - if the engine ever needs to know what a specific KPI *is*, the abstraction has failed. Cookbook Part I, Ch. 4 states this as the reason adding a metric "never touches this path." |
+| AD-KP-02 | Aggregation semantics (`Aggregation` enum) live on `KPIMetadata`, and the *engine* - not each `_compute` - decides how to combine sub-period/sub-group results. | Makes the "averaging a ratio" class of bug structurally impossible rather than merely documented against, directly per Cookbook Part I Ch. 6's worked example. |
 | AD-KP-03 | `_compute`/`_combine` operate over a backend-neutral `Sequence[Mapping[str, Any]]`/`Mapping[str, KPIResult]` shape; vectorized execution is entirely the `ExecutionBackend`'s concern. | Lets a KPI author write once, backend-agnostic code (matching the "Python Insight" throughout the Cookbook praising simple, pure functions) while still letting the platform scale via Polars/DuckDB under the hood for large fleets. |
 | AD-KP-04 | Composite KPIs (`CompositeKPI`) are a distinct base class from leaf KPIs, with `_combine` instead of `_compute`. | Keeps the "reads raw rows" and "reads other KPIs' results" cases from being conflated in one method signature, and lets `DependencyGraph` treat composite-ness as a structural property it can reason about (a composite's dependencies are mandatory, not optional). |
 | AD-KP-05 | The 29-field `KPIMetadata` schema is treated as load-bearing engine contract, not optional documentation. | Directly executes Part III's own governance rule: *"A KPI entry with an empty field is incomplete and fails governance."* Making `KPIMetadata.validate()` enforce this at the type-system level (mandatory dataclass fields, no defaults for content fields) turns a documentation policy into a compile-time/construction-time guarantee. |
@@ -935,11 +935,11 @@ print(f"OEE: {oee.value:.1%}")
 - [ ] `mypy --strict` and `ruff` clean.
 - [ ] Backend parity tests (§29) pass across all four `ExecutionBackend`s for every implemented KPI.
 - [ ] `examples/kpis/` demonstrates simple execution, composite (OEE) execution, and multi-KPI batch execution (`mine.summary`-equivalent).
-- [ ] No import from `kpis` reaches `connectors`, `analytics`, `optimization`, `simulation`, `decision`, `digital_twin`, or `agents` — mechanically verified.
+- [ ] No import from `kpis` reaches `connectors`, `analytics`, `optimization`, `simulation`, `decision`, `digital_twin`, or `agents` - mechanically verified.
 
 ## 37. Package Acceptance Criteria
 
-1. **KPI-as-object proof:** a static analysis of `kpis/engine.py` contains zero references to any specific KPI code string — the engine genuinely holds no metric logic.
+1. **KPI-as-object proof:** a static analysis of `kpis/engine.py` contains zero references to any specific KPI code string - the engine genuinely holds no metric logic.
 2. **Ratio-correctness proof:** the exact Cookbook Part I Ch. 6 worked example (A-shift 1,300 t/h over 12h, B-shift 1,100 t/h over 6h → combined 1,233 t/h, not the naive 1,200 average) passes as a regression test.
 3. **Composite-correctness proof:** `UTIL.OEE` computed via `_combine` equals `UTIL.PA × UTIL.Performance × UTIL.Quality` computed independently, to floating-point tolerance, for every certification fixture.
 4. **Backend parity proof:** every implemented KPI produces identical results across all four `ExecutionBackend`s on the same certification fixtures.

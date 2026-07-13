@@ -1,25 +1,25 @@
-# Connector Framework — Design Specification
+# Connector Framework - Design Specification
 
 | | |
 |---|---|
 | **Document ID** | AH-DS-04 |
 | **Package** | `mineproductivity.connectors` |
-| **Status** | Draft — Design Complete, Pending Implementation |
+| **Status** | Draft - Design Complete, Pending Implementation |
 | **Version** | 1.0.0 |
-| **Conforms to** | Master Architecture Handbook v1.0; Reference Implementation Blueprint v1.0; Developer & Cookbook Guide Parts I–III; Learning & Benchmark Suite v1.0 |
+| **Conforms to** | Master Architecture Handbook v1.0; Reference Implementation Blueprint v1.0; Developer & Cookbook Guide Parts I-III; Learning & Benchmark Suite v1.0 |
 | **Builds on** | Repository Skeleton v0.1.0 (LOCKED); Core Foundation Library v0.2.0 (LOCKED) |
 | **Author** | Chief Software Architect, MineProductivity |
-| **Classification** | Public — Open Source Design Documentation |
+| **Classification** | Public - Open Source Design Documentation |
 
 ## Document Control
 
-Design specification only — no implementation. Concrete OEM adapters (MineStar, DISPATCH, Wenco, Modular Mining, Hexagon) are specified here **as connector shapes and mapping responsibilities**, not as working vendor integrations — no vendor SDK code exists in this repository or is implied by this document. Per Cookbook Part I, Ch. 7, real OEM connectors ship as separate, independently-versioned plugin packages (e.g. a hypothetical `mineproductivity-minestar`), never inside `mineproductivity.connectors` itself.
+Design specification only - no implementation. Concrete OEM adapters (MineStar, DISPATCH, Wenco, Modular Mining, Hexagon) are specified here **as connector shapes and mapping responsibilities**, not as working vendor integrations - no vendor SDK code exists in this repository or is implied by this document. Per Cookbook Part I, Ch. 7, real OEM connectors ship as separate, independently-versioned plugin packages (e.g. a hypothetical `mineproductivity-minestar`), never inside `mineproductivity.connectors` itself.
 
 ---
 
 ## 1. Purpose
 
-The Connector Framework is how MineProductivity meets the real world. It defines the single, small contract every data source — a fleet-management system, a CSV export, a REST API, a Kafka topic — must satisfy to feed the platform, and it is the **only** place in the codebase permitted to know that a specific vendor or file format exists. This is the concrete implementation of the root README's forbidden-imports rule and the Cookbook's Vendor-Neutrality principle: *"Connectors are the only place in the codebase allowed to know about a specific OEM."*
+The Connector Framework is how MineProductivity meets the real world. It defines the single, small contract every data source - a fleet-management system, a CSV export, a REST API, a Kafka topic - must satisfy to feed the platform, and it is the **only** place in the codebase permitted to know that a specific vendor or file format exists. This is the concrete implementation of the root README's forbidden-imports rule and the Cookbook's Vendor-Neutrality principle: *"Connectors are the only place in the codebase allowed to know about a specific OEM."*
 
 ## 2. Scope
 
@@ -27,7 +27,7 @@ The Connector Framework is how MineProductivity meets the real world. It defines
 
 - The `FMSConnector` abstract base contract.
 - Reference connector shapes for CSV, Excel, REST, GraphQL, Kafka, MQTT sources.
-- The OEM adapter shape for MineStar, DISPATCH, Wenco, Modular Mining, and Hexagon — as a mapping/translation responsibility, not vendor SDK bindings.
+- The OEM adapter shape for MineStar, DISPATCH, Wenco, Modular Mining, and Hexagon - as a mapping/translation responsibility, not vendor SDK bindings.
 - Streaming, batch, and incremental ingestion modes.
 - Validation and normalization at the connector boundary (the anti-corruption layer).
 - Field/code mapping (vendor dialect → canonical ontology/event model).
@@ -40,18 +40,18 @@ The Connector Framework is how MineProductivity meets the real world. It defines
 
 ## 3. Responsibilities
 
-1. Define **one** abstract contract (`FMSConnector`) that every source — file, database, stream, REST API, vendor SDK — implements identically.
+1. Define **one** abstract contract (`FMSConnector`) that every source - file, database, stream, REST API, vendor SDK - implements identically.
 2. **Quarantine vendor dialects.** A connector's entire job is "read a source, yield canonical events" (Cookbook Part I, Ch. 7); nothing downstream ever sees a vendor's field names, status codes, or reason codes.
-3. Perform **semantic**, not just structural, translation — recomputing from underlying time buckets when a vendor's percentage-based metric uses a different denominator than the platform's canonical time model, rather than copying a number that looks similar but means something different (Developer & Cookbook Guide Part III, "Compatibility with external systems").
+3. Perform **semantic**, not just structural, translation - recomputing from underlying time buckets when a vendor's percentage-based metric uses a different denominator than the platform's canonical time model, rather than copying a number that looks similar but means something different (Developer & Cookbook Guide Part III, "Compatibility with external systems").
 4. Own **authentication, retry, and backoff** for network-connected sources, so this concern is solved once, consistently, rather than once per connector.
 5. Ship connectors as **discoverable plugins** (Registry Framework specialization), never as core-code special cases.
 
 ## 4. Out of Scope
 
-- **Event definitions** (`CycleEvent`, `DelayEvent`, ...) — owned by `events`; connectors *produce* instances of these types, never redefine their shape.
-- **Ontology entity definitions** — owned by `ontology`; connectors *resolve against* entities (§15 of the Ontology Framework spec's reference/embedding pattern), never define them.
-- **The `EventStore`/`EventBus` implementations** connectors write into — owned by `events`/`io`.
-- **KPI computation** — connectors never import `kpis` (§7).
+- **Event definitions** (`CycleEvent`, `DelayEvent`, ...) - owned by `events`; connectors *produce* instances of these types, never redefine their shape.
+- **Ontology entity definitions** - owned by `ontology`; connectors *resolve against* entities (§15 of the Ontology Framework spec's reference/embedding pattern), never define them.
+- **The `EventStore`/`EventBus` implementations** connectors write into - owned by `events`/`io`.
+- **KPI computation** - connectors never import `kpis` (§7).
 - **Actual vendor SDK code or credentials.** This repository never bundles a proprietary OEM SDK; a real MineStar/DISPATCH/Wenco/Hexagon connector is an independent plugin package with its own dependency on the vendor's SDK, isolated entirely from `mineproductivity.connectors`' own dependency graph.
 
 ## 5. Architecture
@@ -63,7 +63,7 @@ core → ontology → events → connectors → kpis → ...
               connectors also depends on io, config
 ```
 
-`connectors` sits **after** `events` and `ontology` in the dependency stack — it produces events and resolves ontology references, but is itself a plumbing package (Cookbook Part I, Ch. 3's three-band model: "domain heart," "plumbing," "intelligence/interfaces" — `connectors` is plumbing).
+`connectors` sits **after** `events` and `ontology` in the dependency stack - it produces events and resolves ontology references, but is itself a plumbing package (Cookbook Part I, Ch. 3's three-band model: "domain heart," "plumbing," "intelligence/interfaces" - `connectors` is plumbing).
 
 ```mermaid
 flowchart LR
@@ -136,7 +136,7 @@ src/mineproductivity/connectors/
 └── README.md
 ```
 
-The `oem/` modules contain only the **mapping contract and reason-code-map shape** each vendor plugin must fulfill (e.g. `MineStarReasonCodeMap`'s expected keys) — never a working `MineStarClient`. A real OEM plugin lives entirely outside this repository, as its own installable package, per Cookbook Part I Ch. 7's `mineproductivity-minestar` example.
+The `oem/` modules contain only the **mapping contract and reason-code-map shape** each vendor plugin must fulfill (e.g. `MineStarReasonCodeMap`'s expected keys) - never a working `MineStarClient`. A real OEM plugin lives entirely outside this repository, as its own installable package, per Cookbook Part I Ch. 7's `mineproductivity-minestar` example.
 
 ## 7. Dependency Direction
 
@@ -147,8 +147,8 @@ core → ontology → events → connectors
 ```
 
 - **`connectors` depends on:** `core`, `ontology`, `events`, and the cross-cutting `io`, `config`, `registry` packages.
-- **`connectors` is depended on by:** nothing in the domain-heart or intelligence layers directly — the platform depends on `connectors` only through the `events` it produces, never through a direct import. `digital_twin` and `kpis` never import `connectors`.
-- **Forbidden (the single most load-bearing rule in this document):** `connectors` MUST NOT import `kpis`, `analytics`, `optimization`, `simulation`, `decision`, `digital_twin`, or `agents`. This is what the Cookbook calls out explicitly: *"connectors/ may not import kpis/ — the dependency-direction check forbids it — so [vendor-specific] parsing belongs in a connector, which normalises vendor data into canonical events before any KPI sees it."*
+- **`connectors` is depended on by:** nothing in the domain-heart or intelligence layers directly - the platform depends on `connectors` only through the `events` it produces, never through a direct import. `digital_twin` and `kpis` never import `connectors`.
+- **Forbidden (the single most load-bearing rule in this document):** `connectors` MUST NOT import `kpis`, `analytics`, `optimization`, `simulation`, `decision`, `digital_twin`, or `agents`. This is what the Cookbook calls out explicitly: *"connectors/ may not import kpis/ - the dependency-direction check forbids it - so [vendor-specific] parsing belongs in a connector, which normalises vendor data into canonical events before any KPI sees it."*
 
 ## 8. Public API
 
@@ -168,12 +168,12 @@ from mineproductivity.connectors import (
 
 ## 9. Internal API
 
-- `connectors.oem._reason_code_maps` — internal registry of vendor-name → `ReasonCodeMap` shape, used only by contract tests validating a plugin's mapping completeness.
-- `connectors.contract_tests.run_fms_contract_suite(connector_factory)` — the shared, parameterizable pytest suite every connector (built-in or plugin) is expected to run against (§29).
+- `connectors.oem._reason_code_maps` - internal registry of vendor-name → `ReasonCodeMap` shape, used only by contract tests validating a plugin's mapping completeness.
+- `connectors.contract_tests.run_fms_contract_suite(connector_factory)` - the shared, parameterizable pytest suite every connector (built-in or plugin) is expected to run against (§29).
 
 ## 10. Object Model
 
-### 10.1 `FMSConnector` — the one contract
+### 10.1 `FMSConnector` - the one contract
 
 ```python
 class FMSConnector(ABC):
@@ -552,13 +552,13 @@ canonical BaseEvent instance (events package's types)
 EventValidator.validate() -> EventStore.append()          (events package, per spec 01 §15)
 ```
 
-Everything left of the second arrow may know about a vendor's dialect. Nothing right of it ever does — this single boundary is the entire value of the Connector Framework.
+Everything left of the second arrow may know about a vendor's dialect. Nothing right of it ever does - this single boundary is the entire value of the Connector Framework.
 
 ## 16. Extension Points
 
 1. **New connectors for new sources.** Implement `FMSConnector`; ship as a plugin (§17) or, for genuinely generic reference sources, add under `file/`, `network/`, or `streaming/` in this package.
 2. **New OEM adapters.** Follow the `oem/` shape (§10.7); a real implementation lives in an independent plugin package, never in `mineproductivity.connectors` itself.
-3. **New `Normalizer`/`ReasonCodeMap` per vendor.** Composable independently of the `FMSConnector` that uses them — a vendor's mapping logic can be unit-tested without any live connection (§10.2).
+3. **New `Normalizer`/`ReasonCodeMap` per vendor.** Composable independently of the `FMSConnector` that uses them - a vendor's mapping logic can be unit-tested without any live connection (§10.2).
 4. **New `AuthProvider` implementations** (OAuth2, API key, mutual TLS, ...) for network connectors, without touching `FMSConnector` itself.
 
 ## 17. Plugin Strategy
@@ -596,39 +596,39 @@ Every connector declares, alongside `name`:
 
 Two boundaries, both mandatory:
 
-1. **Structural validation** happens inside `events` (§19 of the Event Framework spec) once a `BaseEvent` is constructed — `connectors` does not duplicate this logic.
+1. **Structural validation** happens inside `events` (§19 of the Event Framework spec) once a `BaseEvent` is constructed - `connectors` does not duplicate this logic.
 2. **Contract validation** happens via the shared `run_fms_contract_suite` (§9, §29): any connector, built-in or plugin, is expected to pass a fixed suite of structural assertions (yields well-formed events, respects `[since, until)`, is a lazy generator) *before* it is trusted with a live source, mirroring Cookbook Part I Ch. 7's "Every connector is run through a shared contract test suite against recorded fixtures."
 
 ## 20. Versioning
 
 - **Connector plugin versioning** follows the identical SemVer discipline as KPI plugins (Registry Framework spec §20): a MAJOR bump for a breaking change to what a connector's `name` produces or requires; MINOR for a new optional capability (e.g. adding `get_maintenance_data` support); PATCH for a mapping-table correction that does not change the connector's contract.
-- **`ReasonCodeMap` versioning is independent of the connector's own version** — a vendor's code table can change (a new delay code introduced by the vendor) without the connector's Python interface changing; `ReasonCodeMap` instances carry their own `EventVersion`-style revision so a mapping update is auditable.
+- **`ReasonCodeMap` versioning is independent of the connector's own version** - a vendor's code table can change (a new delay code introduced by the vendor) without the connector's Python interface changing; `ReasonCodeMap` instances carry their own `EventVersion`-style revision so a mapping update is auditable.
 
 ## 21. Serialization
 
-Connectors do not define new serialization formats; they *consume* whatever format the source provides (CSV rows, JSON API responses, Avro/Protobuf stream messages) and *produce* `BaseEvent` instances that flow into `events`' serialization contracts (Event Framework spec §21). `RetryPolicy`, `Credentials`, and `ConnectorHealth` are `core.BaseValueObject`/`BaseConfiguration` types and serialize via the standard `core.serialization` surface for logging/diagnostics purposes only — never as the primary data path.
+Connectors do not define new serialization formats; they *consume* whatever format the source provides (CSV rows, JSON API responses, Avro/Protobuf stream messages) and *produce* `BaseEvent` instances that flow into `events`' serialization contracts (Event Framework spec §21). `RetryPolicy`, `Credentials`, and `ConnectorHealth` are `core.BaseValueObject`/`BaseConfiguration` types and serialize via the standard `core.serialization` surface for logging/diagnostics purposes only - never as the primary data path.
 
 ## 22. Performance Considerations
 
-- **Lazy generators, always** (§10.1) — the single most important performance property of this package; a connector's memory footprint is independent of source size.
+- **Lazy generators, always** (§10.1) - the single most important performance property of this package; a connector's memory footprint is independent of source size.
 - **Paging for REST/database sources** (§10.6's `RestConnector` sketch) keeps any one request bounded regardless of total record count.
-- **Streaming connectors (Kafka/MQTT) are inherently backpressure-sensitive**; a conformant `KafkaConnector`/`MqttConnector` implementation MUST NOT buffer unbounded messages if the consumer (validation/append path) falls behind — this is an implementation-checklist-level requirement, not merely a nice-to-have.
+- **Streaming connectors (Kafka/MQTT) are inherently backpressure-sensitive**; a conformant `KafkaConnector`/`MqttConnector` implementation MUST NOT buffer unbounded messages if the consumer (validation/append path) falls behind - this is an implementation-checklist-level requirement, not merely a nice-to-have.
 - **Batch windows should be chosen to bound per-call memory**, not to bound wall-clock time; a caller ingesting a year of history should chunk `[since, until)` into multiple calls rather than expect one connector call to hold a year of events in flight.
 
 ## 23. Memory Considerations
 
-- No `FMSConnector` implementation may hold more than a small, bounded working set (a page of REST results, a chunk of CSV rows) in memory at once — enforced by the "always a generator" rule (§10.1, §22).
+- No `FMSConnector` implementation may hold more than a small, bounded working set (a page of REST results, a chunk of CSV rows) in memory at once - enforced by the "always a generator" rule (§10.1, §22).
 - `ReasonCodeMap` and `FieldMapper` instances are small, static, frozen value objects loaded once per connector instantiation.
 
 ## 24. Thread Safety
 
-- `FMSConnector` instances are **not guaranteed thread-safe** by this specification — a connector wrapping a stateful vendor SDK client may not support concurrent `get_cycle_data()` calls. Implementations MUST document their own thread-safety guarantee explicitly (mirroring the `EventStore` obligation in the Event Framework spec §24); callers requiring concurrent ingestion from the same source should construct one connector instance per worker unless a specific connector documents shared-instance safety.
-- `AuthProvider.refresh()` MUST be safe to call concurrently without acquiring duplicate tokens or corrupting the cached `Credentials` — this one guarantee is mandatory (not merely "must be documented") because concurrent 401-triggered refreshes are a realistic, common failure mode for any multi-threaded ingestion pipeline.
+- `FMSConnector` instances are **not guaranteed thread-safe** by this specification - a connector wrapping a stateful vendor SDK client may not support concurrent `get_cycle_data()` calls. Implementations MUST document their own thread-safety guarantee explicitly (mirroring the `EventStore` obligation in the Event Framework spec §24); callers requiring concurrent ingestion from the same source should construct one connector instance per worker unless a specific connector documents shared-instance safety.
+- `AuthProvider.refresh()` MUST be safe to call concurrently without acquiring duplicate tokens or corrupting the cached `Credentials` - this one guarantee is mandatory (not merely "must be documented") because concurrent 401-triggered refreshes are a realistic, common failure mode for any multi-threaded ingestion pipeline.
 
 ## 25. Concurrency
 
-- **Multiple connectors ingesting concurrently** (e.g. `csv` for historical backfill while `minestar` streams live) is a supported, expected pattern — each connector instance is independent and writes into the same `EventStore`, whose own concurrency guarantees (Event Framework spec §25) govern the merge.
-- **Streaming connectors** are expected to run on their own thread/task for the life of the subscription, yielding events as they arrive rather than being polled — callers integrate them via `EventBus`-style push (Event Framework spec §10.9) rather than the pull-based `query()` path used for batch sources.
+- **Multiple connectors ingesting concurrently** (e.g. `csv` for historical backfill while `minestar` streams live) is a supported, expected pattern - each connector instance is independent and writes into the same `EventStore`, whose own concurrency guarantees (Event Framework spec §25) govern the merge.
+- **Streaming connectors** are expected to run on their own thread/task for the life of the subscription, yielding events as they arrive rather than being polled - callers integrate them via `EventBus`-style push (Event Framework spec §10.9) rather than the pull-based `query()` path used for batch sources.
 
 ## 26. Error Handling
 
@@ -653,11 +653,11 @@ class ContractViolationError(ConnectorError):
     yielded an event outside the requested [since, until) window."""
 ```
 
-**Rule:** a `MappingError` for one record MUST NOT abort an entire `get_cycle_data()` generator — the connector logs the unmapped record (§27) and continues yielding subsequent records, exactly mirroring the `events` package's "reject one, don't crash the batch" philosophy (§26 of the Event Framework spec).
+**Rule:** a `MappingError` for one record MUST NOT abort an entire `get_cycle_data()` generator - the connector logs the unmapped record (§27) and continues yielding subsequent records, exactly mirroring the `events` package's "reject one, don't crash the batch" philosophy (§26 of the Event Framework spec).
 
 ## 27. Logging
 
-- Every unmapped vendor reason code (`ReasonCodeMap.resolve()` returning `Maybe.nothing()`) logs at `WARNING` with the vendor name and raw code — this is the primary signal an operator uses to notice a vendor introduced a new code the platform's mapping table has not caught up with yet.
+- Every unmapped vendor reason code (`ReasonCodeMap.resolve()` returning `Maybe.nothing()`) logs at `WARNING` with the vendor name and raw code - this is the primary signal an operator uses to notice a vendor introduced a new code the platform's mapping table has not caught up with yet.
 - Every retry attempt (`RetryPolicy` engaging) logs at `INFO` with attempt number and computed backoff delay; exhausting `max_attempts` logs at `ERROR`.
 - `ConnectorHealth` transitions (§12) log at `WARNING` on any transition into `Degraded`/`Unhealthy`, and at `INFO` on recovery to `Healthy`.
 
@@ -667,20 +667,20 @@ Per-connector configuration (source path/URL, credentials reference, polling int
 
 ## 29. Testing Strategy
 
-- **Contract tests** (`connectors.contract_tests.run_fms_contract_suite`) — every connector, built-in or plugin, is run against fixture data and asserted to: yield well-formed, schema-valid events; respect the `[since, until)` window; return a lazy `Iterable`; and degrade per §26 on a malformed record rather than crashing.
-- **Unit tests** — `Normalizer`/`FieldMapper`/`ReasonCodeMap` logic tested independently of any live or fixture connection (§10.2), including the semantic-recomputation rule (§13.3).
-- **Recorded-fixture tests** — a small, anonymised fixture recorded from each reference source type, committed to `tests/fixtures/connectors/`, protecting against a vendor silently renaming a field (Cookbook Part I, Ch. 7's Best Practice).
-- **Retry/backoff tests** — simulate transient failures and assert `RetryPolicy` timing and `max_attempts` behavior deterministically (no real sleeping in unit tests — inject a fake clock/backoff function).
+- **Contract tests** (`connectors.contract_tests.run_fms_contract_suite`) - every connector, built-in or plugin, is run against fixture data and asserted to: yield well-formed, schema-valid events; respect the `[since, until)` window; return a lazy `Iterable`; and degrade per §26 on a malformed record rather than crashing.
+- **Unit tests** - `Normalizer`/`FieldMapper`/`ReasonCodeMap` logic tested independently of any live or fixture connection (§10.2), including the semantic-recomputation rule (§13.3).
+- **Recorded-fixture tests** - a small, anonymised fixture recorded from each reference source type, committed to `tests/fixtures/connectors/`, protecting against a vendor silently renaming a field (Cookbook Part I, Ch. 7's Best Practice).
+- **Retry/backoff tests** - simulate transient failures and assert `RetryPolicy` timing and `max_attempts` behavior deterministically (no real sleeping in unit tests - inject a fake clock/backoff function).
 
 ## 30. Certification Requirements
 
 | Category | Requirement for `connectors` |
 |---|---|
-| A — Golden datasets | The Learning & Benchmark Suite's `cycle_events.csv`/`delay_events.csv` fixtures, run through `CSVConnector`, reproduce the golden `CycleEvent`/`DelayEvent` instances exactly. |
-| B — Integration | CSV → `CSVConnector` → `EventValidator` → `EventStore` → query reproduces golden outputs with no direct function call bypassing a stage (mirrors Event Framework spec §30's Category B, since it is the same pipeline observed from the connector side). |
-| C — Edge cases | An empty CSV (zero rows), a `[since, until)` window with no matching records, and a record with every optional field absent are all handled without error. |
-| D — Corrupted data | A malformed CSV row (non-numeric payload, missing required column) produces a `MappingError` for that row only — the rest of the file still ingests (§26). |
-| F — Timezone | A CSV with local (non-UTC) timestamps is correctly normalized to `event_time_utc` (Learning & Benchmark Suite's temporal philosophy, applied at the connector boundary since that is where raw timestamps first enter the platform). |
+| A - Golden datasets | The Learning & Benchmark Suite's `cycle_events.csv`/`delay_events.csv` fixtures, run through `CSVConnector`, reproduce the golden `CycleEvent`/`DelayEvent` instances exactly. |
+| B - Integration | CSV → `CSVConnector` → `EventValidator` → `EventStore` → query reproduces golden outputs with no direct function call bypassing a stage (mirrors Event Framework spec §30's Category B, since it is the same pipeline observed from the connector side). |
+| C - Edge cases | An empty CSV (zero rows), a `[since, until)` window with no matching records, and a record with every optional field absent are all handled without error. |
+| D - Corrupted data | A malformed CSV row (non-numeric payload, missing required column) produces a `MappingError` for that row only - the rest of the file still ingests (§26). |
+| F - Timezone | A CSV with local (non-UTC) timestamps is correctly normalized to `event_time_utc` (Learning & Benchmark Suite's temporal philosophy, applied at the connector boundary since that is where raw timestamps first enter the platform). |
 
 ## 31. Example Usage
 
@@ -705,7 +705,7 @@ print(health.status)                             # HealthStatus.HEALTHY
 
 ## 32. Anti-Patterns
 
-- ❌ **Any code outside `connectors` importing a vendor SDK.** If `kpis` or `events` ever needs to `import minestar_sdk`, the architecture has already failed — the whole point of this package is that this never happens.
+- ❌ **Any code outside `connectors` importing a vendor SDK.** If `kpis` or `events` ever needs to `import minestar_sdk`, the architecture has already failed - the whole point of this package is that this never happens.
 - ❌ **A connector returning a `list` instead of yielding.** Fails the contract suite (§9, §29) immediately and defeats the "200-row test file or 50-million-row export, same code" guarantee.
 - ❌ **Copying a vendor's pre-computed availability/utilisation percentage** instead of recomputing from time buckets when denominators differ (§13.3). This single mistake is called out as normative-severity in the Developer & Cookbook Guide Part III.
 - ❌ **Letting one malformed record abort an entire ingestion run.** Log and skip (§26); a whole shift's data must not be lost because one row has a typo.
@@ -714,36 +714,36 @@ print(health.status)                             # HealthStatus.HEALTHY
 
 ## 33. Future Extensions
 
-- **Database/historian connectors** (Cookbook Part I, Ch. 7 mentions these conceptually: "Query a historian or SQL table in pages") — same `FMSConnector` shape, a new `network/` or `database/` module.
-- **Bidirectional connectors** for future dispatch/optimization write-back (hinted at by `optimization`'s future dispatch solvers) — out of scope for v1.0's read-only ingestion focus, flagged here as a likely v2.0 contract extension, not a v1.0 change.
-- **Automatic vendor reason-code discovery/suggestion** (an AI-assisted mapping-table bootstrapper) — consistent with the Cookbook's "AI Contributor Note" that a connector is "the ideal task to delegate to an AI agent."
+- **Database/historian connectors** (Cookbook Part I, Ch. 7 mentions these conceptually: "Query a historian or SQL table in pages") - same `FMSConnector` shape, a new `network/` or `database/` module.
+- **Bidirectional connectors** for future dispatch/optimization write-back (hinted at by `optimization`'s future dispatch solvers) - out of scope for v1.0's read-only ingestion focus, flagged here as a likely v2.0 contract extension, not a v1.0 change.
+- **Automatic vendor reason-code discovery/suggestion** (an AI-assisted mapping-table bootstrapper) - consistent with the Cookbook's "AI Contributor Note" that a connector is "the ideal task to delegate to an AI agent."
 - **A formal connector certification badge program**, once the Learning & Benchmark Suite's certification thresholds (currently unpublished, per that document's own disclaimer) are finalized.
 
 ## 34. Known Constraints
 
 - This specification defines the contract and reference *shapes* for OEM connectors; it explicitly does not and cannot validate against real vendor systems, since no vendor SDK is bundled with or accessible to this repository. Real-world conformance of any OEM plugin is the responsibility of that plugin's own test suite run against `run_fms_contract_suite` (§9).
-- Streaming connector backpressure behavior (§22) is specified as a requirement, not a fully worked algorithm — the exact buffering/flow-control strategy is an implementation-checklist-level decision, likely to differ between a Kafka and an MQTT adapter.
+- Streaming connector backpressure behavior (§22) is specified as a requirement, not a fully worked algorithm - the exact buffering/flow-control strategy is an implementation-checklist-level decision, likely to differ between a Kafka and an MQTT adapter.
 - `connectors` targets the same Python 3.12+ baseline as the rest of the platform; a vendor SDK requiring an older or newer Python is a plugin-level constraint outside this specification's control.
 
 ## 35. Architecture Decisions
 
 | ID | Decision | Rationale |
 |---|---|---|
-| AD-CN-01 | `FMSConnector` has only two abstract methods (`get_cycle_data`, `get_delay_data`); the other four `get_*_data` methods have no-op defaults. | Matches the Cookbook's minimal contract exactly and keeps the barrier to writing a first connector as low as possible — a CSV-only source should not be forced to stub out methods it has nothing to yield for. |
+| AD-CN-01 | `FMSConnector` has only two abstract methods (`get_cycle_data`, `get_delay_data`); the other four `get_*_data` methods have no-op defaults. | Matches the Cookbook's minimal contract exactly and keeps the barrier to writing a first connector as low as possible - a CSV-only source should not be forced to stub out methods it has nothing to yield for. |
 | AD-CN-02 | `Normalizer`/`FieldMapper`/`ReasonCodeMap` are separate, independently testable objects, not private methods inside each `FMSConnector` subclass. | Composition over inheritance; a vendor's mapping table can be reviewed, versioned, and unit-tested by a domain expert who never has to read or run the connector's I/O code. |
-| AD-CN-03 | OEM adapter classes exist in this package only as documentation-only shapes, never as working implementations. | Keeps `mineproductivity.connectors`' own dependency graph free of any proprietary vendor SDK, preserving pip-installability and open-source distributability of the core package — exactly the boundary the Developer Documentation's "OEM connectors are separate plugins, so the core stays vendor-neutral and lightweight" describes. |
-| AD-CN-04 | The semantic-recomputation rule (§13.3) is normative, not a suggestion. | Directly enforces the KPI Standard Library's canonical-semantics ruling at the one boundary where a violation could otherwise creep in silently — the connector is the last point before a vendor's number either becomes trustworthy or corrupts every downstream KPI. |
+| AD-CN-03 | OEM adapter classes exist in this package only as documentation-only shapes, never as working implementations. | Keeps `mineproductivity.connectors`' own dependency graph free of any proprietary vendor SDK, preserving pip-installability and open-source distributability of the core package - exactly the boundary the Developer Documentation's "OEM connectors are separate plugins, so the core stays vendor-neutral and lightweight" describes. |
+| AD-CN-04 | The semantic-recomputation rule (§13.3) is normative, not a suggestion. | Directly enforces the KPI Standard Library's canonical-semantics ruling at the one boundary where a violation could otherwise creep in silently - the connector is the last point before a vendor's number either becomes trustworthy or corrupts every downstream KPI. |
 | AD-CN-05 | `AuthProvider`/`RetryPolicy`/`BackoffStrategy` are shared, generic types used by every network connector, not reimplemented per connector. | One retry/backoff/auth-refresh implementation to test and trust, rather than five OEM-specific ones with subtly different bugs. |
 
 ## 36. Definition of Done
 
 - [ ] `FMSConnector` and all reference connector shapes (§10.6) implemented exactly per this specification.
-- [ ] `Normalizer`/`FieldMapper`/`ReasonCodeMap`/`AuthProvider`/`RetryPolicy` implemented per §10.2–§10.3.
+- [ ] `Normalizer`/`FieldMapper`/`ReasonCodeMap`/`AuthProvider`/`RetryPolicy` implemented per §10.2-§10.3.
 - [ ] `tests/unit/connectors/` mirrors `src/mineproductivity/connectors/` 1:1, ≥95% coverage.
 - [ ] The shared contract test suite (§9, §29) exists and the reference `CSVConnector` passes it.
 - [ ] `mypy --strict` and `ruff` clean.
 - [ ] `examples/connectors/` demonstrates CSV ingestion end-to-end, plus a REST connector example with mocked retry/auth-refresh.
-- [ ] No import from `connectors` reaches `kpis`, `analytics`, `optimization`, `simulation`, `decision`, `digital_twin`, or `agents` — mechanically verified.
+- [ ] No import from `connectors` reaches `kpis`, `analytics`, `optimization`, `simulation`, `decision`, `digital_twin`, or `agents` - mechanically verified.
 
 ## 37. Package Acceptance Criteria
 

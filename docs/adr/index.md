@@ -1,6 +1,6 @@
 # Architecture Decision Records
 
-Each ADR records *why* a package exists as a separate layer and *why* it is shaped the way it is — the reasoning behind the [Architecture Handbook](../architecture/README.md), not a restatement of it.
+Each ADR records *why* a package exists as a separate layer and *why* it is shaped the way it is - the reasoning behind the [Architecture Handbook](../architecture/README.md), not a restatement of it.
 
 | ADR | Decision | Status |
 |---|---|---|

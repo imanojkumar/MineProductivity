@@ -1,4 +1,4 @@
-# Examples — mineproductivity.digital_twin
+# Examples - mineproductivity.digital_twin
 
 ## Purpose
 
@@ -16,10 +16,10 @@ Example scripts and their direct output. No test assertions live here (see `test
 
 ## Contents
 
-- `01_provision_and_sync.py` — the design spec §15 worked example, end-to-end: a `ConveyorTwin` cold-started from genesis via `EventStore.replay`, provisioned into a `TwinRepository` (`core.InMemoryRepository`, unchanged), then kept live via `EventBus.subscribe(sync_policy.event_filter, handler)` — including the store→bus wiring, `SyncPolicy` event narrowing, and proof the pre-sync instance is never mutated.
-- `02_discovery.py` — `by_category`/`by_scope` composed lookups (`&`, `~`) over a populated repository; a filter matching nothing returns an empty sequence, never raises.
-- `03_snapshot_and_serialize.py` — `TwinSnapshot` capture (reusing `events.AsOf`), a `core.serialization` round-trip reproducing state/status/as_of exactly, and a scenario-`AsOf` fork — the hook a future `TwinSimulationModel` implementer consumes.
-- `04_plugin_twin_type.py` — a third-party-style `Twin` type registered via entry points (`EntryPointSpec(group="mineproductivity.digital_twin", target_registry="digital_twin")`, design spec §28), mirroring `examples/registry/01_register_and_discover.py`'s real-discovery pattern; also shows the package ships zero built-in twin types.
+- `01_provision_and_sync.py` - the design spec §15 worked example, end-to-end: a `ConveyorTwin` cold-started from genesis via `EventStore.replay`, provisioned into a `TwinRepository` (`core.InMemoryRepository`, unchanged), then kept live via `EventBus.subscribe(sync_policy.event_filter, handler)` - including the store→bus wiring, `SyncPolicy` event narrowing, and proof the pre-sync instance is never mutated.
+- `02_discovery.py` - `by_category`/`by_scope` composed lookups (`&`, `~`) over a populated repository; a filter matching nothing returns an empty sequence, never raises.
+- `03_snapshot_and_serialize.py` - `TwinSnapshot` capture (reusing `events.AsOf`), a `core.serialization` round-trip reproducing state/status/as_of exactly, and a scenario-`AsOf` fork - the hook a future `TwinSimulationModel` implementer consumes.
+- `04_plugin_twin_type.py` - a third-party-style `Twin` type registered via entry points (`EntryPointSpec(group="mineproductivity.digital_twin", target_registry="digital_twin")`, design spec §28), mirroring `examples/registry/01_register_and_discover.py`'s real-discovery pattern; also shows the package ships zero built-in twin types.
 
 ## Dependencies
 

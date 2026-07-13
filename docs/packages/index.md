@@ -1,6 +1,6 @@
 # Packages
 
-Each package documents its own purpose, dependency rules, public API, extension guide, design rationale, and anti-patterns. These pages reuse the packages' own `README.md` files verbatim — the same documentation enforced by each package's `test_public_api.py`.
+Each package documents its own purpose, dependency rules, public API, extension guide, design rationale, and anti-patterns. These pages reuse the packages' own `README.md` files verbatim - the same documentation enforced by each package's `test_public_api.py`.
 
 For the symbol-level, docstring-generated reference, see the [API Reference](../api-reference/index.md).
 
@@ -26,4 +26,4 @@ For the symbol-level, docstring-generated reference, see the [API Reference](../
 | [simulation](simulation.md) | The projection layer: scenarios, runs, experiments, methodology extension points. |
 | [optimization](optimization.md) | The prescriptive-search layer: six solving paradigms, plan comparison, sensitivity. |
 | [agents](agents.md) | The model-independent orchestration layer: tasks, policies, approval, delegation, audit. |
-| [visualization](visualization.md) | The presentation layer: dashboards, reports, the rendering pipeline — the final package. |
+| [visualization](visualization.md) | The presentation layer: dashboards, reports, the rendering pipeline - the final package. |

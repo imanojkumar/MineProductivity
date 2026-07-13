@@ -1,4 +1,4 @@
-# Examples — quickstart
+# Examples - quickstart
 
 ## Purpose
 
@@ -14,11 +14,11 @@ Example scripts and their direct documentation. No test code, no package impleme
 
 ## Contents
 
-- `01_five_minute_tour.py` — the shortest path from "just installed" to "computed a real number": model a truck (`ontology`), record two haul cycles, and read `PROD.TPH` off the KPI Standard Library (`kpis`), in about 50 lines. Points to the deeper per-package examples (`examples/{ontology,events,connectors,kpis}/`) for what it deliberately skips.
+- `01_five_minute_tour.py` - the shortest path from "just installed" to "computed a real number": model a truck (`ontology`), record two haul cycles, and read `PROD.TPH` off the KPI Standard Library (`kpis`), in about 50 lines. Points to the deeper per-package examples (`examples/{ontology,events,connectors,kpis}/`) for what it deliberately skips.
 
 ## Dependencies
 
-`mineproductivity` (base install — no extras required).
+`mineproductivity` (base install - no extras required).
 
 ## Future Work
 
@@ -26,5 +26,5 @@ Author further quickstart examples (`registry`/`plugins`) as the subsystems they
 
 ## References
 
-- Developer & Cookbook Guide — Part I
-- Developer & Cookbook Guide — Part II
+- Developer & Cookbook Guide - Part I
+- Developer & Cookbook Guide - Part II
