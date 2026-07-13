@@ -4,7 +4,7 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21172767.svg)](https://doi.org/10.5281/zenodo.21172767)
 
-**An enterprise-grade, ontology-driven Python framework for mining productivity intelligence** - KPI standardization, Digital Twins, simulation, optimization, AI decision support, and operational analytics.
+**Enterprise-grade ontology-driven framework for mining productivity intelligence, KPI standardization, Digital Twins, simulation, optimization, AI decision support, and operational analytics.** 
 
 [![PyPI](https://img.shields.io/pypi/v/mineproductivity?color=blue)](https://pypi.org/project/mineproductivity/)
 [![Python](https://img.shields.io/pypi/pyversions/mineproductivity)](https://pypi.org/project/mineproductivity/)
