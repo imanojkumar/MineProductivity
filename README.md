@@ -2,6 +2,8 @@
 
 # MineProductivity
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21172767.svg)](https://doi.org/10.5281/zenodo.21172767)
+
 **An enterprise-grade, ontology-driven Python framework for mining productivity intelligence** - KPI standardization, Digital Twins, simulation, optimization, AI decision support, and operational analytics.
 
 [![PyPI](https://img.shields.io/pypi/v/mineproductivity?color=blue)](https://pypi.org/project/mineproductivity/)
@@ -11,7 +13,7 @@
 [![CI](https://github.com/imanojkumar/MineProductivity/actions/workflows/ci.yml/badge.svg)](https://github.com/imanojkumar/MineProductivity/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/imanojkumar/MineProductivity/actions/workflows/codeql.yml/badge.svg)](https://github.com/imanojkumar/MineProductivity/actions/workflows/codeql.yml)
 [![License](https://img.shields.io/pypi/l/mineproductivity?color=blue)](LICENSE)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21172767.svg)](https://doi.org/10.5281/zenodo.21172767)
+
 
 [**Documentation**](https://imanojkumar.github.io/MineProductivity/) · [**Quick Start**](#quick-start) · [Examples](examples/README.md) · [Architecture](https://imanojkumar.github.io/MineProductivity/architecture/README/) · [Changelog](CHANGELOG.md)
 
@@ -29,12 +31,12 @@ pip install mineproductivity
 
 ## Why MineProductivity?
 
-- **🧭 Ontology-first** — a shared, explicit domain vocabulary (assets, processes, events, KPIs) precedes any code that operates on it.
-- **⏳ Event-first** — the system of record is an immutable event stream; all derived state (KPIs, twins, analytics) is a rebuildable projection.
-- **🏷️ Metadata-first** — every KPI, dataset, and model ships with machine-readable metadata (units, provenance, versioning) before it ships with logic.
-- **🔌 Plugin-first** — connectors, KPIs, analytics, solvers, agents, and renderers are discovered through a registry, never hard-wired into the core.
-- **🧱 Clean, layered architecture** — 14 packages whose inward-pointing dependency direction is *mechanically enforced* (both ways) by tests, not just documented.
-- **✅ Enterprise quality** — **2,986 tests**, `mypy --strict` clean across **314 files**, **99% branch coverage**, and public APIs **stable by contract** as of `v2.0.0`.
+- **🧭 Ontology-first** - a shared, explicit domain vocabulary (assets, processes, events, KPIs) precedes any code that operates on it.
+- **⏳ Event-first** - the system of record is an immutable event stream; all derived state (KPIs, twins, analytics) is a rebuildable projection.
+- **🏷️ Metadata-first** - every KPI, dataset, and model ships with machine-readable metadata (units, provenance, versioning) before it ships with logic.
+- **🔌 Plugin-first** - connectors, KPIs, analytics, solvers, agents, and renderers are discovered through a registry, never hard-wired into the core.
+- **🧱 Clean, layered architecture** - 14 packages whose inward-pointing dependency direction is *mechanically enforced* (both ways) by tests, not just documented.
+- **✅ Enterprise quality** - **2,986 tests**, `mypy --strict` clean across **314 files**, **99% branch coverage**, and public APIs **stable by contract** as of `v2.0.0`.
 
 ## Installation
 
@@ -80,7 +82,7 @@ for code in sorted(REGISTRY):
     print(code)
 ```
 
-Want the whole platform end-to-end — one truck, one shift, one KPI, in ~50 lines? Run the [five-minute tour](examples/quickstart/01_five_minute_tour.py), or read the [Quick Start guide](https://imanojkumar.github.io/MineProductivity/getting-started/quick-start/).
+Want the whole platform end-to-end - one truck, one shift, one KPI, in ~50 lines? Run the [five-minute tour](examples/quickstart/01_five_minute_tour.py), or read the [Quick Start guide](https://imanojkumar.github.io/MineProductivity/getting-started/quick-start/).
 
 ## The platform
 
@@ -104,10 +106,10 @@ The interface-only extension points (solver adapters, reasoning backends, render
 
 Full documentation is published at **[imanojkumar.github.io/MineProductivity](https://imanojkumar.github.io/MineProductivity/)**:
 
-- [Getting Started](https://imanojkumar.github.io/MineProductivity/getting-started/installation/) — installation, quick start, next steps
-- [Tutorials](https://imanojkumar.github.io/MineProductivity/tutorials/) — runnable, package-by-package walkthroughs
-- [Packages](https://imanojkumar.github.io/MineProductivity/packages/) & [API Reference](https://imanojkumar.github.io/MineProductivity/api-reference/) — narrative guides and the docstring-generated symbol reference
-- [Architecture Handbook](https://imanojkumar.github.io/MineProductivity/architecture/README/) & [ADRs](https://imanojkumar.github.io/MineProductivity/adr/) — the twelve locked design specifications and the decisions behind them
+- [Getting Started](https://imanojkumar.github.io/MineProductivity/getting-started/installation/) - installation, quick start, next steps
+- [Tutorials](https://imanojkumar.github.io/MineProductivity/tutorials/) - runnable, package-by-package walkthroughs
+- [Packages](https://imanojkumar.github.io/MineProductivity/packages/) & [API Reference](https://imanojkumar.github.io/MineProductivity/api-reference/) - narrative guides and the docstring-generated symbol reference
+- [Architecture Handbook](https://imanojkumar.github.io/MineProductivity/architecture/README/) & [ADRs](https://imanojkumar.github.io/MineProductivity/adr/) - the twelve locked design specifications and the decisions behind them
 - [Benchmarks](https://imanojkumar.github.io/MineProductivity/benchmarks/) & [Certification](https://imanojkumar.github.io/MineProductivity/certification/2.0-certification/)
 
 ## Project status
@@ -149,7 +151,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full workflow and [CODE_OF_CONDUC
 
 ## License
 
-Apache License 2.0 — see [LICENSE](LICENSE).
+Apache License 2.0 - see [LICENSE](LICENSE).
 
 ## Citation
 
