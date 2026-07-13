@@ -4,7 +4,7 @@ Installed and verified? Here is a curated route through MineProductivity for a f
 
 | I want to… | Start here |
 |---|---|
-| See the whole platform in one script | [`examples/quickstart/01_five_minute_tour.py`](https://github.com/imanojkumar/MineProductivity/blob/main/examples/quickstart/01_five_minute_tour.py) — one truck, one shift, one KPI, ~50 lines. |
+| See the whole platform in one script | [`examples/quickstart/01_five_minute_tour.py`](https://github.com/imanojkumar/MineProductivity/blob/main/examples/quickstart/01_five_minute_tour.py) - one truck, one shift, one KPI, ~50 lines. |
 | Follow a guided, cell-by-cell walkthrough | [`notebooks/beginner/01_first_kpi_lookup.ipynb`](https://github.com/imanojkumar/MineProductivity/blob/main/notebooks/beginner/01_first_kpi_lookup.ipynb). |
 | Compute my first KPI | [KPIs tutorial](../tutorials/kpis.md). |
 | Model equipment, fleets, and shifts | [Ontology tutorial](../tutorials/ontology.md). |
@@ -18,4 +18,4 @@ Installed and verified? Here is a curated route through MineProductivity for a f
 | Read the full API of a package | [Packages](../packages/index.md) or the [API Reference](../api-reference/index.md). |
 | Understand the system's shape | [Architecture Handbook](../architecture/README.md). |
 
-Every example is a plain, runnable `.py` file — no test framework involved. The [Tutorials](../tutorials/index.md) section indexes them all.
+Every example is a plain, runnable `.py` file - no test framework involved. The [Tutorials](../tutorials/index.md) section indexes them all.

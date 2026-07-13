@@ -6,12 +6,12 @@ hide:
 
 # MineProductivity
 
-**An enterprise-grade, ontology-driven Python framework for mining productivity intelligence** — KPI standardization, Digital Twins, simulation, optimization, AI decision support, and operational analytics.
+**An enterprise-grade, ontology-driven Python framework for mining productivity intelligence** - KPI standardization, Digital Twins, simulation, optimization, AI decision support, and operational analytics.
 
 [Get started :material-rocket-launch:](getting-started/installation.md){ .md-button .md-button--primary }
 [View on GitHub :fontawesome-brands-github:](https://github.com/imanojkumar/MineProductivity){ .md-button }
 
-!!! success "Architecture complete & locked — certified `v2.0.0`"
+!!! success "Architecture complete & locked - certified `v2.0.0`"
     All eleven domain packages plus the three cross-cutting infrastructure packages are implemented, tested (**2,986 passing tests**, `mypy --strict` clean across 314 files), documented, and released. Public APIs are **stable by contract**. New value ships as plugins and applications — not as changes to the locked packages.
 
 ## Why MineProductivity?
@@ -32,7 +32,7 @@ hide:
 
 -   :material-puzzle: __Plugin-first__
 
-    Connectors, KPIs, analytics, agents, and renderers are discovered through a registry/plugin system — never hard-wired into the core.
+    Connectors, KPIs, analytics, agents, and renderers are discovered through a registry/plugin system - never hard-wired into the core.
 
 -   :material-layers-triple: __Clean architecture__
 
@@ -46,7 +46,7 @@ hide:
 
 ## The platform at a glance
 
-The locked dependency chain — lower layers never import higher ones:
+The locked dependency chain - lower layers never import higher ones:
 
 ``` mermaid
 graph TD
@@ -63,7 +63,7 @@ graph TD
 
 -   :material-rocket: __[Quick Start](getting-started/quick-start.md)__
 
-    One truck, one shift, one KPI — the platform end-to-end in ~50 lines.
+    One truck, one shift, one KPI - the platform end-to-end in ~50 lines.
 
 -   :material-school: __[Tutorials](tutorials/index.md)__
 
@@ -93,7 +93,7 @@ graph TD
 pip install git+https://github.com/imanojkumar/MineProductivity.git
 ```
 
-The base install has **zero third-party dependencies**. Optional extras add capability only where you need it — see [Installation](getting-started/installation.md).
+The base install has **zero third-party dependencies**. Optional extras add capability only where you need it - see [Installation](getting-started/installation.md).
 
 ## Citation
 

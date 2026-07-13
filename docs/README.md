@@ -16,13 +16,13 @@ Covers architecture rationale, the reference implementation blueprint, developer
 
 ## Contents
 
-- `architecture/` — Master Architecture Handbook v1.0 companion notes.
-- `reference_blueprint/` — Reference Implementation Blueprint v1.0 companion notes.
-- `developer_guide/` — Developer & Cookbook Guide, Parts I–III.
-- `learning_suite/` — Learning & Benchmark Suite v1.0 companion notes.
-- `api/` — Generated/placeholder API reference documentation.
-- `images/` — Diagrams, architecture illustrations, and figures referenced by documentation.
-- `assets/` — Non-image supporting assets (data samples, downloadable files) referenced by documentation.
+- `architecture/` - Master Architecture Handbook v1.0 companion notes.
+- `reference_blueprint/` - Reference Implementation Blueprint v1.0 companion notes.
+- `developer_guide/` - Developer & Cookbook Guide, Parts I-III.
+- `learning_suite/` - Learning & Benchmark Suite v1.0 companion notes.
+- `api/` - Generated/placeholder API reference documentation.
+- `images/` - Diagrams, architecture illustrations, and figures referenced by documentation.
+- `assets/` - Non-image supporting assets (data samples, downloadable files) referenced by documentation.
 
 ## Dependencies
 
@@ -36,5 +36,5 @@ Populate each subdirectory with content derived from the locked SSOT documents a
 
 - Master Architecture Handbook v1.0
 - Reference Implementation Blueprint v1.0
-- Developer & Cookbook Guide — Parts I, II, III
+- Developer & Cookbook Guide - Parts I, II, III
 - Learning & Benchmark Suite v1.0

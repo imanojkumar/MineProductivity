@@ -38,7 +38,7 @@ for code in sorted(REGISTRY):
 
 -   :material-school: __[Tutorials](../tutorials/index.md)__
 
-    Package-by-package, runnable walkthroughs — KPIs, events, ontology, connectors, and the full Intelligence tier.
+    Package-by-package, runnable walkthroughs - KPIs, events, ontology, connectors, and the full Intelligence tier.
 
 -   :material-book-open-variant: __[Packages](../packages/index.md)__
 
