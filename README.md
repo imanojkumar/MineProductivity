@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/images/github_logo.png" width="300" alt="MineProductivity Logo">
+</p>
+
 <div align="center">
 
 # MineProductivity
