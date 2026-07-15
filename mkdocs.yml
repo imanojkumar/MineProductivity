@@ -50,8 +50,8 @@ theme:
         name: Switch to system preference
   icon:
     repo: fontawesome/brands/github
-    logo: assets/images/logo.png
-    favicon: assets/images/logo.png
+    logo: assets/images/transparent_logo.png  
+    favicon: assets/images/transparent_logo.png
   features:
     - navigation.tabs
     - navigation.tabs.sticky
