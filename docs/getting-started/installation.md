@@ -40,8 +40,13 @@ import mineproductivity
 print(mineproductivity.__version__)
 
 from mineproductivity.kpis import REGISTRY
-tph = REGISTRY.get("PROD.TPH")().compute([{"payload_t": 220.0, "operating_h": 12.0}])
-print(tph.value, tph.unit)  # 18.33... t/h
+
+# One CAT 793F's shift: 40 cycles x 220 t at ~18 min (0.3 h) each.
+cycles = [{"payload_t": 220.0, "operating_h": 0.3} for _ in range(40)]
+tph = REGISTRY.get("PROD.TPH")().compute(cycles)
+print(tph.value, tph.unit)  # 733.33... t/h
 ```
 
 Next: the [Quick Start](quick-start.md) runs the whole platform end-to-end in about fifty lines.
+
+New to the framework? The **[Learning Suite — Fundamentals](../tutorials/fundamentals/01_hello.md)** teaches it from first principles in ten lessons.

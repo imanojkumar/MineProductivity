@@ -18,6 +18,7 @@ hooks:
 exclude_docs: |
   /README.md
   api/README.md
+  learning/LEARNING_PROGRESS.md
   developer_guide/
   reference_blueprint/
   learning_suite/
@@ -128,6 +129,17 @@ nav:
       - Next Steps: getting-started/next-steps.md
   - Tutorials:
       - tutorials/index.md
+      - Fundamentals:
+          - "01 · Hello MineProductivity": tutorials/fundamentals/01_hello.md
+          - "02 · Entities": tutorials/fundamentals/02_entities.md
+          - "03 · Value objects": tutorials/fundamentals/03_value_objects.md
+          - "04 · Events": tutorials/fundamentals/04_events.md
+          - "05 · Ontology": tutorials/fundamentals/05_ontology.md
+          - "06 · KPIs": tutorials/fundamentals/06_kpis.md
+          - "07 · Analytics": tutorials/fundamentals/07_analytics.md
+          - "08 · Decision": tutorials/fundamentals/08_decision.md
+          - "09 · Digital Twin": tutorials/fundamentals/09_digital_twin.md
+          - "10 · Visualization": tutorials/fundamentals/10_visualization.md
       - Quick tour: tutorials/quickstart.md
       - Core: tutorials/core.md
       - Events: tutorials/events.md
@@ -210,6 +222,8 @@ nav:
   - Project:
       - Roadmap: project/roadmap.md
       - Changelog: project/changelog.md
+      - Releases:
+          - "Learning Suite — Fundamentals v1.0": releases/LEARNING_SUITE_v1.0.md
       - Contributing: project/contributing.md
       - Code of Conduct: project/code-of-conduct.md
       - Security: project/security.md

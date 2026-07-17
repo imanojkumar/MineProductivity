@@ -15,7 +15,13 @@ Example scripts/projects and their documentation. Does not include the underlyin
 
 ## Contents
 
-Implemented, runnable today - **new here? Start with `quickstart/`:**
+**New here? Start with [`fundamentals/`](fundamentals/)** - the Learning Suite: ten lessons teaching the platform from first principles, in the order the architecture is layered, using real mining problems. Each lesson is self-contained and pairs with a [full tutorial](https://imanojkumar.github.io/MineProductivity/tutorials/fundamentals/01_hello/).
+
+- [`fundamentals/`](fundamentals/) - **the Learning Suite** (10 lessons): hello, entities, value objects, events, ontology, KPIs, analytics, decision, digital twin, visualization.
+
+The directories below are **per-package API demos** - capability tours of one package each, complementing the Fundamentals path above.
+
+Implemented, runnable today - **want a single script tour? Start with `quickstart/`:**
 
 - [`quickstart/`](quickstart/README.md) - the five-minute tour: one truck, one shift, one KPI, in ~50 lines (1 script).
 - [`core/`](core/README.md) - entities, value objects, repositories, factories/builders, validation, serialization, `Result`/`Maybe` (6 scripts).

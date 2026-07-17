@@ -18,8 +18,10 @@ Every KPI in MineProductivity is a discoverable, versioned, self-describing obje
 from mineproductivity.kpis import REGISTRY
 
 # Look a KPI up by its governed identifier, then compute it.
-tph = REGISTRY.get("PROD.TPH")().compute([{"payload_t": 220.0, "operating_h": 12.0}])
-print(tph.value, tph.unit)   # 18.33... t/h
+# One CAT 793F's shift: 40 cycles x 220 t at ~18 min (0.3 h) each.
+cycles = [{"payload_t": 220.0, "operating_h": 0.3} for _ in range(40)]
+tph = REGISTRY.get("PROD.TPH")().compute(cycles)
+print(tph.value, tph.unit)   # 733.33... t/h
 ```
 
 ## Discover what's available

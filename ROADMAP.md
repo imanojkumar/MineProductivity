@@ -13,6 +13,17 @@ merged), **Architecture Complete** (a locked Design Specification,
 Implementation Checklist, and ADR exist; no production code yet), or **Not
 Started** (neither exists yet).
 
+> **Learning Suite.** Separately from the software phases below, the platform
+> ships an educational **Learning Suite** that teaches the framework from first
+> principles. Its **Fundamentals** milestone (ten lessons + tutorials) is
+> complete and released — see the
+> [Learning Roadmap](docs/learning/LEARNING_ROADMAP.md) for its own six-milestone
+> plan (Fundamentals → Package Tutorials → Mining Workflows → Reference
+> Applications → AI Examples → Research Examples), the
+> [Fundamentals tutorials](https://imanojkumar.github.io/MineProductivity/tutorials/fundamentals/01_hello/),
+> and the release notes in [`docs/releases/`](docs/releases/). The Learning
+> Roadmap is versioned independently of this one.
+
 ## Phase 0 — Repository Skeleton
 
 **Status: Complete.**

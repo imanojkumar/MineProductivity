@@ -12,6 +12,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Learning Suite — Fundamentals (v1.0).** A first-principles educational path
+  for new users: **ten lessons** (`examples/fundamentals/`) and **ten tutorials**
+  (`docs/tutorials/fundamentals/`) that teach the platform in the order the
+  architecture is layered — `core` → `ontology` → `events` → `kpis` →
+  `analytics` → `decision` → `digital_twin` → `visualization` — using real
+  mining problems (haul trucks, shovels, ROM stockpiles, shifts, OEE). Every
+  lesson is a runnable, `mypy --strict`/`ruff`-clean script; every tutorial
+  follows a fixed eleven-section format with real, executed output. The suite's
+  plan and governance live in `docs/learning/LEARNING_ROADMAP.md`; release notes
+  in `docs/releases/LEARNING_SUITE_v1.0.md`. Documentation only — no production
+  code changed.
+
 ## [2.0.0] - 2026-07-12
 
 **Enterprise certification milestone — architecture complete and locked.**

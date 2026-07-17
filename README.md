@@ -79,9 +79,10 @@ Every KPI is a governed, discoverable object - look it up by its identifier and 
 ```python
 from mineproductivity.kpis import REGISTRY
 
-# Tonnes per hour for one truck over one shift.
-tph = REGISTRY.get("PROD.TPH")().compute([{"payload_t": 220.0, "operating_h": 12.0}])
-print(tph.value, tph.unit)   # 18.33... t/h
+# One CAT 793F's shift: ~220 t per load, ~18 min (0.3 h) per cycle, 40 cycles.
+cycles = [{"payload_t": 220.0, "operating_h": 0.3} for _ in range(40)]
+tph = REGISTRY.get("PROD.TPH")().compute(cycles)
+print(tph.value, tph.unit)   # 733.33... t/h
 ```
 
 Discover what the Standard Library ships:
@@ -95,6 +96,17 @@ for code in sorted(REGISTRY):
 ```
 
 Want the whole platform end-to-end - one truck, one shift, one KPI, in ~50 lines? Run the [five-minute tour](examples/quickstart/01_five_minute_tour.py), or read the [Quick Start guide](https://imanojkumar.github.io/MineProductivity/getting-started/quick-start/).
+
+## New here? Start with the Learning Suite
+
+**[:material-school: MineProductivity Fundamentals](https://imanojkumar.github.io/MineProductivity/tutorials/fundamentals/01_hello/)** — ten lessons that teach the platform from first principles, in the order the architecture is layered, using real mining problems: haul trucks, shovels, ROM stockpiles, shifts, OEE. Every lesson is a runnable script plus a full tutorial.
+
+| | Lessons | You will learn |
+|---|---|---|
+| **Foundation** | [Hello](https://imanojkumar.github.io/MineProductivity/tutorials/fundamentals/01_hello/) · [Entities](https://imanojkumar.github.io/MineProductivity/tutorials/fundamentals/02_entities/) · [Value objects](https://imanojkumar.github.io/MineProductivity/tutorials/fundamentals/03_value_objects/) · [Events](https://imanojkumar.github.io/MineProductivity/tutorials/fundamentals/04_events/) · [Ontology](https://imanojkumar.github.io/MineProductivity/tutorials/fundamentals/05_ontology/) · [KPIs](https://imanojkumar.github.io/MineProductivity/tutorials/fundamentals/06_kpis/) | Why a KPI is a governed object; append-only facts; the guardrail that stops you averaging a ratio |
+| **Intelligence** | [Analytics](https://imanojkumar.github.io/MineProductivity/tutorials/fundamentals/07_analytics/) · [Decision](https://imanojkumar.github.io/MineProductivity/tutorials/fundamentals/08_decision/) · [Digital Twin](https://imanojkumar.github.io/MineProductivity/tutorials/fundamentals/09_digital_twin/) · [Visualization](https://imanojkumar.github.io/MineProductivity/tutorials/fundamentals/10_visualization/) | Characterising a drifting fleet, explained + audited recommendations, live state as a projection |
+
+The scripts live in [`examples/fundamentals/`](examples/fundamentals/) — read them, then run them.
 
 ## The platform
 
@@ -119,6 +131,7 @@ The interface-only extension points (solver adapters, reasoning backends, render
 Full documentation is published at **[imanojkumar.github.io/MineProductivity](https://imanojkumar.github.io/MineProductivity/)**:
 
 - [Getting Started](https://imanojkumar.github.io/MineProductivity/getting-started/installation/) - installation, quick start, next steps
+- **[Learning Suite - Fundamentals](https://imanojkumar.github.io/MineProductivity/tutorials/fundamentals/01_hello/)** - ten lessons teaching the platform from first principles
 - [Tutorials](https://imanojkumar.github.io/MineProductivity/tutorials/) - runnable, package-by-package walkthroughs
 - [Packages](https://imanojkumar.github.io/MineProductivity/packages/) & [API Reference](https://imanojkumar.github.io/MineProductivity/api-reference/) - narrative guides and the docstring-generated symbol reference
 - [Architecture Handbook](https://imanojkumar.github.io/MineProductivity/architecture/README/) & [ADRs](https://imanojkumar.github.io/MineProductivity/adr/) - the twelve locked design specifications and the decisions behind them

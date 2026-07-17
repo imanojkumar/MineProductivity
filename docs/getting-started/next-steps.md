@@ -2,8 +2,20 @@
 
 Installed and verified? Here is a curated route through MineProductivity for a first-time user.
 
+## Recommended: start with the Learning Suite
+
+!!! tip "The guided path"
+    **[Fundamentals](../tutorials/fundamentals/01_hello.md)** is the recommended starting point for everyone — mining engineers, data scientists, software engineers, and researchers alike.
+
+    Ten lessons, in the order the architecture is layered, each a runnable script plus a full tutorial. Start at **[Lesson 01 — Hello, MineProductivity](../tutorials/fundamentals/01_hello.md)** and work forward; by Lesson 10 you can model a mine, measure it, characterise it, decide on it, and present it.
+
+    Prefer to dive at a specific topic? The table below is the à-la-carte route.
+
+## Or jump straight to a topic
+
 | I want to… | Start here |
 |---|---|
+| Learn the framework properly, from first principles | **[Learning Suite — Fundamentals](../tutorials/fundamentals/01_hello.md)** - ten lessons, start to finish. |
 | See the whole platform in one script | [`examples/quickstart/01_five_minute_tour.py`](https://github.com/imanojkumar/MineProductivity/blob/main/examples/quickstart/01_five_minute_tour.py) - one truck, one shift, one KPI, ~50 lines. |
 | Follow a guided, cell-by-cell walkthrough | [`notebooks/beginner/01_first_kpi_lookup.ipynb`](https://github.com/imanojkumar/MineProductivity/blob/main/notebooks/beginner/01_first_kpi_lookup.ipynb). |
 | Compute my first KPI | [KPIs tutorial](../tutorials/kpis.md). |

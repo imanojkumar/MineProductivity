@@ -12,7 +12,7 @@ hide:
 [View on GitHub :fontawesome-brands-github:](https://github.com/imanojkumar/MineProductivity){ .md-button }
 
 !!! success "Architecture complete & locked - certified `v2.0.0`"
-    All eleven domain packages plus the three cross-cutting infrastructure packages are implemented, tested (**2,986 passing tests**, `mypy --strict` clean across 314 files), documented, and released. Public APIs are **stable by contract**. New value ships as plugins and applications — not as changes to the locked packages.
+    All eleven domain packages plus the three cross-cutting infrastructure packages are implemented, tested (**2,986 passing tests**, `mypy --strict` clean across 314 files), documented, and released. Public APIs are **stable by contract**. New value ships as plugins and applications - not as changes to the locked packages.
 
 ## Why MineProductivity?
 
@@ -65,7 +65,11 @@ graph TD
 
     One truck, one shift, one KPI - the platform end-to-end in ~50 lines.
 
--   :material-school: __[Tutorials](tutorials/index.md)__
+-   :material-school: __[Learning Suite - Fundamentals](tutorials/fundamentals/01_hello.md)__
+
+    **New here? Start with this.** Ten lessons teaching the platform from first principles, using real mining problems.
+
+-   :material-book-multiple: __[Tutorials](tutorials/index.md)__
 
     Runnable, package-by-package walkthroughs from Foundation to Intelligence.
 
