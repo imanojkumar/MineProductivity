@@ -140,19 +140,34 @@ nav:
           - "08 · Decision": tutorials/fundamentals/08_decision.md
           - "09 · Digital Twin": tutorials/fundamentals/09_digital_twin.md
           - "10 · Visualization": tutorials/fundamentals/10_visualization.md
-      - Quick tour: tutorials/quickstart.md
-      - Core: tutorials/core.md
-      - Events: tutorials/events.md
-      - Ontology: tutorials/ontology.md
-      - Registry & Plugins: tutorials/registry.md
-      - Connectors: tutorials/connectors.md
-      - KPIs: tutorials/kpis.md
-      - Decision: tutorials/decision.md
-      - Digital Twin: tutorials/digital_twin.md
-      - Simulation: tutorials/simulation.md
-      - Optimization: tutorials/optimization.md
-      - AI Agents: tutorials/agents.md
-      - Visualization: tutorials/visualization.md
+      - Package Tutorials:
+          - "01 · Core (deep)": tutorials/packages/01_core.md
+          - "02 · Ontology (deep)": tutorials/packages/02_ontology.md
+          - "03 · Events (deep)": tutorials/packages/03_events.md
+          - "04 · Registry & Plugins (deep)": tutorials/packages/04_registry_and_plugins.md
+          - "05 · Connectors (deep)": tutorials/packages/05_connectors.md
+          - "06 · KPIs (deep)": tutorials/packages/06_kpis.md
+          - "07 · Analytics (deep)": tutorials/packages/07_analytics.md
+          - "08 · Decision (deep)": tutorials/packages/08_decision.md
+          - "09 · Digital Twin (deep)": tutorials/packages/09_digital_twin.md
+          - "10 · Simulation (deep)": tutorials/packages/10_simulation.md
+          - "11 · Optimization (deep)": tutorials/packages/11_optimization.md
+          - "12 · AI Agents (deep)": tutorials/packages/12_agents.md
+          - "13 · Visualization (deep)": tutorials/packages/13_visualization.md
+      - Package walkthroughs (reference):
+          - Quick tour: tutorials/quickstart.md
+          - "Core (API walkthrough)": tutorials/core.md
+          - "Events (API walkthrough)": tutorials/events.md
+          - "Ontology (API walkthrough)": tutorials/ontology.md
+          - "Registry & Plugins (API walkthrough)": tutorials/registry.md
+          - "Connectors (API walkthrough)": tutorials/connectors.md
+          - KPIs: tutorials/kpis.md
+          - Decision: tutorials/decision.md
+          - Digital Twin: tutorials/digital_twin.md
+          - Simulation: tutorials/simulation.md
+          - Optimization: tutorials/optimization.md
+          - AI Agents: tutorials/agents.md
+          - Visualization: tutorials/visualization.md
   - User Guide: user-guide/index.md
   - Packages:
       - packages/index.md

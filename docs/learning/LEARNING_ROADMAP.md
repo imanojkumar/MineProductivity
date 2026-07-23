@@ -98,7 +98,7 @@ Every tutorial contains these sections, in this order:
 | # | Milestone | Scope | Depends on |
 |---|---|---|---|
 | **1** | **Fundamentals** | 10 lessons + 10 tutorials teaching the platform from first principles | - |
-| **2** | **Package Tutorials** | Depth per package: `core`, `ontology`, `events`, `kpis`, `analytics`, `decision`, `digital_twin`, `simulation`, `optimization`, `agents`, `visualization` | 1 |
+| **2** | **Package Tutorials** | Depth per package: `core`, `ontology`, `events`, `registry`, `plugins`, `connectors`, `kpis`, `analytics`, `decision`, `digital_twin`, `simulation`, `optimization`, `agents`, `visualization` | 1 |
 | **3** | **Mining Workflows** | Cross-package, problem-led: fleet productivity, crusher performance, shift analytics, dispatch, maintenance | 1, 2 |
 | **4** | **Reference Applications** | Runnable applications built *on* the framework (dashboards, productivity cockpit, executive reporting) - plugin/application layer only | 2, 3 |
 | **5** | **AI Examples** | Agent-layer teaching: root-cause analysis, KPI explanation, copilot patterns - reasoning backends stay plugins | 2, 3 |
@@ -163,3 +163,9 @@ completion is reported honestly against this list; it is never rounded up.
 - [Architecture Handbook](../architecture/README.md) · [ADRs](../adr/index.md)
 - [API Reference](../api-reference/index.md) · [Packages](../packages/index.md)
 - [Engineering Rules](../governance/ENGINEERING_RULES.md)
+
+## Revision History
+
+| Date | Change | Rationale |
+|---|---|---|
+| 2026-07-18 | **Milestone 2 scope: 11 → 14 packages.** Added `registry`, `plugins`, `connectors` to the Package Tutorials scope (inserted after `events`). No change to milestone ordering, dependencies, governance, philosophy, or milestones 1 and 3-6. | Learning-architecture change (Decision D1, Option A): the plugin-first mechanism (`registry`/`plugins`) and the ingestion boundary (`connectors`) are packages, and "Package Tutorials" is where packages are taught; no other milestone covers them. Reviewed and frozen in [`architecture/M02_PACKAGE_TUTORIALS.md`](architecture/M02_PACKAGE_TUTORIALS.md). |
