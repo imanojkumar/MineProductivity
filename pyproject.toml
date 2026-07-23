@@ -60,7 +60,11 @@ notebooks = [
 dev = [
     "pytest",
     "pytest-cov",
-    "ruff",
+    # Ruff's default rule set and formatter change between minor releases
+    # (0.16 added I/UP/B/SIM/PL/RUF/... to the defaults and reformats fenced
+    # code in Markdown). Bound to the 0.15 line this repository is certified
+    # against so CI is reproducible; raise deliberately, not implicitly.
+    "ruff>=0.15.20,<0.16",
     "mypy",
     "pre-commit",
     "pyarrow>=14,<19",
